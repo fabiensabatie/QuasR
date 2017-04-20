@@ -8,8 +8,7 @@ var UserSchema   = new Schema({
       surname: String,
       email: String,
       password: String,
-      age: Number,
-      IPaddress: String
+      age: Number
     });
 
 module.exports = mongoose.model('User', UserSchema);
