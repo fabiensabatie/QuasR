@@ -2,7 +2,7 @@
 
 ## Dependencies :
 
-The best working method is the following
+The following are necessary for the server to be running and the files to properly load.
 
 ### - httpd24 (apache2) :
 
