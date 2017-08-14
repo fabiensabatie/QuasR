@@ -73,9 +73,11 @@ ____________________________________
 
 ## And to finish - NORM :
 
+```
 Classes are in the src/models/ folder,
 src/basics.php references every basic functions,
 Every file should "require_once 'src/includes.php';",
 Every functions file & and functions must start with a ft_,
 Every class should start with cl_,
+```
 ### MAKE BEAUTIFUL CODE AND WE SHALL TAKE OVER THE WORLD
