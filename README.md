@@ -65,8 +65,7 @@ define("USERSCOLLECTION", "users");
 define("INTERESTSCOLLECTION", "interests");
 ```
 
-All this variables defining the database's collections will probably change, and so will the connection URL, so every parameter related to
-the Database should be defined, in order to be able to use constant strings.
+All this variables defining the database's collections will probably change, and so will the connection URL, so every parameter related to the Database should be defined, in order to be able to use constant strings.
 
 ## Every time you write a function, index it in docs/doc.html, and explain in a few lines what the function does.
 
