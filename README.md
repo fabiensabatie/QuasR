@@ -16,7 +16,7 @@ Then proceed to install :
 
 ```
 On MacOS :
-brew install httpd24
+brew install php71 --with-httpd24
 ```
 
 ```
@@ -29,7 +29,7 @@ sudo apt-get install apache2-mpm-worker
 
 ```
 On MacOS :
-brew install php71
+Skip this step.
 ```
 
 ```
