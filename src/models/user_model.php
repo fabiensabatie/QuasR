@@ -9,7 +9,7 @@
 
   class cl_user
   {
-    private $main_info  = array(
+    public $main_info  = array(
       'first_name' => NULL,
       'surname'    => NULL,
       'username'   => NULL,
@@ -17,9 +17,9 @@
       'password'   => NULL
     );
 
-    private $user_rank = NULL;
+    public $user_rank = NULL;
 
-    private function ft_check_user_integrity()
+    function ft_check_user_integrity()
     {
       $user_info = $this->main_info;
       foreach ($user_info as $property) {
@@ -29,7 +29,7 @@
       return true;
     }
 
-    private function ft_insert_user()
+    function ft_insert_user()
     {
       $users         = ft_mongo_get_usercollection();
       $inserted_user = $users->insertOne($this->main_info);

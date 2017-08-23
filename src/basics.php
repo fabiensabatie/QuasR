@@ -25,12 +25,38 @@
     $dbname        = DBNAME;
     $interests     = INTERESTSCOLLECTION;
     $client        = ft_mongo_get_client();
-    $interests     = $client->$dbname->interests;
+    $interests     = $client->$dbname->$interests;
     return $interests;
   }
 
+  function ft_mongo_get_interestlist()
+  {
+    $dbname        = DBNAME;
+    $interests     = INTERESTLIST;
+    $client        = ft_mongo_get_client();
+    $interests     = $client->$dbname->$interests;
+    return $interests;
+  }
+
+  function ft_mongo_get_objectid()
+  {
+    return new MongoDB\BSON\ObjectID();
+  }
+
+  function ft_convert_M2C($mongo_object, $class_object)
+  {
+    foreach ($mongo_object as $property_name => $value)
+      $class_object->{$property_name} = $value;
+    return $class_object;
+  }
   //Basic functions.
 
+  function ft_pretty_json($json)
+  {
+    header('Content-Type: application/json');
+    echo json_encode($json);
+  }
+  
   function ft_var_dump($var)
   {
     echo '<pre>';

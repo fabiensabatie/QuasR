@@ -25,6 +25,7 @@
 
   function  ft_check_entries($post_values)
   {
+    array_pop($post_values);
     $user = new cl_user();
     foreach ($user->main_info as $entry => $value) {
       if ($post_values[$entry] == NULL)

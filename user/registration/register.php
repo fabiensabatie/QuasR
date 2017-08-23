@@ -10,6 +10,7 @@
     <input type="text"        name="username"   placeholder="Username"><br>
     <input type="text"        name="email"      placeholder="Email"><br>
     <input type="password"    name="password"   placeholder="Password"><br>
+    <input type="hidden" name="submit" value="true">
     <input type="submit"      value="REGISTER">
   </form>
   <?php
@@ -24,7 +25,7 @@
           ft_echo("You are now registered", "green");
         }
     }
-    elseif (!empty($_POST))
+    else if (isset($_POST['submit']))
         ft_echo("Please fill in all the fields", "red");
   ?>
 </body>

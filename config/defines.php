@@ -8,9 +8,13 @@
   define("INCLUDEPATH", "/Users/aidenpearce/QuasR/");
 
   //MongoDB
-  define("MONGOSERVER", "mongodb://localhost:27017");
+  define("MONGOSERVER", "mongodb://127.0.0.1:27017");
   define("DBNAME", "QuasR");
   define("USERSCOLLECTION", "users");
   define("INTERESTSCOLLECTION", "interests");
+  define("INTERESTLIST", "interest_list");
 
+  //Interests
+  define("ALL", 0);
+  define("MAJOR_RESTRICTED", 1);
 ?>

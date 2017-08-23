@@ -4,7 +4,20 @@
 
 The following are necessary for the server to be running and the files to properly load.
 
+On MacOS (not linux) use :
+
+```
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
+Then proceed to install :
+
 ### - httpd24 (apache2) :
+
+```
+On MacOS :
+brew install httpd24
+```
 
 ```
 On KUBUNTU :
@@ -15,6 +28,11 @@ sudo apt-get install apache2-mpm-worker
 ### - php7.1 :
 
 ```
+On MacOS :
+brew install php71
+```
+
+```
 On KUBUNTU :
 sudo add-apt-repository ppa:ondrej/php
 sudo apt-get update
@@ -22,9 +40,19 @@ sudo apt-get update
 sudo apt-get install php7.1
 ```
 
-### - MongoDB : see https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+### - MongoDB :
+
+```
+On Ubuntu : https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+On MacOS : https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
+```
 
 ### - php-mongodb
+
+```
+On MacOS :
+brew install php71-mongodb
+```
 
 ```
 On KUBUNTU :

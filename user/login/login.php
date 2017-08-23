@@ -10,8 +10,9 @@
     <input type="submit"   value="Login">
   </form>
   <?php
-    if (ft_form_is_valid($_POST))
-      ft_login($_POST);
+
+  if (ft_form_is_valid($_POST))
+    ft_login($_POST);
   ?>
 </body>
 </html>
