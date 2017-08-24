@@ -32,7 +32,7 @@ Local password : quasr
 
 The QuasR directory in /home/quasr/ is the current git repo.
 ``` 
-## /!\ Make sure to git pull before you start working, as the repo might have changed since the VM was created. /!\
+### /!\ Make sure to git pull before you start working, as the repo might have changed since the VM was created. /!\
 
 ____________________________________
 
