@@ -1,5 +1,5 @@
 <?php
-  set_include_path('/Users/aidenpearce/QuasR/');
+  set_include_path('/home/quasr/QuasR/');
   require_once 'src/includes.php';
 ?>
 <html>
