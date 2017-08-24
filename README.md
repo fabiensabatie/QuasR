@@ -2,75 +2,37 @@
 
 ## Dependencies :
 
-The following are necessary for the server to be running and the files to properly load.
-
-On MacOS (not linux) use :
-
-```
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-```
-
-Then proceed to install :
-
-### - httpd24 (apache2) :
+- Download and install VirtualBox at : https://www.virtualbox.org/wiki/Downloads
+- Download QuasR's DevMode virtual machine image at : 
+- Import the virtual machine into VirtualBox with :
 
 ```
-On MacOS :
-brew install php71 --with-httpd24
+File > Import > Select the .ova file you downloaded.
 ```
 
-```
-On KUBUNTU :
-sudo apt-add-repository ppa:ptn107/apache
-sudo apt-get install apache2-mpm-worker
-```
+Once imported, an network related error should pop up if you try to start the virtual machine, just select the corresponding interface in the Network Menu.
 
-### - php7.1 :
+Once the virtual machine is started, you are good to go. In the VM, access the website at http://localhost/ ! 
+You can also access the current site from any other device on your network : 
 
 ```
-On MacOS :
-Skip this step.
+In the top right corner, click of the two arrows, and select "Connection information"
+Under IPv4 > IP Address : 192.168.0.**
 ```
 
-```
-On KUBUNTU :
-sudo add-apt-repository ppa:ondrej/php
-sudo apt-get update
-(optional) sudo apt-get remove php7.0
-sudo apt-get install php7.1
-```
+By browsing this IP address from any device (your host device included), you can browse the website. Ex : http://192.168.0.22/
 
-### - MongoDB :
+
+A few information :
 
 ```
-On Ubuntu : https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
-On MacOS : https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
+Local username : quasr
+Local password : quasr
 ```
 
-### - php-mongodb
 
-```
-On MacOS :
-brew install php71-mongodb
-```
-
-```
-On KUBUNTU :
-sudo apt-get install php-mongodb
-```
-
-Clone the project into a directory, and edit your httpd.conf apache file at the following lines :
-
-```
-DocumentRoot "/usr/local/var/www/htdocs"
-<Directory "/usr/local/var/www/htdocs">
-```
-
-Use the URL of your cloned folder.
-Save the file and restart the apache server.
-
-With any file editor, find and replace every "set_include_path('/Users/aidenpearce/QuasR/');" by the URL of your folder.
-In your browser, access http://localhost/
+## The QuasR directory in /home/quasr/ is the current git repo. 
+## /!\ Make sure to git pull before you start working, as the repo might have changed since the VM was created. /!\
 
 ____________________________________
 
