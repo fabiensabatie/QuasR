@@ -35,6 +35,12 @@ Local password : quasr
 
 
 The QuasR directory in /home/quasr/ is the current git repo.
+Are running on the VM :
+- Apache 2.4
+- PHP 7.1
+- MongoDB
+- MongoDB's php driver
+- VirtualBox Additionnals components : might be useful if you want to work with shared folders, in order to edit your files directly from your host, instead of doing it in the VM. 
 ``` 
 ### Make sure to git pull before you start working, as the repo might have changed since the VM was created.
 
