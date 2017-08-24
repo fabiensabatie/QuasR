@@ -4,6 +4,7 @@
 
 - Download and install VirtualBox at : https://www.virtualbox.org/wiki/Downloads
 - Download QuasR's DevMode virtual machine image at : https://mega.nz/#!pd1SFRwK!0W-nbPj3xvssut5dq5amawuElXUdZrbBGTfHSlR0QKM
+
 SHA-256 Checksum : E1DB1B1C3424847304FC765BFB49E24E61D9C245FF5ABF40BD522CB634C675FF
 - Import the virtual machine into VirtualBox with :
 
