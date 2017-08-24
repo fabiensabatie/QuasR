@@ -32,7 +32,7 @@ Local password : quasr
 
 The QuasR directory in /home/quasr/ is the current git repo.
 ``` 
-### /!\ Make sure to git pull before you start working, as the repo might have changed since the VM was created. /!\
+### Make sure to git pull before you start working, as the repo might have changed since the VM was created.
 
 ____________________________________
 
@@ -57,7 +57,7 @@ define("INTERESTSCOLLECTION", "interests");
 
 All this variables defining the database's collections will probably change, and so will the connection URL, so every parameter related to the Database should be defined, in order to be able to use constant strings.
 
-## Every time you write a function, index it in docs/doc.html, and explain in a few lines what the function does.
+### Every time you write a function, index it in docs/doc.html, and explain in a few lines what the function does.
 
 ____________________________________
 
