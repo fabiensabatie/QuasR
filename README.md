@@ -10,7 +10,11 @@
 File > Import > Select the .ova file you downloaded.
 ```
 
-Once imported, an network related error should pop up if you try to start the virtual machine, just select the corresponding interface in the Network Menu.
+Once imported, an network related error might pop up if you try to start the virtual machine, do the following to fix :
+
+```
+"Change network settings" > Under "Name" select the right adapter, if you are not sure, just click "OK".
+```
 
 Once the virtual machine is started, you are good to go. In the VM, access the website at http://localhost/ ! 
 You can also access the current site from any other device on your network : 
