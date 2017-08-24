@@ -19,6 +19,7 @@
         $user                        = new cl_user();
         $user->main_info             = $_POST;
         $user->main_info['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
+        array_pop($user->main_info);
         if ($user->ft_check_user_integrity() && ft_check_user($user))
         {
           $user->ft_insert_user();
