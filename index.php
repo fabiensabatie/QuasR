@@ -4,7 +4,7 @@
       require_once 'src/includes.php';
       if (isset($_SESSION['isConnected']))
 	      ft_var_dump($_SESSION);
-      phpinfo();
+      echo 'IT WORKS ! :)';
     ?>
   </body>
 </html>
