@@ -85,33 +85,4 @@
     return false;
   }
 
-  function ft_get_last_existing_interest($interests)
-  {
-    if (!$parent = ft_get_parent_interest($interests[0]->name))
-      return false;
-    if (empty($interests))
-        return $parent;
-
-    $cl_interest = new cl_interest(ft_mongo_get_objectid());
-    $parent      = ft_convert_M2C($parent, $cl_interest);
-    $current     = $parent;
-
-    array_shift($interests);
-    foreach ($interests as $index => $interest)
-    {
-      if (!$child = $current->ft_find_child($interest->name))
-        return $current;
-      $current = ft_convert_M2C($child, $cl_interest);
-    }
-    return $current;
-  }
-
-  function ft_build_interests_array($interests, $parent = false)
-  {
-    $current = new cl_interest(ft_mongo_get_objectid());
-    if ($parent)
-      $$current->parent = true;
-    
-  }
-
 ?>
