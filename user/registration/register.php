@@ -4,12 +4,26 @@
 ?>
 <html>
 <body>
-  <form    id="register_form" method="POST"     action ="register.php">
-    <input type="text"        name="first_name" placeholder="First name"><br>
-    <input type="text"        name="surname"    placeholder="Surname"><br>
-    <input type="text"        name="username"   placeholder="Username"><br>
-    <input type="text"        name="email"      placeholder="Email"><br>
-    <input type="password"    name="password"   placeholder="Password"><br>
+  <form    id="register_form" method="POST"     action ="user/registration/register.php">
+    <input type="text"        name="first_name" placeholder="First name" required><br>
+    <input type="text"        name="surname"    placeholder="Surname" required><br>
+    <input type="text"        name="username"
+    <?php
+      if (isset($_GET['error']) && $_GET['error'] === 'used_username')
+        echo 'class="error" placeholder="Already taken"';
+      else
+        echo 'placeholder="Username"';
+    ?>
+    required><br>
+    <input type="text"        name="email"
+    <?php
+      if (isset($_GET['error']) && $_GET['error'] === 'used_email')
+        echo 'class="error" placeholder="Already used"';
+      else
+        echo 'placeholder="Email"';
+    ?>
+    required><br>
+    <input type="password"    name="password"   placeholder="Password" required><br>
     <input type="hidden" name="submit" value="true">
     <input type="submit"      value="REGISTER">
   </form>
@@ -23,11 +37,9 @@
         if ($user->ft_check_user_integrity() && ft_check_user($user))
         {
           $user->ft_insert_user();
-          ft_echo("You are now registered", "green");
+          header("Location: /?registered");
         }
     }
-    else if (isset($_POST['submit']))
-        ft_echo("Please fill in all the fields", "red");
   ?>
 </body>
 </html>

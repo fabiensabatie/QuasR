@@ -56,7 +56,7 @@
     header('Content-Type: application/json');
     echo json_encode($json);
   }
-  
+
   function ft_var_dump($var)
   {
     echo '<pre>';
@@ -77,16 +77,8 @@
   {
     if (isset($_SESSION["isConnected"]) && $_SESSION["isConnected"])
     {
-      ft_echo("<br>Session on : ", "green");
-      ft_var_dump($_SESSION);
-    }
-    if (isset($_SESSION["isConnected"]) && $_SESSION["isConnected"])
-    {
       if (isset($_GET['disconnect']))
-      {
-        ft_echo("<br>Session destroyed", "green");
         session_destroy();
-      }
     }
   }
 
@@ -98,4 +90,6 @@
       die();
     }
   }
+
+  ft_disconnect();
 ?>

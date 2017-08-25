@@ -16,10 +16,10 @@
       if ($email == NULL)
         return true;
       else
-        ft_echo("Email is already used.", "red");
+        header("Location: /?error=used_email");
     }
     else
-      ft_echo("Username already exists.", "red");
+      header("Location: /?error=used_username");
     return false;
   }
 

@@ -55,7 +55,7 @@
   {
     $current = new cl_interest(ft_mongo_get_objectid());
     if ($parent)
-      $$current->parent = true;
+      $current->parent = true;
 
   }
 ?>

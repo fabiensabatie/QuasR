@@ -11,7 +11,7 @@
       !empty($post_values['password']))
         return true;
       else
-        ft_echo("Please fill in all the fields", "red");
+        header("Location: /?error=empty_login");
     }
     return false;
   }
@@ -29,11 +29,11 @@
     if (password_verify($password, $user->password))
     {
       ft_set_session_variables($user);
-      ft_echo("Login successfull", "green");
+      header("Location: /");
       return true;
     }
     else
-      ft_echo("Password incorrect.", "red");
+      header("Location: /?error=incorrect_password");
     return false;
   }
 
@@ -44,7 +44,7 @@
     elseif ($user = ft_find_by_email($post_values['login']))
       return ft_compare_passwords($post_values['password'], $user);
     else
-      ft_echo("User not found.", "red");
+      header("Location: /?error=unknown_user");
     return false;
   }
 ?>
