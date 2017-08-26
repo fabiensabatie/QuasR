@@ -51,7 +51,8 @@ ____________________________________
 ## What has been done so far :
 
 Created the registration/login pages.
-Users can register and login.
+Users can register and login on the index page.
+The CSS and error checking are set for the index page, which includes login / registration errors.
 
 ____________________________________
 
