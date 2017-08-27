@@ -6,6 +6,6 @@
   <img src="/assets/images/icons/side_bar_menu/search.png"    class="button"><br>
   <img src="/assets/images/icons/side_bar_menu/settings.png"  class="button"><br>
   <a href="/?disconnect">
-    <img src="/assets/images/icons/side_bar_menu/exit.png"    class="disconnect button">
+    <img src="/assets/images/icons/side_bar_menu/exit.png"    class="button">
   </a>
 </div>

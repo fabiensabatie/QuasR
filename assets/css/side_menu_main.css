@@ -20,6 +20,7 @@
 
 #menu .button {
   display: block;
+  width: 75%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 5%;
@@ -29,10 +30,4 @@
 #menu .button:hover {
   -webkit-filter: blur(1px);
   filter: blur(1px);
-}
-
-.disconnect {
-  position: fixed;
-  bottom: 2%;
-  left: 1.2%;
 }
