@@ -10,7 +10,7 @@ html {
   background-size: cover;
 }
 
-.logo {
+#logo {
   display: block;
   margin-top: 5%;
   margin-left: auto;

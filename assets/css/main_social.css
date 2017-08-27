@@ -1,0 +1,27 @@
+/* QuasR - CSS for social page */
+
+@import url('/assets/css/fonts.css');
+
+html {
+  background: url(/assets/images/index_background.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#social_container {
+  display: block;
+  color: white;
+  margin-top: 25%;
+  margin-bottom: auto;
+  margin-left: 5%;
+  text-align: center;
+  font-size: 25px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.disconnect {
+  color: rgba(0, 200, 255, 0.8);
+  text-decoration: none;
+}

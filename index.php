@@ -5,22 +5,22 @@
   </head>
   <body>
     <div id="logo_container">
-      <img class="logo" src="/assets/images/logo_200x200.png">
+      <img id="logo" src="/assets/images/logo_200x200.png">
     </div>
     <?php
       require_once 'src/includes.php';
       if (isset($_GET['registered']))
 	      ft_echo('<span class="registered">You are now registered !</span>', 'white');
       else if (isset($_SESSION['isConnected']))
-	      ft_echo('<span class="connected">You are now connected !</span>', 'white');
+	      header("Location: /user/social/profile.php");
       else {
         ?>
         <div id="forms_container">
           <div id="login">
-            <?php include 'user/login/login.php'; ?>
+            <?php require_once 'user/login/login.php'; ?>
           </div>
           <div id="registration">
-            <?php include 'user/registration/register.php'; ?>
+            <?php require_once 'user/registration/register.php'; ?>
           </div>
         </div>
         <?php
