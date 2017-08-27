@@ -30,3 +30,9 @@
   -webkit-filter: blur(1px);
   filter: blur(1px);
 }
+
+.disconnect {
+  position: fixed;
+  bottom: 2%;
+  left: 1.2%;
+}

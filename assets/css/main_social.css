@@ -20,8 +20,3 @@ html {
   font-size: 25px;
   font-family: 'Quicksand', sans-serif;
 }
-
-.disconnect {
-  color: rgba(0, 200, 255, 0.8);
-  text-decoration: none;
-}

@@ -18,7 +18,6 @@
         <?php
           echo 'Hello ' . $_SESSION["user_first_name"] . ', your username is ' . $_SESSION["username"] . '.<br>';
         ?>
-        Click <a href="/?disconnect" class="disconnect">here</a> to disconnect.
       </div>
     </div>
   </body>
