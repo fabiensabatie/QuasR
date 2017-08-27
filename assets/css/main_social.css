@@ -9,14 +9,22 @@ html {
   -o-background-size: cover;
   background-size: cover;
 }
-
+#main_container {
+  height: 100%;
+}
 #social_container {
-  display: block;
+  display : table;
+  padding-left: 4%;
+  padding-right: 23%;
+  width: 73%;
+  height: 100%;
   color: white;
-  margin-top: 25%;
-  margin-bottom: auto;
-  margin-left: 5%;
   text-align: center;
-  font-size: 25px;
+  font-size: 30px;
   font-family: 'Quicksand', sans-serif;
+}
+
+.social_content {
+  display: table-cell;
+  vertical-align: middle;
 }
