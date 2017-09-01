@@ -5,7 +5,8 @@
   <img src="/assets/images/icons/side_bar_menu/network.png"   class="button"><br>
   <img src="/assets/images/icons/side_bar_menu/search.png"    class="button"><br>
   <img src="/assets/images/icons/side_bar_menu/settings.png"  class="button"><br>
+  <img src="/assets/images/icons/side_bar_menu/bookmark.png"  class="button"><br>
   <a href="/?disconnect">
-    <img src="/assets/images/icons/side_bar_menu/exit.png"    class="button">
+    <img src="/assets/images/icons/side_bar_menu/exit.png"    class="button-disconnect">
   </a>
 </div>

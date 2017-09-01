@@ -7,14 +7,12 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 4%;
-  max-width: 75px;
+  width: 75px;
   height: 100%;
 }
 
 #menu .logo {
   width: 100%;
-  max-width: 100px;
   margin-bottom: 20%;
 }
 
@@ -24,6 +22,16 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 5%;
+  max-width: 40px;
+}
+
+#menu .button-disconnect {
+  display: block;
+  position: absolute;
+  width: 75%;
+  margin-left: 25%;
+  margin-right: auto;
+  bottom: 3%;
   max-width: 40px;
 }
 
