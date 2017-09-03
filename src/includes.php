@@ -18,6 +18,7 @@
   // Including function files
   require_once 'user/registration/ft_register.php';
   require_once 'user/login/ft_login.php';
+  require_once 'user/social/ft_profile.php';
   require_once 'interest/set/ft_set_interests.php';
 
 

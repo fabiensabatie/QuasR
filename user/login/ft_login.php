@@ -21,6 +21,7 @@
     $_SESSION["isConnected"]     = true;
     $_SESSION["user_id"]         = $user->_id;
     $_SESSION["user_first_name"] = $user->first_name;
+    $_SESSION["user_surname"]    = $user->surname;
     $_SESSION["username"]        = $user->username;
   }
 

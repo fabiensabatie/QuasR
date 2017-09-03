@@ -17,6 +17,13 @@
       'password'   => NULL
     );
 
+    public $profile = array(
+      'profile' => array (
+        'cover_image' => NULL,
+        'profile_image' => NULL
+      )
+    );
+
     public $user_rank = NULL;
 
     function ft_check_user_integrity()

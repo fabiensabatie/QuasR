@@ -41,48 +41,5 @@
         $interest_list->insertOne(['name' => $this->name]);
       return true;
     }
-
-    function ft_find_child($child_name)
-    {
-      $interest_collection = ft_mongo_get_interestcollection();
-      foreach ($this->children as $child)
-      {
-        if ($child['name'] === $child_name)
-          return $interest_collection->findOne(['_id' => $child->_id]);
-      }
-      return false;
-    }
-
-    function ft_insert_child($child_interest)
-    {
-      $interest_collection = ft_mongo_get_interestcollection();
-      $child               = array(
-                    'name' => $child_interest->name,
-                    '_id'  => $child_interest->_id
-      );
-      array_push($this->children, $child);
-      $to_update = array(
-        ['_id' => $this->_id],
-        ['$set' => ['children' => $this->children]]
-      );
-      return $interest_collection->updateOne($to_update);
-    }
   }
-
-  function ft_get_interest_by_id($id)
-  {
-    $interest_collection = ft_mongo_get_interestcollection();
-    if ($interest = $interest_collection->findOne(['_id' => $id]))
-      return $interest;
-    return false;
-  }
-
-  function ft_get_parent_interest($name)
-  {
-    $interest_collection = ft_mongo_get_interestcollection();
-    if ($interest = $interest_collection->findOne(['name' => $name, 'parent' => true]))
-      return $interest;
-    return false;
-  }
-
 ?>
