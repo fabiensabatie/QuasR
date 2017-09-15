@@ -13,12 +13,16 @@
   $physics->name = 'Physics';
   $maths = new cl_interest_list();
   $maths->name = 'Maths';
+  $computers = new cl_interest_list();
+  $computers->name = 'Computers';
 
   $array = array();
 
-  $array[0] = $physics;
-  $array[1] = $sport;
-  $array[2] = $art;
 
+  $array[0] = $computers;
+  $array[1] = $maths;
+  $array[2] = $sport;
+  $array[3] = $physics;
+  $array[4] = $art;
   ft_generate_array($array);
 ?>

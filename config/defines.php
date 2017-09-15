@@ -13,6 +13,7 @@
   define("USERSCOLLECTION", "users");
   define("INTERESTSCOLLECTION", "interests");
   define("INTERESTLIST", "interest_list");
+  define("POSTSCOLLECTION", "posts");
 
   //Interests
   define("ALL", 0);

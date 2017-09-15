@@ -13,28 +13,37 @@
 
   function ft_mongo_get_usercollection()
   {
-    $dbname        = DBNAME;
-    $users         = USERSCOLLECTION;
-    $client        = ft_mongo_get_client();
-    $users         = $client->$dbname->users;
+    $dbname = DBNAME;
+    $users  = USERSCOLLECTION;
+    $client = ft_mongo_get_client();
+    $users  = $client->$dbname->users;
     return $users;
   }
 
   function ft_mongo_get_interestcollection()
   {
-    $dbname        = DBNAME;
-    $interests     = INTERESTSCOLLECTION;
-    $client        = ft_mongo_get_client();
-    $interests     = $client->$dbname->$interests;
+    $dbname    = DBNAME;
+    $interests = INTERESTSCOLLECTION;
+    $client    = ft_mongo_get_client();
+    $interests = $client->$dbname->$interests;
     return $interests;
+  }
+
+  function ft_mongo_get_postscollection()
+  {
+    $dbname = DBNAME;
+    $posts  = POSTSCOLLECTION;
+    $client = ft_mongo_get_client();
+    $posts  = $client->$dbname->$posts;
+    return $posts;
   }
 
   function ft_mongo_get_interestlist()
   {
-    $dbname        = DBNAME;
-    $interests     = INTERESTLIST;
-    $client        = ft_mongo_get_client();
-    $interests     = $client->$dbname->$interests;
+    $dbname    = DBNAME;
+    $interests = INTERESTLIST;
+    $client    = ft_mongo_get_client();
+    $interests = $client->$dbname->$interests;
     return $interests;
   }
 
@@ -49,6 +58,7 @@
       $class_object->{$property_name} = $value;
     return $class_object;
   }
+
   //Basic functions.
 
   function ft_pretty_json($json)

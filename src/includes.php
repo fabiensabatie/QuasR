@@ -14,12 +14,14 @@
   // Including models
   require_once 'src/models/user_model.php';
   require_once 'src/models/interest_model.php';
+  require_once 'src/models/post_model.php';
 
   // Including function files
   require_once 'user/registration/ft_register.php';
   require_once 'user/login/ft_login.php';
   require_once 'user/social/ft_profile.php';
   require_once 'interest/set/ft_set_interests.php';
+  require_once 'interest/list/ft_list.php';
 
 
 ?>

@@ -18,16 +18,27 @@
         $interest  = $interests->insertOne($this);
       return true;
     }
+
+    function ft_list()
+    {
+      $interests = ft_mongo_get_interestlist();
+      $interests = $interests->findOne(['name' => $this->name]);
+
+      if(!$interests)
+        return $this->ft_insert_interestlist();
+      return true;
+    }
   }
 
   class cl_interest Extends cl_interest_list
   {
-    public $_id      = NULL;
-    public $parent   = false;
-    public $roots    = array();
-    public $children = array();
-    public $users    = array();
-    public $scope    = ALL;
+    public $_id        = NULL;
+    public $parent     = false;
+    public $roots      = array();
+    public $children   = array();
+    public $users      = array();
+    public $user_count = 0;
+    public $scope      = ALL;
 
     function __construct($_id)
     {

@@ -54,11 +54,14 @@
     $interest_collection = ft_mongo_get_interestcollection();
     if (!($last_info     = ft_locate_last_child($interests)))
     {
+      $to_list           = new cl_interest_list();
       $last_info         = new cl_interest(ft_mongo_get_objectid());
       $last_info->name   = $interests[0]->name;
+      $to_list->name     = $last_info->name;
       $last_info->parent = true;
       $last_id           = $last_info->_id;
       $last_info         = $interest_collection->insertOne($last_info);
+      $to_list           = $to_list->ft_list();
       $last_info         = $interest_collection->findOne(['_id' => $last_id]);
     }
 
@@ -77,10 +80,13 @@
       $last_info['roots'] = iterator_to_array($last_info['roots']);
       array_push($last_info['roots'], $root);
       $current            = new cl_interest(ft_mongo_get_objectid());
+      $to_list            = new cl_interest_list();
       $current->name      = $interest->name;
       $current->roots     = $last_info['roots'];
+      $to_list->name      = $current->name;
       ft_insert_child($last_info['_id'], $current);
       $last_info          = $interest_collection->insertOne($current);
+      $to_list            = $to_list->ft_list();
       $last_info          = $interest_collection->findOne(['_id' => $current->_id]);
     }
   }
