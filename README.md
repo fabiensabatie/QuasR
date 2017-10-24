@@ -53,28 +53,29 @@ ____________________________________
 The project's structure goes like this :
 
 ```
-Ignore the "vendor" folder, the composer.json/.lock files, these are Composer's automatically generated folder/files.
+Ignore the "vendor" folder, the composer.json/.lock files,
+these are Composer's automatically generated folder/files.
 
-src/ - Contains the core source code.
-├── config/ - Contains the configuration files.
-│   ├── db.php - MongoDB functions go in there.
-│   └── defines.php - The project constants.
+src/ - Contains the core source code
+├── config/ - Contains the configuration files
+│   ├── db.php - MongoDB functions go in there
+│   └── defines.php - The project constants
 |
 ├── models/ - All our classes should be located here, from users to posts, etc.
-│   └── user.php - The user class.
+│   └── user.php - The user class
 |
-├── basic_functions.php - All the custom basic useful functions go here.
-└── includes.php - References all the files to include.
+├── basic_functions.php - All the custom basic useful functions go here
+└── includes.php - References all the files to include
 
-api/ - The API files, allowing us to use it and later to make it public.
-├── users/ - The user-related pages and functions.
-│   └── register.php - The registration page.
-├── interests/ - The interest-related pages and functions.
-└── posts/ - The posts-related pages and functions.
+pages/ - The pages files
+├── users/ - The user-related pages and functions
+│   └── register.php - The registration page
+├── interests/ - The interest-related pages and functions
+└── posts/ - The posts-related pages and functions
 
 ```
 
-Just pick something, and give it a go ! Do what you like ! 
+Just pick something, and give it a go ! Do what you like !
 
 ____________________________________
 
