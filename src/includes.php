@@ -11,5 +11,8 @@
 
   require_once 'src/config/db.php';
 
+  /* Classes */
+
+  require_once 'src/models/user.php';
 
 ?>

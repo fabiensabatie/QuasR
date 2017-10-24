@@ -1,5 +1,11 @@
 <?php
+
+
+  namespace UserSpace;
+
   require_once 'src/includes.php';
 
-  echo 'hello world !';
+  $user = new cl_user();
+
+
 ?>

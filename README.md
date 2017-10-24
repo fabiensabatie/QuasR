@@ -48,12 +48,34 @@ Are running on the VM :
 
 ____________________________________
 
-## What has been done so far :
+## Where to start ?
 
-Created the registration/login pages.
-Users can register and login on the index page.
-The CSS and error checking are set for the index page, which includes login / registration errors.
-Created the algorit 
+The project's structure goes like this :
+
+```
+Ignore the "vendor" folder, the composer.json/.lock files, these are Composer's automatically generated folder/files.
+
+src/ - Contains the core source code.
+├── config/ - Contains the configuration files.
+│   ├── db.php - MongoDB functions go in there.
+│   └── defines.php - The project constants.
+|
+├── models/ - All our classes should be located here, from users to posts, etc.
+│   └── user.php - The user class.
+|
+├── basic_functions.php - All the custom basic useful functions go here.
+└── includes.php - References all the files to include.
+
+api/ - The API files, allowing us to use it and later to make it public.
+├── users/ - The user-related pages and functions.
+│   └── register.php - The registration page.
+├── interests/ - The interest-related pages and functions.
+└── posts/ - The posts-related pages and functions.
+
+```
+
+Just pick something, and give it a go ! Do what you like ! 
+
 ____________________________________
 
 ## Good practices rules :
@@ -70,7 +92,7 @@ define("INTERESTSCOLLECTION", "interests");
 
 All this variables defining the database's collections will probably change, and so will the connection URL, so every parameter related to the Database should be defined, in order to be able to use constant strings.
 
-### Every time you write a function, index it in docs/doc.html, and explain in a few lines what the function does.
+### Comment your code !
 
 ____________________________________
 
