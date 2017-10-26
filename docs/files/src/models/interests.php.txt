@@ -1,0 +1,39 @@
+<?php
+
+/**
+* Interest Class | src/models/interest.php
+*
+* @package     QuasR.io
+* @subpackage  Classes
+* @author      Fabien Sabatié <fsabatie@student.42.fr>
+* @version     v.1.0 (24/10/2017)
+* @copyright   Copyright (c) 2017, QuasR.io
+*/
+
+  namespace InterestSpace;
+  require 'src/includes.php';
+
+  /* Interest class */
+
+  class cl_interest {
+
+    /** @var string The MongoDB id constant */
+    public $_id           = NULL;
+    /** @var string The interest's name */
+    public $interest_name = NULL;
+    /** @var array The interest's roots */
+    public $roots         = array();
+    /** @var array The interest's children. */
+    public $children      = array();
+    /** @var boolean The interest's children. */
+    public $parent        = false;
+
+    /** Construct method */
+
+    public function __construct($_id){
+      $this->_id = $_id;
+    }
+  }
+
+?>
+

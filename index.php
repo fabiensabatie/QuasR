@@ -10,11 +10,7 @@
 * @copyright   Copyright (c) 2017, QuasR.io
 */
 
-  namespace UserSpace;
-
   require_once 'src/includes.php';
 
-  $user = new cl_user();
-
-
+  ft_var_dump($_SESSION);
 ?>

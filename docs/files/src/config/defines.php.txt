@@ -18,6 +18,18 @@
   define('DBNAME', 'QuasR');
   define('USERCOLLECTION', 'users');
   define('INTERESTCOLLECTION', 'interests');
+  define('INTERESTLISTCOLLECTION', 'interestslist');
+
+  /** Login error messages */
+
+  define('USERNOTFOUND', '2');
+  define('WRONGPASSWORD', '3');
+  define('LOGINSUCCESS', '4');
+
+  /** User roles defines */
+
+  define('REGULAR', '0');
+  define('ADMIN', '1');
 
 ?>
 

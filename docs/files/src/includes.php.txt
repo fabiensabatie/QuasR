@@ -10,6 +10,8 @@
 * @copyright   Copyright (c) 2017, QuasR.io
 */
 
+  @session_start();
+
   require_once 'vendor/autoload.php'; // Composer autoload
 
   /** Global usage */
@@ -24,6 +26,7 @@
   /** Classes */
 
   require_once 'src/models/user.php';
+  require_once 'src/models/interest.php';
 
 ?>
 

@@ -30,4 +30,13 @@
     return $connection->$db->$collection;
   }
 
+  /** Returns the MongoDB interests list collection */
+
+  function getInterestsListCollection() {
+    $connection = new MongoDB\Client(MONGODBSERVER);
+    $db = DBNAME;
+    $collection = INTERESTLISTCOLLECTION;
+    return $connection->$db->$collection;
+  }
+
 ?>
