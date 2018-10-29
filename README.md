@@ -1,6 +1,3 @@
-# QKit
+# QuasR
 
-To install :
-```
-npm install
-```
+An online plateform that lets you run Quantum algorithms through an API/GUI.
