@@ -1,0 +1,14 @@
+html
+	head
+		link(rel='stylesheet', href='/bazinga/css/application.css')
+		link(rel='stylesheet', href='/stylesheets/application.css')
+		block stylesheets
+		block prescripts
+		script(src="/scripts/vendor/axios.min.js" type="text/javascript")
+		script(src="/scripts/vendor/proton.min.js" type="text/javascript")
+		script(src='/bazinga/js/application.js' type="module")
+		title My Site - #{title}
+	body
+		div(id="body_container")
+			block body
+	block postscripts

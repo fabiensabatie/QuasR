@@ -1,0 +1,10 @@
+.page_title {
+	--c : var(--clearblue);
+	color: var(--c);
+	font-size: 60px;
+	font-family: var(--sofia-pro-extra-light);
+	margin: 40px 0px 10px 0px;
+	border: none;
+	width: 100%;
+	display: block;
+}
