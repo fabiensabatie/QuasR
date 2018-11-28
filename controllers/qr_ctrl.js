@@ -4,12 +4,19 @@
  */
 
 if (!__CONTROLLERS_JS) {
-	const Rfr				= require('rfr');
+	const Rfr					= require('rfr');
 	/** Pages controllers */
-	exports.Dashboard		= Rfr('controllers/pages/qr_dashboard_ctrl.js');
+	exports.PAGES				= {};
+	exports.PAGES.Dashboard		= Rfr('controllers/pages/qr_dashboard_ctrl.js');
+	exports.PAGES.Home			= Rfr('controllers/pages/qr_home_ctrl.js');
 	/** API controllers */
-	exports.API = {};
-	exports.API.Uploads		= Rfr('controllers/api/qr_uploads_api.js');
+	exports.API					= {};
+	exports.API.APIs			= Rfr('controllers/api/qr_apis_api.js');
+	exports.API.Services		= Rfr('controllers/api/qr_services_api.js');
+	exports.API.States			= Rfr('controllers/api/qr_states_api.js');
+	exports.API.Endpoints		= Rfr('controllers/api/qr_endpoints_api.js');
+	exports.API.Parsers			= Rfr('controllers/api/qr_parsers_api.js');
+	exports.API.Uploads			= Rfr('controllers/api/qr_uploads_api.js');
 	/** Upload Controllers */
-	__CONTROLLERS_JS		= true;
+	__CONTROLLERS_JS			= true;
 }

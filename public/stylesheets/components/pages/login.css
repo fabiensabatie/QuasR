@@ -1,0 +1,37 @@
+.login_window {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+	.login_window .login_container {
+		transition: 1s all linear;
+		transform: translate(-50%, -50%);
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		background-color: white;
+		opacity: 0.8;
+		border-radius: 15px;
+		text-align: center;
+		max-width:  500px;
+		width:  100%;
+		padding: 20px;
+	}
+
+		.login_window .login_container h2.login_title {
+			font-size: 30px;
+			color: var(--blue);
+		}
+
+		.login_window .login_container .login_form {
+			display: grid;
+			width: 100%;
+			grid-template-columns: 20% 80%;
+			grid-template-rows: auto auto;
+		}
+
+			.login_window .login_container .login_form input,label {
+				padding: 5px;
+				margin: 5px;
+			}

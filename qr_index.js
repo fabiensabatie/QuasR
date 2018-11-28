@@ -70,8 +70,13 @@ const Upload			= Multer({ dest: 'public/uploads/tmp/' });
 /*******************************************************************************
 ******************************* Admin Routes ***********************************
 *******************************************************************************/
-QuasR.App.get('/', function(req, res) { res.redirect('/qkit/dashboard'); });
-QuasR.App.get('/qkit/dashboard', Ctrl.Dashboard.gDashboard);
+QuasR.App.get('/', Ctrl.PAGES.Home.gHome);
+QuasR.App.get('/dashboard', Ctrl.PAGES.Dashboard.gDashboard);
+QuasR.App.post('/api', JsonParser, Ctrl.API.APIs.apiAddAPI);
+QuasR.App.post('/api/services', JsonParser, Ctrl.API.Services.apiAddService);
+QuasR.App.post('/api/states', JsonParser, Ctrl.API.States.apiAddState);
+QuasR.App.post('/api/endpoints', JsonParser, Ctrl.API.Endpoints.apiAddEndpoints);
+QuasR.App.post('/api/parsers', JsonParser, Ctrl.API.Parsers.apiParseFile);
 
 /*******************************************************************************
 ********************************* API Routes ***********************************
@@ -82,7 +87,7 @@ QuasR.App.get('/qkit/dashboard', Ctrl.Dashboard.gDashboard);
 *******************************************************************************/
 
 /** Send the data contained in the form field 'file' (see public/script/quill.js) */
-QuasR.App.post('/qkit/api/upload', Upload.single('file'), Ctrl.API.Uploads.apiUploadFile);
+QuasR.App.post('/api/upload', Upload.single('file'), Ctrl.API.Uploads.apiUploadFile);
 
 /*******************************************************************************
 ******************************** Error Routes **********************************

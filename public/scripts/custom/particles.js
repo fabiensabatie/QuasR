@@ -1,22 +1,110 @@
-var proton = new Proton();
-var emitter = new Proton.Emitter();
-var canvas = document.createElement('canvas');
-document.body.appendChild(canvas);
-//set Rate
-emitter.rate = new Proton.Rate(Proton.getSpan(10, 20), 0.1);
-//add Initialize
-emitter.addInitialize(new Proton.Radius(1, 12));
-emitter.addInitialize(new Proton.Life(2, 4));
-emitter.addInitialize(new Proton.Velocity(3, Proton.getSpan(0, 360), 'polar'));
-//add Behaviour
-emitter.addBehaviour(new Proton.Color('ff0000', 'random'));
-emitter.addBehaviour(new Proton.Alpha(1, 0));
-//set emitter position
-emitter.p.x = canvas.width / 2;
-emitter.p.y = canvas.height / 2;
-emitter.emit();
-//add emitter to the proton
-proton.addEmitter(emitter);
-// add canvas renderer
-var renderer = new Proton.CanvasRenderer(canvas);
-proton.addRenderer(renderer);
+particlesJS("body_container", {
+	"particles": {
+		"number": {
+			"value": 355,
+			"density": {
+				"enable": true,
+				"value_area": 789.1476416322727
+			}
+		},
+		"color": {
+			"value": "#ffffff"
+		},
+		"shape": {
+			"type": "circle",
+			"stroke": {
+				"width": 0,
+				"color": "#000000"
+			},
+			"polygon": {
+				"nb_sides": 5
+			},
+			"image": {
+				"src": "img/github.svg",
+				"width": 100,
+				"height": 100
+			}
+		},
+		"opacity": {
+			"value": 0.48927153781200905,
+			"random": false,
+			"anim": {
+				"enable": true,
+				"speed": 0.2,
+				"opacity_min": 0,
+				"sync": false
+			}
+		},
+		"size": {
+			"value": 2,
+			"random": true,
+			"anim": {
+				"enable": true,
+				"speed": 2,
+				"size_min": 0,
+				"sync": false
+			}
+		},
+		"line_linked": {
+			"enable": false,
+			"distance": 150,
+			"color": "#ffffff",
+			"opacity": 0.4,
+			"width": 1
+		},
+		"move": {
+			"enable": true,
+			"speed": 0.2,
+			"direction": "none",
+			"random": true,
+			"straight": false,
+			"out_mode": "out",
+			"bounce": false,
+			"attract": {
+				"enable": false,
+				"rotateX": 600,
+				"rotateY": 1200
+			}
+		}
+	},
+	"interactivity": {
+		"detect_on": "canvas",
+		"events": {
+			"onhover": {
+				"enable": true,
+				"mode": "bubble"
+			},
+			"onclick": {
+				"enable": true,
+				"mode": "push"
+			},
+			"resize": true
+		},
+		"modes": {
+			"grab": {
+				"distance": 400,
+				"line_linked": {
+					"opacity": 1
+				}
+			},
+			"bubble": {
+				"distance": 83.91608391608392,
+				"size": 1,
+				"duration": 3,
+				"opacity": 1,
+				"speed": 3
+			},
+			"repulse": {
+				"distance": 200,
+				"duration": 0.4
+			},
+			"push": {
+				"particles_nb": 4
+			},
+			"remove": {
+				"particles_nb": 2
+			}
+		}
+	},
+	"retina_detect": true
+});

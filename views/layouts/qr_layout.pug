@@ -5,10 +5,10 @@ html
 		block stylesheets
 		block prescripts
 		script(src="/scripts/vendor/axios.min.js" type="text/javascript")
-		script(src="/scripts/vendor/proton.min.js" type="text/javascript")
 		script(src='/bazinga/js/application.js' type="module")
 		title My Site - #{title}
 	body
+		include ../dev/shared/menu.pug
 		div(id="body_container")
 			block body
 	block postscripts

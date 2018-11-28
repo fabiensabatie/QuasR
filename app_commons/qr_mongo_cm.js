@@ -361,31 +361,34 @@ the value is ignored, but the json string still must have one.
 **/
 function setElements(operator, collection, element, query) {
 	if (element._id) element._id = objectIdize(element._id);
-
+	console.log(collection, element);
 	return (new Promise((resolve, reject) => {
-		getMongoClient()
-		.then((ret) => {
-			if (operator == true) {
-				console.log('Element and query: ', element, query);
-				ret.result.mdb.collection(collection).updateOne(element,
-				{$set : query}, (err, updatedDoc) => {
-					ret.result.client.close();
-					if (err) { return (reject(PromiseResult(false, {}, err)))}
-					return (resolve(PromiseResult(true, updatedDoc)))
-				})
-			} else if (operator == false){
-				ret.result.mdb.collection(collection).updateOne(element,
-				{$unset : query}, (err, updatedDoc) => {
-					ret.result.client.close();
-					if (err) { return (reject(PromiseResult(false, {}, err))) }
-					return (resolve(PromiseResult(true, updatedDoc)))
-				})
-			}
-			else
-				return (reject(PromiseResult(false, {},
-				"setElements: operator must be true or false")))
-		})
-		.catch((err) => { return (reject(PromiseResult(false, {}, err.error))); });
+		let keys = Object.keys(element);
+		for (let i = 0; i < keys.length ; i++) if (keys[i] == '_id' && keys['_id'] == false) return (reject(PromiseResult(false, {}, "Invalid id")));
+		findDocument(collection, element)
+		.then(() => {
+			getMongoClient()
+			.then((ret) => {
+				if (operator == true) {
+					ret.result.mdb.collection(collection).updateOne(element,
+					{$set : query}, (err, updatedDoc) => {
+						ret.result.client.close();
+						if (err) { return (reject(PromiseResult(false, {}, err)))}
+						return (resolve(PromiseResult(true, updatedDoc)))
+					})
+				} else if (operator == false){
+					ret.result.mdb.collection(collection).updateOne(element,
+					{$unset : query}, (err, updatedDoc) => {
+						ret.result.client.close();
+						if (err) { return (reject(PromiseResult(false, {}, err))) }
+						return (resolve(PromiseResult(true, updatedDoc)))
+					})
+				}
+				else
+					return (reject(PromiseResult(false, {},
+					"setElements: operator must be true or false")))
+			}).catch((err) => { return (reject(PromiseResult(false, {}, err.error))); });
+		}).catch((err) => { return (reject(PromiseResult(false, {}, err.error))); });
 	}))
 }
 
