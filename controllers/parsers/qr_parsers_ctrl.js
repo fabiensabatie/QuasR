@@ -5,7 +5,8 @@
 
 if (!__PARSER_CONTROLLERS_JS) {
 	const Rfr					= require('rfr');
-	/** Parser controllers */
-	exports.C						= Rfr('controllers/parsers/qr_c_parser.js');
-	__PARSER_CONTROLLERS_JS			= true;
+	/** Pages controllers */
+	exports.Parsers				= {};
+	exports.Parsers.C			= Rfr('controllers/parsers/C/c_parser.js');
+	__PARSER_CONTROLLERS_JS		= true;
 }

@@ -1,23 +1,56 @@
 /**
- * @Author: Fabien Sabatié <fabiensabatie>
- * @Date:   2018-07-07T17:44:38+02:00
- * @Email:  fsabatie@student.42.fr
- * @Project: PeachMe
- * @Last modified by:
- * @Last modified time: 2018-08-05T20:31:53+02:00
- */
+________       ___  ___      ________      ________       ________
+|\   __  \     |\  \|\  \    |\   __  \    |\   ____\     |\   __  \
+\ \  \|\  \    \ \  \\\  \   \ \  \|\  \   \ \  \___|_    \ \  \|\  \
+ \ \  \\\  \    \ \  \\\  \   \ \   __  \   \ \_____  \    \ \   _  _\
+  \ \  \\\  \    \ \  \\\  \   \ \  \ \  \   \|____|\  \    \ \  \\  \|
+   \ \_____  \    \ \_______\   \ \__\ \__\    ____\_\  \    \ \__\\ _\
+    \|___| \__\    \|_______|    \|__|\|__|   |\_________\    \|__|\|__|
+          \|__|                               \|_________|
+
+
+
+                               ````````````
+                           ```````````...::/::..`
+                            ``             ``...:/:..`
+                       `       `.`.`.-..-.````    ```.-.`
+                        `.---......`..``..``..--..`   `.::.`
+                    ``..```````````......````````.--.....`..`
+                `-:-..`    `.:/++/++oooossso+:.`````--:-.``..`     `
+              `.-:```  ``-///::--::/ossshyyhhhs+/..```.-..` `.`    .`
+          ```..-.`  ``:+o:-..-/ooo////////:/+yysyo-.`  `..-.` `    `
+         `.``..`   `-+o:-.`:o+++::::::++oo/-/ssos+-:-.  `//. `..   -.
+        `` `+.`   `-+y:-``:++-::--:+/:///omd+:/--.-oo-` `:+.  -.   --`
+          `.-    .::+o...:+s/-+..+:.`-/sydy:-+.`/.+oh/```os. `/.  `/.
+         `-:`   `///o+.`./++///`:o. /mNNmo` -o.-/.-so:``:o:````  `:-`
+         ./:    .---::. `:ys/::-./ssmh+:..:/o::/::o+-../s--..`  .-`
+         `-.`  `...`./o-`.-/+yso/--+ysssooo+::+/+oo-.-ss/.-` `.-:`
+          .-`   ..` `./+.``.-+shso+::::::///+ossss+://+-````:+/.
+           `.    `.`  ./+/....-/ooyyyysossssysss+:--.```.////-`
+            ``    `-/  `-o:....`..-:://///:/:-..`````.:oso:.
+                    ..`  ./o/-.``...---..----:-::++/+::.`
+                    `-:.```.://+:--.----::/+oo/:--.````
+             `.`      `.---.`````.-::::--..`` `````        ..`
+               `         `..--.``     ```````     ``````.```
+                            ``--.....``..```...--.``
+                                    `......`````
+
+
+Filename : qr_home_ctrl.js
+By: fsabatie <fsabatie@student.42.fr>
+Created: 2018/12/19 20:48:34 by fsabatie
+Updated: 2018/12/20 00:06:19 by fsabatie
+*/
 
 const Rfr				= require('rfr');
-const Mongo				= require('mongodb');
-const Bcrypt			= require('bcrypt');
-const MongoCommons		= Rfr('app_commons/qr_mongo_cm');
-
+const Mongo				= Rfr('app_commons/qr_mongo_cm').Mongo;
+const QuasrMongo		= new Mongo(__MONGO_URL);
+const Parsers			= Rfr('controllers/parsers/qr_parsers_ctrl.js')
 /**
 Home page page GET method.
 **/
-function gHome(req, res) {
+function homePage(req, res) {
 	let locals = { title: "QuasR" };
-	return (res.render(__VIEWSPATH + __HOME_PAGE, locals));
 }
 
-exports.gHome = gHome;
+exports.homePage = homePage;

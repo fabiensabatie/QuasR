@@ -1,36 +1,58 @@
 /**
-QuasR.io
-Fabien Sabatié
-fabien.sabatie@live.fr
+________       ___  ___      ________      ________       ________
+|\   __  \     |\  \|\  \    |\   __  \    |\   ____\     |\   __  \
+\ \  \|\  \    \ \  \\\  \   \ \  \|\  \   \ \  \___|_    \ \  \|\  \
+ \ \  \\\  \    \ \  \\\  \   \ \   __  \   \ \_____  \    \ \   _  _\
+  \ \  \\\  \    \ \  \\\  \   \ \  \ \  \   \|____|\  \    \ \  \\  \|
+   \ \_____  \    \ \_______\   \ \__\ \__\    ____\_\  \    \ \__\\ _\
+    \|___| \__\    \|_______|    \|__|\|__|   |\_________\    \|__|\|__|
+          \|__|                               \|_________|
+
+
+
+                               ````````````
+                           ```````````...::/::..`
+                            ``             ``...:/:..`
+                       `       `.`.`.-..-.````    ```.-.`
+                        `.---......`..``..``..--..`   `.::.`
+                    ``..```````````......````````.--.....`..`
+                `-:-..`    `.:/++/++oooossso+:.`````--:-.``..`     `
+              `.-:```  ``-///::--::/ossshyyhhhs+/..```.-..` `.`    .`
+          ```..-.`  ``:+o:-..-/ooo////////:/+yysyo-.`  `..-.` `    `
+         `.``..`   `-+o:-.`:o+++::::::++oo/-/ssos+-:-.  `//. `..   -.
+        `` `+.`   `-+y:-``:++-::--:+/:///omd+:/--.-oo-` `:+.  -.   --`
+          `.-    .::+o...:+s/-+..+:.`-/sydy:-+.`/.+oh/```os. `/.  `/.
+         `-:`   `///o+.`./++///`:o. /mNNmo` -o.-/.-so:``:o:````  `:-`
+         ./:    .---::. `:ys/::-./ssmh+:..:/o::/::o+-../s--..`  .-`
+         `-.`  `...`./o-`.-/+yso/--+ysssooo+::+/+oo-.-ss/.-` `.-:`
+          .-`   ..` `./+.``.-+shso+::::::///+ossss+://+-````:+/.
+           `.    `.`  ./+/....-/ooyyyysossssysss+:--.```.////-`
+            ``    `-/  `-o:....`..-:://///:/:-..`````.:oso:.
+                    ..`  ./o/-.``...---..----:-::++/+::.`
+                    `-:.```.://+:--.----::/+oo/:--.````
+             `.`      `.---.`````.-::::--..`` `````        ..`
+               `         `..--.``     ```````     ``````.```
+                            ``--.....``..```...--.``
+                                    `......`````
+
+
+Filename : app.js
+By: fsabatie <fsabatie@student.42.fr>
+Created: 2018/12/19 21:32:18 by fsabatie
+Updated: 2018/12/19 21:32:19 by fsabatie
 */
+
 "use strict";
 const Express				= require('express');
 const App					= Express();
 const Cookies				= require('cookie-parser');
 const BodyParser			= require('body-parser');
 const Server				= require('http').createServer(App);
-const CompileSaas			= require('express-compile-sass');
-const ExpressEjsLayouts		= require('express-ejs-layouts');
-const Events				= require('events');
-const EventEmitter			= new Events.EventEmitter();
 const Rfr					= require('rfr');
 const Globals				= Rfr('app_commons/qr_globals_cm');
 
 App.use(Cookies("37iDxGKbZd+12Mt3YrMfPkPohwYh9idxiq44A"));
-App.use(CompileSaas({root : process.cwd() + '/public', sourceMap : true
-, sourceComments : true, logToConsole : false}));
 App.use('/', Express.static(__dirname + '/public'));
-
-
-App.use(function(req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	next();
-});
-
-App.set('view engine', 'ejs');
 App.set('view engine', 'pug');
-
-exports.App             = App;
-exports.Server          = Server;
-exports.EventEmitter    = EventEmitter;
+exports.App		= App;
+exports.Server	= Server;
