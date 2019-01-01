@@ -39,15 +39,21 @@ ________       ___  ___      ________      ________       ________
 Filename : parameters.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 00:27:37 by fsabatie
-Updated: 2018/12/19 23:55:15 by fsabatie
+Updated: 2018/12/24 16:56:44 by fsabatie
 */
 
 /** Parameter class declaration : must provide a least a name */
 class Parameter {
 	constructor(name, type = null) {
-		if (!name) return (Commons.__ERR('Please provide a name for the parameter.', Commons.__FATAL))
+		if (!name) return (__ERR('Please provide a name for the parameter.', __FATAL))
 		this.name = name;
 		this.type = type;
+	}
+
+	isEqualToParameter(param) {
+		if (!(param instanceof Parameter)) return (__ERR(`Parameter must be of type Parameter`, __NONBLOCKING));
+		if (this.type != param.type) return (false);
+		return (true);
 	}
 }
 
@@ -77,7 +83,7 @@ function parseParameters(func) {
 	let paramString = func.match(/\((.*?)\)/);
 	if (paramString && paramString[0] == '()') return (true);
 	// Checks if there was a match
-	if (!paramString || !paramString[1]) return (Commons.__ERR(`Could not parse parameter from ${func}`, Commons.__NONBLOCKING));
+	if (!paramString || !paramString[1]) return (__ERR(`Could not parse parameter from ${func}`, __NONBLOCKING));
 	// Spliting the parameters list
 	let params = paramString[1].split(',');
 	// Creates the parameter object for each parameter

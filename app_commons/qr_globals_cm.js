@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_globals_cm.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 20:33:06 by fsabatie
-Updated: 2018/12/20 00:03:10 by fsabatie
+Updated: 2018/12/27 23:06:14 by fsabatie
 */
 
 const Rfr			= require ('rfr');
@@ -63,9 +63,20 @@ global.__DASH_PAGE = __PREFIX + 'dashboard';
 global.__HOME_PAGE = __PREFIX + 'home';
 global.__LOGIN_PAGE = __PREFIX + 'login';
 
+// Git download info
+global.__GIT_DOWNLOAD_FOLDER_PATH = 'GitCode';
+global.__GIT_C_FOLDER = 'C';
+global.__GIT_PYTHON_FOLDER = 'PYTHON';
+global.__GIT_JS_FOLDER = 'JS';
+global.__GITHUB = 'github';
+
+// Languages' names
+global.__LANGUAGE_C = 'C';
+
 // Controllers constants (avoiding double inclusion)
 global.__CONTROLLERS_JS = false;
 global.__PARSER_CONTROLLERS_JS = false;
+global.__BUILDER_CONTROLLERS_JS = false;
 
 // Defining environment variables
 global.__WARNING = 'warning';

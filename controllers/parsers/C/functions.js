@@ -39,17 +39,18 @@ ________       ___  ___      ________      ________       ________
 Filename : functions.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 00:27:37 by fsabatie
-Updated: 2018/12/20 00:10:26 by fsabatie
+Updated: 2018/12/27 22:55:49 by fsabatie
 */
 
 const Rfr			= require('rfr');
 const Parameters	= Rfr('controllers/parsers/C/parameters.js');
+const Assert		= require('assert');
 
 /**
-Definition of the QuasrFunction class : must provide at least a name.
-Only the functions listed as QuasrFunction will be proposed for usage.
+Definition of the C_QuasrFunction class : must provide at least a name.
+Only the functions listed as C_QuasrFunction will be proposed for usage.
 */
-class QuasrFunction {
+class C_QuasrFunction {
 	constructor(name, returnType = null) {
 		this.name = name;
 		this.returnType = returnType;
@@ -68,15 +69,48 @@ class QuasrFunction {
 		// Creating the parameters array if non-existant
 		if (!this.parameters) this.parameters = [];
 		// Checks if the parameter is a parameter object
-		if (!(parameter instanceof Parameters.Parameter)) Commons.__ERR(`Parameter must be of type Parameter`, Commons.__FATAL);
+		if (!(parameter instanceof Parameters.Parameter)) __ERR(`Parameter must be of type Parameter`, __FATAL);
 		// Checks if the parameter does not exist already
-		if (this.parameterExists(parameter.name)) Commons.__ERR(`Parameter already exists for function ${this.name}`, Commons.__FATAL);
+		if (this.parameterExists(parameter.name)) __ERR(`Parameter already exists for function ${this.name}`, __FATAL);
 		// Pushes the parameter to the list
 		else this.parameters.push(parameter);
 	}
+
+	/** Compare the current function to another one */
+	isEqualToFunction(func) {
+		// Checks if function has the correct type
+		if (!(func instanceof C_QuasrFunction)) return (__ERR(`The object is not a C_QuasrFunction`, __NONBLOCKING));
+		if (this.name != func.name) return (false);
+		// Checks parameters
+		for (let i in this.parameters)
+			if (!this.parameters[i].isEqualToParameter(func.parameters[i]))
+			{
+				process.stdout.write(" ");
+				process.stdout.write(this.parameters[i].type);
+				process.stdout.write(" different from ");
+				process.stdout.write(func.parameters[i].type);
+				return (false);
+			}
+		return (true);
+	}
 }
 
-/** Creates a QuasrFunction function */
+function keepHeaderFunctionsOnly(functions) {
+	let availableFunctions = [];
+	for (let cFunc of functions.program) {
+		process.stdout.write(cFunc.name);
+		process.stdout.write(' \x1b[33m•\x1b[0m');
+		for (let hFunc of functions.headers)
+			if (cFunc.isEqualToFunction(hFunc)) {
+				availableFunctions.push(cFunc);
+				process.stdout.write(' \x1b[32m✔\x1b[0m');
+			}
+		console.log('');
+	}
+	return (availableFunctions);
+}
+
+/** Creates a C_QuasrFunction function */
 function createFunction(func) {
 	// Gets the function's name
 	let funcName = func.match(/(\w+|(\w+-*)*)(?=\s*\()/g);
@@ -86,25 +120,23 @@ function createFunction(func) {
 	let parameters = Parameters.parseParameters(func);
 	// Checks for errors
 	if (!funcName || !funcType || !parameters) return (Commons.__ERR(`Could not parse function ${func}`, Commons.__NONBLOCKING));
-	// Everything went right, we build the QuasrFunction object
-	func = new QuasrFunction(funcName[0], funcType[0].trim());
+	// Everything went right, we build the C_QuasrFunction object
+	func = new C_QuasrFunction(funcName[0], funcType[0].trim());
 	// We add all the parsed parameters to the function if there are some
 	if (typeof parameters == "object") for (let param of parameters) func.addParameter(param);
 	// Returning the function
 	return (func);
 }
 
-/** Parses all the functions and their parameters from the file content.
-We parse the regular files first in order to collect all functions declarations (functions' prototypes do not always contain the variables' name, parsing functions' declarations allows us to collect both their names, as well as the type and name of their variables). We then parse header files for functions names, and only keep functions present in both header files and regular files.
-
-A BETTER PARSING OF HEADER FILES MIGHT HELP AVOIDING THE DOUBLE PARSING OF BOTH .C AND .H FILES (although this double check brings safety, and helps making sure header files do not list non-declared functions : they can be prototyped in the header yet declared nowhere) */
+/** Parses all the functions and their parameters from the file content. */
 function getFunctions(fileContent) {
 	// Regex for the functions prototypes - used against header (.h) files
 	let functionPrototypeRegex = new RegExp(/^(?!static)(\w+\s+)+\**(\w+|(\w+-*)*)(?=\s*\()\s*\((.|,\n|\n,.|(\n*\s*,.)|(\n\s*,\n*\s*)|(\n\s\n*\s*))*\);$/gm);
 	// Regex for the functions prototypes - used against regular (.c) files
 	let functionDeclarationRegex = new RegExp(/^(?!static)(\w+\s+)+\**(\w+|(\w+-*)*)(?=\s*\()\s*\((.|,\n|\n,.|(\n*\s*,.)|(\n\s*,\n*\s*)|(\n\s\n*\s*))*\)(\s*|\n*\s*)*\{/gm); // .c Files
-	// Getting all matches for function declarations
 	let functions = fileContent.match(functionPrototypeRegex);
+	if (!functions) functions = fileContent.match(functionDeclarationRegex);
+	if (!functions) return [];
 	// Whitespacing the function declaration for parsing
 	functions = functions.map((func) => { return (func.replaceAll('\t\r', ' ').replaceAll(/\s+/g, ' ')); });
 	// Creating the function objects
@@ -113,3 +145,4 @@ function getFunctions(fileContent) {
 }
 
 exports.getFunctions = getFunctions;
+exports.keepHeaderFunctionsOnly = keepHeaderFunctionsOnly;

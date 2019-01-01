@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : c_parser.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 00:35:19 by fsabatie
-Updated: 2018/12/20 00:10:06 by fsabatie
+Updated: 2018/12/27 22:55:17 by fsabatie
 */
 
 const Rfr			= require('rfr');
@@ -47,22 +47,17 @@ const Functions		= Rfr('controllers/parsers/C/functions.js');
 const Fs			= require('fs');
 
 /** C File parsing function */
-function parseC(fileContent) {
-	let functions = Functions.getFunctions(fileContent);
-	console.log(functions);
+function parseFunctions(files) {
+	let functions = {program : [], headers : []};
+	for (let file of files) {
+		file.functions = [];
+		if (file.fileExtension != 'c' && file.fileExtension != 'h') continue ;
+		console.log('Parsing file', file.fileName);
+		let toPush = (file.fileExtension == 'c') ? functions.program : functions.headers;
+		functionsInFile = Functions.getFunctions(file.content)
+		for (let func of functionsInFile) { toPush.push(func); file.functions.push(func); }
+	}
+	return (Functions.keepHeaderFunctionsOnly(functions));
 }
 
-
-function getFile(filePath) {
-	console.log(Fs);
-	return (new Promise((resolve, reject) => {
-		if (!filePath) return (reject(__RESULT(false, 'Please provide a file path')));
-		Fs.readFile(filePath, 'utf8', (err, data) => {
-			parseC(data);
-		})
-	}))
-}
-
-setTimeout(() => {
-	getFile('/Users/fabiensabatie/Projects/QuasR/parsers/C/code_examples/libft.h');
-}, 1000);
+exports.parseFunctions = parseFunctions;
