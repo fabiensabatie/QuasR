@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_mongo_cm.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 20:38:58 by fsabatie
-Updated: 2019/01/07 00:53:02 by fsabatie
+Updated: 2019/01/07 01:39:16 by fsabatie
 */
 const Rfr			= require('rfr');
 const MongoDB		= require('mongodb');

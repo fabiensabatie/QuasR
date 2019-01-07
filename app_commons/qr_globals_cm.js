@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_globals_cm.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 20:33:06 by fsabatie
-Updated: 2019/01/07 01:00:19 by fsabatie
+Updated: 2019/01/07 01:38:15 by fsabatie
 */
 
 const Rfr			= require ('rfr');
@@ -52,7 +52,7 @@ const Prototypes	= Rfr('app_commons/qr_prototypes_cm.js');
 global.__PREFIX				= 'qr_';
 global.__BASEDIR			= __dirname;
 global.__ROOT_URL			= 'http://localhost:8080';
-global.__INPROD				= false;
+global.__INPROD				= true;
 
 (__INPROD) ? Rfr('app_commons/qr_prod_credentials_cm.js') : Rfr('app_commons/qr_dev_credentials_cm.js');
 
