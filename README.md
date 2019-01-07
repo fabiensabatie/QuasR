@@ -42,3 +42,20 @@ root
 		|_ layouts - Views layouts
 	|_ qr_index.js - Entry point for the QuasR app.
 ```
+
+## Logic
+
+The following steps describe the process for QuasR usage :
+```
+- A library is added from the QuasR website
+- The library is parsed :
+	|_ Typedefs and defines are gathered
+	|_ Functions are gathered (name / return type / parameters names and types)
+	|_ Structures are gathered (name / type / inner variables type)
+- A .thrift file is generated using the parsing data
+- Thrift generates the appropriate code for the requested languages
+- The client side library is created using the previously generated code : includes thrift functions / QuasR communicating functions
+- The server side encapsulating program is generated using the previously built thrift file for each language : includes thrift functions / QuasR communicating functions / library functions
+- The server side code is executed and listens for entries.
+- The client includes the QuasR library to their program, initialise the connection to the quasr.io gateway, and starts using the distant library functions.
+```
