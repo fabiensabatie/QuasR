@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_index.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 21:20:41 by fsabatie
-Updated: 2018/12/19 21:32:38 by fsabatie
+Updated: 2019/01/07 01:58:13 by fsabatie
 */
 
 "use strict";
@@ -52,15 +52,19 @@ const Ctrl				= Rfr('controllers/qr_ctrl.js');
 const Multer			= require('multer');
 const Upload			= Multer({ dest: 'public/uploads/tmp/' });
 
-/*******************************************************************************
-******************************** Pages Routes **********************************
-*******************************************************************************/
-
-QuasR.App.get('/', Ctrl.PAGES.Home.homePage)
-
-/*******************************************************************************
-******************************* Upload Routes **********************************
-*******************************************************************************/
+setTimeout(() => {
+	let gitInfo = {
+		service : __GITHUB,
+		author : 'uael',
+		repo : 'ft_malloc'
+	};
+	Ctrl.PROGRAMS.getProgram(gitInfo)
+	.then((program) => {
+		program = program.result;
+		console.log(`\nParsed ${program.name} from ${program.author}, written in ${program.language}, containing ${program.availableFunctions.length} functions within ${program.files.length} files.`);
+		program.build();
+	})
+}, 1000);
 
 /*******************************************************************************
 ******************************** Error Routes **********************************

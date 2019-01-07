@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_programs_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/01/06 19:48:13 by fsabatie
+Updated: 2019/01/07 01:57:24 by fsabatie
 */
 
 const Rfr		= require('rfr');
@@ -96,19 +96,5 @@ function getProgram(gitInfo) {
 		}).catch((err) => { return (reject(__RESULT(false, err))); })
 	}));
 }
-
-setTimeout(() => {
-	let gitInfo = {
-		service : __GITHUB,
-		author : 'uael',
-		repo : 'ft_malloc'
-	};
-	getProgram(gitInfo)
-	.then((program) => {
-		program = program.result;
-		console.log(`\nParsed ${program.name} from ${program.author}, written in ${program.language}, containing ${program.availableFunctions.length} functions within ${program.files.length} files.`);
-		program.build();
-	})
-}, 1000);
 
 exports.getProgram = getProgram;
