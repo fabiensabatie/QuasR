@@ -39,12 +39,12 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_files_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 20:48:34 by fsabatie
-Updated: 2018/12/27 00:56:42 by fsabatie
+Updated: 2019/01/06 21:37:54 by fsabatie
 */
 
 const Rfr				= require('rfr');
 const Mongo				= Rfr('app_commons/qr_mongo_cm').Mongo;
-const QuasrMongo		= new Mongo(__MONGO_URL);
+const QuasrMongo		= new Mongo(__MONGO_URL_CONNECT);
 const Parsers			= Rfr('controllers/parsers/qr_parsers_ctrl.js').PARSERS;
 const GitDownload		= require("download-git-repo");
 const Axios				= require('axios');

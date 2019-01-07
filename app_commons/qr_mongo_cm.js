@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_mongo_cm.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 20:38:58 by fsabatie
-Updated: 2018/12/19 22:02:05 by fsabatie
+Updated: 2019/01/07 00:53:02 by fsabatie
 */
 const Rfr			= require('rfr');
 const MongoDB		= require('mongodb');
@@ -48,9 +48,11 @@ class Mongo {
 	/** Mongo constructor class : gets the mongo client on initialization */
 	constructor(dbUrl) {
 		this.client = false;
+		this.mdb = false;
 		MongoDB.MongoClient.connect(dbUrl, { useNewUrlParser: true }, (err, client) => {
 			if (err) { return (__ERR(`Could not fetch the mongo client : ${err}`, __WARNING)) }
 			this.client = client;
+			this.mdb = client.db(__MONGO_DBNAME);
 			return ;
 		});
 	}
@@ -61,7 +63,7 @@ class Mongo {
 	**/
 	findDocument(collection, data) {
 		return (new Promise((resolve, reject) => {
-			this.client.result.mdb.collection(collection).findOne(data, (err, foundDoc) => {
+			this.mdb.collection(collection).findOne(data, (err, foundDoc) => {
 				if (err) { return (reject(__RESULT(false, err))) }
 				if (foundDoc == null || foundDoc == []) return (reject(__RESULT(false, "Could not find the document")));
 				return (resolve(__RESULT(true, foundDoc)));
@@ -74,7 +76,7 @@ class Mongo {
 	**/
 	pushDataToElement(collection, element, data) {
 		return (new Promise((resolve, reject) => {
-			this.client.mdb.collection(collection).findOneAndUpdate(element, {$push : data}, {returnOriginal : false}, (err, inserted) => {
+			this.mdb.collection(collection).findOneAndUpdate(element, {$push : data}, {returnOriginal : false}, (err, inserted) => {
 				if (err) return (reject(__RESULT(false, err)))
 				return (resolve(__RESULT(true, inserted)));
 			});
@@ -87,7 +89,7 @@ class Mongo {
 	**/
 	deleteDocument(collection, query) {
 		return (new Promise((resolve, reject) => {
-			this.client.mdb.collection(collection).deleteMany(query, (err, removedDoc) => {
+			this.mdb.collection(collection).deleteMany(query, (err, removedDoc) => {
 				if (err) { return (reject(__RESULT(false, err)))}
 				return (resolve(__RESULT(true, removedDoc)))
 			})
@@ -120,7 +122,7 @@ class Mongo {
 		return (new Promise((resolve, reject) => {
 			if (typeof operator != "boolean") return (reject(__RESULT(false, "setElements: operator must be true or false")))
 			let set = (operator == true) ? {$set : query} : {$unset : query};
-			this.client.mdb.collection(collection).updateOne(element, set, (err, updatedDoc) => {
+			this.mdb.collection(collection).updateOne(element, set, (err, updatedDoc) => {
 				if (err) { return (reject(PromiseResult(false, {}, err)))}
 				return (resolve(PromiseResult(true, updatedDoc)))
 			})
@@ -133,7 +135,7 @@ class Mongo {
 	**/
 	addElements(collection, data) {
 		return (new Promise((resolve, reject) => {
-			this.client.mdb.collection(collection).insert(data, (err, insertedDoc) => {
+			this.mdb.collection(collection).insert(data, (err, insertedDoc) => {
 				if (err) { return (reject(PromiseResult(false, {}, err))); }
 				return (resolve(PromiseResult(true, insertedDoc)));
 			})

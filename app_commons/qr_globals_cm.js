@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_globals_cm.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 20:33:06 by fsabatie
-Updated: 2018/12/27 23:06:14 by fsabatie
+Updated: 2019/01/07 01:00:19 by fsabatie
 */
 
 const Rfr			= require ('rfr');
@@ -52,11 +52,14 @@ const Prototypes	= Rfr('app_commons/qr_prototypes_cm.js');
 global.__PREFIX				= 'qr_';
 global.__BASEDIR			= __dirname;
 global.__ROOT_URL			= 'http://localhost:8080';
+global.__INPROD				= false;
+
+(__INPROD) ? Rfr('app_commons/qr_prod_credentials_cm.js') : Rfr('app_commons/qr_dev_credentials_cm.js');
 
 // MongoDB info globals
-global.__MONGO_URL					= 'mongodb://localhost:27017/';
-global.__MONGO_DBNAME				= 'QuasR_db';
-
+global.__MONGO_URL_OPTIONS			= "?authSource=admin"; // Use the 'admin' database as authentication source
+global.__MONGO_DBNAME				= 'quasr'; // Database name
+global.__MONGO_URL_CONNECT			= `mongodb://${__MONGO_USER}:${__MONGO_PWD}@${__MONGO_URL}:${__MONGO_PORT}/${__MONGO_URL_OPTIONS}`; // Mongo URL
 // Views info globals
 global.__VIEWSPATH = 'dev/';
 global.__DASH_PAGE = __PREFIX + 'dashboard';

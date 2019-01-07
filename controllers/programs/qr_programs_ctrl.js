@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_programs_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2018/12/28 12:18:37 by fsabatie
+Updated: 2019/01/06 19:48:13 by fsabatie
 */
 
 const Rfr		= require('rfr');
@@ -47,6 +47,7 @@ const Axios		= require('axios');
 const Files		= Rfr('controllers/files/qr_files_ctrl.js');
 const Parsers	= Rfr('controllers/parsers/qr_parsers_ctrl.js').Parsers;
 const Builders	= Rfr('controllers/builders/qr_builders_ctrl.js').Builders;
+
 class QuasR_Program {
 	constructor(name, author, service, language, files = [], availableFunctions = []) {
 		this.name				= name;
@@ -99,8 +100,8 @@ function getProgram(gitInfo) {
 setTimeout(() => {
 	let gitInfo = {
 		service : __GITHUB,
-		author : 'terry-finkel',
-		repo : 'libft'
+		author : 'uael',
+		repo : 'ft_malloc'
 	};
 	getProgram(gitInfo)
 	.then((program) => {
