@@ -21,3 +21,24 @@ If everything went right, you should see the following message appear in the con
 ```
 🚀  QuasR is up on 8080 🚀
 ```
+
+## Project structure
+
+```
+root
+	|_ app_commons - Contains the nodejs application common files (globals / mongo functions / prototypes / credentials)
+	|_ controllers - Contains the controllers
+		|_ builders - All functions that generate the encapsulating code for the server side programs
+		|_ files - File management functions (read / write / etc.)
+		|_ gateway - Services gateway (not coded yet)
+		|_ pages - Serving the front-end pages
+		|_ parsers - Contains the code parsing functions
+		|_ programs - Functions gathering / saving the information relative to the programs
+	|_ libraries - Contains all QuasR libraries for cross-platform connection to quasr.io services
+		|_ clients - Client side libraries
+		|_ servers - Server side libraries
+		|_ gen-code - Thrift libs for libraries (to be integrated in clients/server on short-term)
+	|_ views - Contains front-end views
+		|_ layouts - Views layouts
+	|_ qr_index.js - Entry point for the QuasR app.
+```
