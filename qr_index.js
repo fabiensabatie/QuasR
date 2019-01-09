@@ -63,7 +63,7 @@ setTimeout(() => {
 		program = program.result;
 		console.log(`\nParsed ${program.name} from ${program.author}, written in ${program.language}, containing ${program.availableFunctions.length} functions within ${program.files.length} files.`);
 		program.build();
-	})
+	}).catch((err) => {console.log(err)})
 }, 1000);
 
 /*******************************************************************************

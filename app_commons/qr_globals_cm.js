@@ -52,7 +52,7 @@ const Prototypes	= Rfr('app_commons/qr_prototypes_cm.js');
 global.__PREFIX				= 'qr_';
 global.__BASEDIR			= __dirname;
 global.__ROOT_URL			= 'http://localhost:8080';
-global.__INPROD				= false;
+global.__INPROD				= true;
 
 (__INPROD) ? Rfr('app_commons/qr_prod_credentials_cm.js') : Rfr('app_commons/qr_dev_credentials_cm.js');
 
@@ -60,6 +60,7 @@ global.__INPROD				= false;
 global.__MONGO_URL_OPTIONS			= "?authSource=admin"; // Use the 'admin' database as authentication source
 global.__MONGO_DBNAME				= 'quasr'; // Database name
 global.__MONGO_URL_CONNECT			= `mongodb://${__MONGO_USER}:${__MONGO_PWD}@${__MONGO_URL}:${__MONGO_PORT}/${__MONGO_URL_OPTIONS}`; // Mongo URL
+
 // Views info globals
 global.__VIEWSPATH = 'dev/';
 global.__DASH_PAGE = __PREFIX + 'dashboard';

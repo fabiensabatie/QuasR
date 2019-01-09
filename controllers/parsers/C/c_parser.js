@@ -45,19 +45,30 @@ Updated: 2018/12/27 22:55:17 by fsabatie
 const Rfr			= require('rfr');
 const Functions		= Rfr('controllers/parsers/C/functions.js');
 const Fs			= require('fs');
+const ChildProcess	= require('child_process');
+
+function startLoop() {
+	const child = ChildProcess.execFile('node', ['controllers/parsers/C/hello.js'], {timeout: 100000, maxBuffer: 8}, (error, stdout, stderr) => {
+		console.log('Done');
+		if (error) { console.log(error); }
+		console.log(stdout);
+	});
+}
 
 /** C File parsing function */
 function parseFunctions(files) {
-	let functions = {program : [], headers : []};
-	for (let file of files) {
-		file.functions = [];
-		if (file.fileExtension != 'c' && file.fileExtension != 'h') continue ;
-		console.log('Parsing file', file.fileName);
-		let toPush = (file.fileExtension == 'c') ? functions.program : functions.headers;
-		functionsInFile = Functions.getFunctions(file.content)
-		for (let func of functionsInFile) { toPush.push(func); file.functions.push(func); }
-	}
-	return (Functions.keepHeaderFunctionsOnly(functions));
+	startLoop();
+	// let functions = {program : [], headers : []};
+	// for (let file of files) {
+	// 	file.functions = [];
+	// 	if (file.fileExtension != 'c' && file.fileExtension != 'h') continue ;
+	// 	console.log('Parsing file', file.fileName);
+	// 	let toPush = (file.fileExtension == 'c') ? functions.program : functions.headers;
+	// 	functionsInFile = Functions.getFunctions(file.content)
+	// 	for (let func of functionsInFile) { toPush.push(func); file.functions.push(func); }
+	// }
+	// return (Functions.keepHeaderFunctionsOnly(functions));
+	return ([]);
 }
 
 exports.parseFunctions = parseFunctions;

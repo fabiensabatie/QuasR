@@ -44,6 +44,8 @@ Updated: 2019/01/07 01:39:16 by fsabatie
 const Rfr			= require('rfr');
 const MongoDB		= require('mongodb');
 
+// TODO : Encapsulate all the methods inside the constructor
+
 class Mongo {
 	/** Mongo constructor class : gets the mongo client on initialization */
 	constructor(dbUrl) {
