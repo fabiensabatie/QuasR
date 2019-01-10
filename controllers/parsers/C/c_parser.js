@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : c_parser.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 00:35:19 by fsabatie
-Updated: 2018/12/27 22:55:17 by fsabatie
+Updated: 2019/01/11 00:43:17 by fsabatie
 */
 
 const Rfr			= require('rfr');
@@ -47,28 +47,43 @@ const Functions		= Rfr('controllers/parsers/C/functions.js');
 const Fs			= require('fs');
 const ChildProcess	= require('child_process');
 
-function startLoop() {
-	const child = ChildProcess.execFile('node', ['controllers/parsers/C/hello.js'], {timeout: 100000, maxBuffer: 8}, (error, stdout, stderr) => {
-		console.log('Done');
-		if (error) { console.log(error); }
-		console.log(stdout);
-	});
-}
-
 /** C File parsing function */
-function parseFunctions(files) {
-	startLoop();
-	// let functions = {program : [], headers : []};
-	// for (let file of files) {
-	// 	file.functions = [];
-	// 	if (file.fileExtension != 'c' && file.fileExtension != 'h') continue ;
-	// 	console.log('Parsing file', file.fileName);
-	// 	let toPush = (file.fileExtension == 'c') ? functions.program : functions.headers;
-	// 	functionsInFile = Functions.getFunctions(file.content)
-	// 	for (let func of functionsInFile) { toPush.push(func); file.functions.push(func); }
-	// }
-	// return (Functions.keepHeaderFunctionsOnly(functions));
-	return ([]);
+function parseFunctions(files, callback) {
+	let parsedFiles = 0;
+	let CFiles = files.filter((file) => (file.fileExtension == 'c' || file.fileExtension == 'h'));
+	let functions = {program : [], headers : []};
+	for (let i = 0; i < CFiles.length; i++) {
+		let timeOut = true;
+		let file = CFiles[i];
+		file.functions = [];
+		if (file.fileExtension != 'c' && file.fileExtension != 'h') continue ;
+		console.log('Parsing file', file.fileName);
+		let toPush = (file.fileExtension == 'c') ? functions.program : functions.headers;
+		let parserProcess = ChildProcess.fork('controllers/parsers/C/functions.js');
+		parserProcess.on('message', (functionsInFile) => {
+			timeOut = false;
+			for (let func = 0; func < functionsInFile.length; func++) {
+				let quasrFunc = new Functions.C_QuasrFunction();
+				quasrFunc.objConstructor(functionsInFile[func]);
+				toPush.push(quasrFunc);
+				file.functions.push(quasrFunc);
+			}
+			console.log('Got functions from', CFiles[i].fileName);
+			parserProcess.kill();
+			if (parsedFiles++ == CFiles.length - 1) {
+				callback(Functions.keepHeaderFunctionsOnly(functions));
+			}
+		});
+		parserProcess.send(file.content);
+		setTimeout(() => {
+			if (!timeOut) return;
+			parserProcess.kill();
+			console.log('Killed', file.fileName, 'TIMEOUT');
+			if (parsedFiles++ == CFiles.length - 1) {
+				callback(Functions.keepHeaderFunctionsOnly(functions))
+			}
+		}, 10)
+	}
 }
 
 exports.parseFunctions = parseFunctions;

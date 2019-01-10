@@ -39,21 +39,32 @@ ________       ___  ___      ________      ________       ________
 Filename : functions.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 00:27:37 by fsabatie
-Updated: 2018/12/27 22:55:49 by fsabatie
+Updated: 2019/01/11 00:17:02 by fsabatie
 */
 
 const Rfr			= require('rfr');
 const Parameters	= Rfr('controllers/parsers/C/parameters.js');
 const Assert		= require('assert');
+const Commons		= Rfr('app_commons/qr_globals_cm.js');
 
 /**
 Definition of the C_QuasrFunction class : must provide at least a name.
 Only the functions listed as C_QuasrFunction will be proposed for usage.
 */
 class C_QuasrFunction {
-	constructor(name, returnType = null) {
+	constructor(name = null, returnType = null) {
 		this.name = name;
 		this.returnType = returnType;
+	}
+
+	/** Build from an object */
+	objConstructor(obj) {
+		obj && Object.assign(this, obj);
+		if (this.parameters) {
+			for (let param = 0; param < this.parameters.length; param++) {
+				this.parameters[param] = new Parameters.Parameter(this.parameters[param].name, this.parameters[param].type);
+			}
+		}
 	}
 
 	/** Checks if the parameter is already listed in the function's parameters */
@@ -82,8 +93,8 @@ class C_QuasrFunction {
 		if (!(func instanceof C_QuasrFunction)) return (__ERR(`The object is not a C_QuasrFunction`, __NONBLOCKING));
 		if (this.name != func.name) return (false);
 		// Checks parameters
-		for (let i in this.parameters)
-			if (!this.parameters[i].isEqualToParameter(func.parameters[i]))
+		for (let i = 0; i < this.parameters.length; i++)
+			if (func.parameters && !this.parameters[i].isEqualToParameter(func.parameters[i]))
 			{
 				process.stdout.write(" ");
 				process.stdout.write(this.parameters[i].type);
@@ -100,12 +111,14 @@ function keepHeaderFunctionsOnly(functions) {
 	for (let cFunc of functions.program) {
 		process.stdout.write(cFunc.name);
 		process.stdout.write(' \x1b[33m•\x1b[0m');
-		for (let hFunc of functions.headers)
-			if (cFunc.isEqualToFunction(hFunc)) {
-				availableFunctions.push(cFunc);
-				process.stdout.write(' \x1b[32m✔\x1b[0m');
-			}
-		console.log('');
+		if (cFunc.parameters && cFunc.parameters[0] instanceof Parameters.Parameter) {
+			for (let hFunc of functions.headers)
+				if (cFunc.isEqualToFunction(hFunc)) {
+					availableFunctions.push(cFunc);
+					process.stdout.write(' \x1b[32m✔\x1b[0m');
+				}
+		}
+		console.log();
 	}
 	return (availableFunctions);
 }
@@ -128,6 +141,7 @@ function createFunction(func) {
 	return (func);
 }
 
+
 /** Parses all the functions and their parameters from the file content. */
 function getFunctions(fileContent) {
 	// Regex for the functions prototypes - used against header (.h) files
@@ -144,5 +158,8 @@ function getFunctions(fileContent) {
 	return (functions);
 }
 
+process.on('message', (fileContent) => { process.send(getFunctions(fileContent)); });
+
 exports.getFunctions = getFunctions;
 exports.keepHeaderFunctionsOnly = keepHeaderFunctionsOnly;
+exports.C_QuasrFunction = C_QuasrFunction;

@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : parameters.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 00:27:37 by fsabatie
-Updated: 2018/12/24 16:56:44 by fsabatie
+Updated: 2019/01/10 23:09:10 by fsabatie
 */
 
 /** Parameter class declaration : must provide a least a name */
@@ -49,6 +49,9 @@ class Parameter {
 		this.name = name;
 		this.type = type;
 	}
+
+	/** Build from an object */
+	objConstructor(obj) { obj && Object.assign(this, obj); }
 
 	isEqualToParameter(param) {
 		if (!(param instanceof Parameter)) return (__ERR(`Parameter must be of type Parameter`, __NONBLOCKING));

@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_index.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 21:20:41 by fsabatie
-Updated: 2019/01/07 01:58:13 by fsabatie
+Updated: 2019/01/11 00:34:58 by fsabatie
 */
 
 "use strict";
@@ -55,8 +55,8 @@ const Upload			= Multer({ dest: 'public/uploads/tmp/' });
 setTimeout(() => {
 	let gitInfo = {
 		service : __GITHUB,
-		author : 'uael',
-		repo : 'ft_malloc'
+		author : 'FFmpeg',
+		repo : 'FFmpeg'
 	};
 	Ctrl.PROGRAMS.getProgram(gitInfo)
 	.then((program) => {

@@ -39,10 +39,13 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_prototypes_cm.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 20:48:15 by fsabatie
-Updated: 2018/12/19 20:48:19 by fsabatie
+Updated: 2019/01/10 16:24:36 by fsabatie
 */
 
 String.prototype.replaceAll = function(search, replacement) {
-	var target = this;
-	return target.replace(new RegExp(search, 'g'), replacement);
+	return this.replace(new RegExp(search, 'g'), replacement);
 };
+
+Array.prototype.lastElement = function() {
+	return (this[this.length - 1]);
+}
