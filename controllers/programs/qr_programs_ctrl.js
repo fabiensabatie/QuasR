@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_programs_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/01/11 00:35:11 by fsabatie
+Updated: 2019/01/12 02:54:52 by fsabatie
 */
 
 const Rfr		= require('rfr');
@@ -87,12 +87,14 @@ function getProgram(gitInfo) {
 					Files.getFilesContent(filesPaths)
 					.then((files) => {
 						files = files.result;
-						Parsers.C(files, (availableFunctions) => {
+						Parsers.C(files)
+						.then((availableFunctions) => {
+							availableFunctions = availableFunctions.result;
 							console.log('Got all..');
 							let program = new QuasR_Program(gitInfo.repo, gitInfo.author, gitInfo.service, mainLanguage, files, availableFunctions);
 							return (resolve(__RESULT(true, program)));
-						});
-					})
+						}).catch((err) => { return (reject(__RESULT(false, err))); })
+					}).catch((err) => { return (reject(__RESULT(false, err))); })
 				})
 			})
 		}).catch((err) => { return (reject(__RESULT(false, err))); })
