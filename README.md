@@ -1,3 +1,4 @@
+![oh you're not ready](https://cdn.quasr.io/assets/images/github.jpg)
 # QuasR.io
 
 QuasR is a software framework that allows developers to build cross-languages services easily. It provides automatic bindings for any library written in C/C++, D, Dart, JavaScript, Java, PHP, Python, Ruby and many more.
@@ -58,4 +59,42 @@ The following steps describe the process for QuasR usage :
 - The server side encapsulating program is generated using the previously built thrift file for each language : includes thrift functions / QuasR communicating functions / library functions
 - The server side code is executed and listens for entries.
 - The client includes the QuasR library to their program, initialise the connection to the quasr.io gateway, and starts using the distant library functions.
+```
+
+
+## SmartyPants
+
+SmartyPants converts ASCII punctuation characters into "smart" typographic punctuation HTML entities. For example:
+
+|                |ASCII                          |HTML                         |
+|----------------|-------------------------------|-----------------------------|
+|Single backticks|`'Isn't this fun?'`            |'Isn't this fun?'            |
+|Quotes          |`"Isn't this fun?"`            |"Isn't this fun?"            |
+|Dashes          |`-- is en-dash, --- is em-dash`|-- is en-dash, --- is em-dash|
+
+
+## UML diagrams
+
+You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/). For example, this will produce a sequence diagram:
+
+```mermaid
+sequenceDiagram
+Alice ->> Bob: Hello Bob, how are you?
+Bob-->>John: How about you John?
+Bob--x Alice: I am good thanks!
+Bob-x John: I am good thanks!
+Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
+
+Bob-->Alice: Checking with John...
+Alice->John: Yes... John, how are you?
+```
+
+And this will produce a flow chart:
+
+```mermaid
+graph LR
+A[Square Rect] -- Link text --> B((Circle))
+A --> C(Round Rect)
+B --> D{Rhombus}
+C --> D
 ```

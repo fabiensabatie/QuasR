@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : c_parser.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 00:35:19 by fsabatie
-Updated: 2019/01/12 02:57:33 by fsabatie
+Updated: 2019/01/12 23:59:19 by fsabatie
 */
 
 const Rfr			= require('rfr');
@@ -70,9 +70,9 @@ function parseFunctions(files) {
 						toPush.push(quasrFunc);
 						file.functions.push(quasrFunc);
 					}
-					console.log('Got functions from', CFiles[i].fileName);
+					console.log('Got functions from', CFiles[i].fileName, 'at', parsedFiles, '/', CFiles.length - 1);
 					parserProcess.kill();
-					if (parsedFiles == CFiles.length - 1) {
+					if (parsedFiles++ == CFiles.length - 1) {
 						return (resolve(__RESULT(true, Functions.keepHeaderFunctionsOnly(functions))));
 					}
 				});
@@ -82,11 +82,10 @@ function parseFunctions(files) {
 				if (!timeOut) return;
 				if (parserProcess) parserProcess.kill();
 				console.log('Killed', file.fileName, 'TIMEOUT');
-				if (parsedFiles == CFiles.length - 1) {
+				if (parsedFiles++ == CFiles.length - 1) {
 					return (resolve(__RESULT(true, Functions.keepHeaderFunctionsOnly(functions))))
 				}
-			}, 1000)
-			parsedFiles++;
+			}, 10000)
 		}
 	}));
 }

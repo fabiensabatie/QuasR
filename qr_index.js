@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_index.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 21:20:41 by fsabatie
-Updated: 2019/01/11 00:34:58 by fsabatie
+Updated: 2019/01/12 23:59:31 by fsabatie
 */
 
 "use strict";
