@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : c_parser.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 00:35:19 by fsabatie
-Updated: 2019/01/12 23:59:19 by fsabatie
+Updated: 2019/01/13 21:00:07 by fsabatie
 */
 
 const Rfr			= require('rfr');
@@ -85,7 +85,7 @@ function parseFunctions(files) {
 				if (parsedFiles++ == CFiles.length - 1) {
 					return (resolve(__RESULT(true, Functions.keepHeaderFunctionsOnly(functions))))
 				}
-			}, 10000)
+			}, 10000);
 		}
 	}));
 }

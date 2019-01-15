@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_programs_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/01/12 02:54:52 by fsabatie
+Updated: 2019/01/13 21:01:41 by fsabatie
 */
 
 const Rfr		= require('rfr');
