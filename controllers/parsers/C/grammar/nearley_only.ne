@@ -1,4 +1,16 @@
+@{%
 
+String.prototype.replaceAll = function(search, replacement) {
+	return this.replace(new RegExp(search, 'g'), replacement);
+};
+
+Array.prototype.joinWithoutNull = function() {
+	let joinedString = "";
+	for (let item of this) if (item) joinedString += ` ${item}`;
+	return (joinedString.trim());
+}
+
+%}
 
 # Prototypes
 #PROTOTYPE -> FUNCTION_TYPE_AND_NAME _ "(" _ ")" _ ";"

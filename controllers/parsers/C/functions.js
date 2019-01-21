@@ -145,9 +145,9 @@ function createFunction(func) {
 /** Parses all the functions and their parameters from the file content. */
 function getFunctions(fileContent) {
 	// Regex for the functions prototypes - used against header (.h) files
-	let functionPrototypeRegex = new RegExp(/^(?!static)(\w+\s+)+\**(\w+|(\w+-*)*)(?=\s*\()\s*\((.|,\n|\n,.|(\n*\s*,.)|(\n\s*,\n*\s*)|(\n\s\n*\s*))*\);$/gm);
+	let functionPrototypeRegex = new RegExp(/^([a-zA-Z0-9_-]+[\s\n\v\t\r\* ]+?)+([a-zA-Z0-9_-]+[\s\n\v\t\r\* ]*)\(.*?\);/gm);
 	// Regex for the functions prototypes - used against regular (.c) files
-	let functionDeclarationRegex = new RegExp(/^(?!static)(\w+\s+)+\**(\w+|(\w+-*)*)(?=\s*\()\s*\((.|,\n|\n,.|(\n*\s*,.)|(\n\s*,\n*\s*)|(\n\s\n*\s*))*\)(\s*|\n*\s*)*\{/gm); // .c Files
+	let functionDeclarationRegex = new RegExp(/^^([a-zA-Z0-9_-]+[\s\n\v\t\r\* ]+?)+([a-zA-Z0-9_-]+[\s\n\v\t\r\* ]*)\(.*?\)[\s\n\v\t\r\* ]*{/gm); // .c Files
 	let functions = fileContent.match(functionPrototypeRegex);
 	if (!functions) functions = fileContent.match(functionDeclarationRegex);
 	if (!functions) return [];
