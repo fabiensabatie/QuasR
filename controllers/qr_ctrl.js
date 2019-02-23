@@ -1,4 +1,4 @@
-/**
+/*
 ________       ___  ___      ________      ________       ________
 |\   __  \     |\  \|\  \    |\   __  \    |\   ____\     |\   __  \
 \ \  \|\  \    \ \  \\\  \   \ \  \|\  \   \ \  \___|_    \ \  \|\  \
@@ -39,21 +39,19 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 23:03:15 by fsabatie
-Updated: 2018/12/27 23:03:16 by fsabatie
+Updated: 2019/02/23 14:16:43 by fsabatie
 */
 
 
 if (!__CONTROLLERS_JS) {
 	const Rfr					= require('rfr');
-	exports.PARSERS				= {};
-	exports.PARSERS.C			= Rfr('controllers/parsers/C/c_parser.js');
+	/** Programs controllers */
+	exports.PROGRAM				= Rfr('controllers/programs/qr_programs_ctrl');
+	exports.FILES				= Rfr('controllers/programs/qr_files_ctrl');
+	exports.PARSERS				= Rfr('controllers/programs/qr_parsers_ctrl');
+	exports.RPC					= Rfr('controllers/programs/qr_rpc_builder_ctrl');
 	/** Pages controllers */
-	exports.PAGES				= {};
-	exports.PAGES.Home			= Rfr('controllers/pages/qr_home_ctrl.js');
-	/* Files controllers */
-	exports.FILES				= Rfr('controllers/files/qr_files_ctrl.js');
-	/* Programs controllers */
-	exports.PROGRAMS			= Rfr('controllers/programs/qr_programs_ctrl.js');
+	exports.GUI					= {};
 	/** API controllers */
 	exports.API					= {};
 	/** Upload Controllers */

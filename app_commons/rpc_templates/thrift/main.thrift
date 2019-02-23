@@ -35,42 +35,40 @@ ________       ___  ___      ________      ________       ________
                             ``--.....``..```...--.``
                                     `......`````
 
-
-Filename : qr_programs_ctrl.js
+THRIFT TEMPLATE
 By: fsabatie <fsabatie@student.42.fr>
-Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/02/24 00:12:10 by fsabatie
 */
 
-const Rfr		= require('rfr');
-const Files		= Rfr('controllers/programs/qr_files_ctrl.js');
-const Parsers	= Rfr('controllers/programs/qr_parsers_ctrl.js');
-const Rpc		= Rfr('controllers/programs/qr_rpc_builder_ctrl.js');
+/* INCLUDES */
+{{includes}}
+// include "shared.thrift"
 
-/**
- * Downloads the git repo required, parses the content, and builds the RPC service
- * for the parsed code.
- *
- * @param {Object} gitInfo An object containing the service name (github, gitlab, bitbucket),
- * an author, and a repo.
- * @param {Function} callback Callback with (err, service)
- * @returns {callback}
- */
-function getProgram(gitInfo, callback) {
-	return (new Promise((resolve, reject) => {
-		Files.saveGitRepoFiles(gitInfo, __GIT_DOWNLOAD_FOLDER_PATH, (err, localRepoPath) => {
-			if (err) return (callback(err));
-			Parsers.parse(localRepoPath, (err, program) => {
-				if (err) return (callback(err));
-				console.log('Parsed \x1b[32m✓\x1b[0m');
-				program.name = gitInfo.repo;
-				Rpc.buildRpcService(__THRIFT, program, (err, service) => {
-					if (err) return (callback(err));
-					return (callback(null, service));
-				})
-			});
-		})
-	}));
-}
+/* NAMESPACES DECLARATION */
+{{namespaces}}
+// namespace py tutorial
 
-exports.getProgram = getProgram;
+/* TYPEDEFS */
+{{typedefs}}
+// typedef i32 MyInteger
+
+
+/* DEFINES */
+{{defines}}
+{{constants}}
+// const i32 INT32CONSTANT = 9853
+
+/* ENUMS */
+{{enums}}
+// enum Operation { ADD = 1, SUBTRACT = 2, MULTIPLY = 3, DIVIDE = 4 }
+
+/* STRUCTS */
+{{stucts}}
+// struct Work { 1: i32 num1 = 0, 2: i32 num2, 3: Operation op, 4: optional string comment }
+
+/* EXCEPTIONS */
+{{exceptions}}
+// exception InvalidOperation { 1: i32 whatOp, 2: string why }
+
+/* SERVICES */
+{{services}}
+// service Calculator extends shared.SharedService {}

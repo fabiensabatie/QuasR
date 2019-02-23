@@ -1,0 +1,3 @@
+{
+	"ignore": ["GitCode", "node_modules", "public"]
+}

@@ -1,0 +1,41 @@
+/** STARDUST - The QuasR.io parsing toolkit. **/
+
+h2 { font-family: var(--sofia-pro-light); }
+	h2 span.stardust_title, span.quasr_title { color: var(--gradient-blue); }
+	h2 span.io_title { color: var(--blue); }
+
+div#gitInfo div { margin-top: 10px; }
+
+	div#gitInfo div label {
+		font-size: 18px;
+		margin-right: 10px;
+	}
+
+	div#gitInfo div input {
+		font-size: 18px;
+		font-family: var(--sofia-pro-light);
+		border: none;
+		border-bottom: 2px solid var(--blue);
+		outline: none;
+	}
+
+	div#gitInfo div input.error {
+		border: 2px solid red;
+	}
+
+button#parseRepo {
+	height: 40px;
+	width: 200px;
+	padding: 5px 10px;
+	color: white;
+	border: none;
+	margin-top: 20px;
+	font-size: 18px;
+	font-family: var(--sofia-pro-extra-light);
+	background-color: var(--blue);
+}
+
+	button#parseRepo img {
+		max-height: 30px;
+		margin: auto;
+	}

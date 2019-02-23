@@ -1,0 +1,114 @@
+/*
+________       ___  ___      ________      ________       ________
+|\   __  \     |\  \|\  \    |\   __  \    |\   ____\     |\   __  \
+\ \  \|\  \    \ \  \\\  \   \ \  \|\  \   \ \  \___|_    \ \  \|\  \
+ \ \  \\\  \    \ \  \\\  \   \ \   __  \   \ \_____  \    \ \   _  _\
+  \ \  \\\  \    \ \  \\\  \   \ \  \ \  \   \|____|\  \    \ \  \\  \|
+   \ \_____  \    \ \_______\   \ \__\ \__\    ____\_\  \    \ \__\\ _\
+    \|___| \__\    \|_______|    \|__|\|__|   |\_________\    \|__|\|__|
+          \|__|                               \|_________|
+
+
+
+                               ````````````
+                           ```````````...::/::..`
+                            ``             ``...:/:..`
+                       `       `.`.`.-..-.````    ```.-.`
+                        `.---......`..``..``..--..`   `.::.`
+                    ``..```````````......````````.--.....`..`
+                `-:-..`    `.:/++/++oooossso+:.`````--:-.``..`     `
+              `.-:```  ``-///::--::/ossshyyhhhs+/..```.-..` `.`    .`
+          ```..-.`  ``:+o:-..-/ooo////////:/+yysyo-.`  `..-.` `    `
+         `.``..`   `-+o:-.`:o+++::::::++oo/-/ssos+-:-.  `//. `..   -.
+        `` `+.`   `-+y:-``:++-::--:+/:///omd+:/--.-oo-` `:+.  -.   --`
+          `.-    .::+o...:+s/-+..+:.`-/sydy:-+.`/.+oh/```os. `/.  `/.
+         `-:`   `///o+.`./++///`:o. /mNNmo` -o.-/.-so:``:o:````  `:-`
+         ./:    .---::. `:ys/::-./ssmh+:..:/o::/::o+-../s--..`  .-`
+         `-.`  `...`./o-`.-/+yso/--+ysssooo+::+/+oo-.-ss/.-` `.-:`
+          .-`   ..` `./+.``.-+shso+::::::///+ossss+://+-````:+/.
+           `.    `.`  ./+/....-/ooyyyysossssysss+:--.```.////-`
+            ``    `-/  `-o:....`..-:://///:/:-..`````.:oso:.
+                    ..`  ./o/-.``...---..----:-::++/+::.`
+                    `-:.```.://+:--.----::/+oo/:--.````
+             `.`      `.---.`````.-::::--..`` `````        ..`
+               `         `..--.``     ```````     ``````.```
+                            ``--.....``..```...--.``
+                                    `......`````
+
+
+Filename : qr_parsers_ctrl.js
+By: fsabatie <fsabatie@student.42.fr>
+Created: 2018/12/27 00:12:03 by fsabatie
+Updated: 2019/02/24 00:12:01 by fsabatie
+*/
+
+const { exec }	= require('child_process');
+const { spawn }	= require('child_process');
+
+const SEP		= '|SEP|';
+const CTAGS_ARG	= `-R -x --kinds-C=+z --kinds-Python=+z --c-types=+p --_xformat="%F${SEP}%K${SEP}%t${SEP}%N${SEP}%s${SEP}%l"`;
+
+/**
+ * Formats the ctag output line according to the chosen format described by the
+ * --_xformat ctags argument
+ *
+ * @param {string} line the stdout line provided by ctags
+ * @returns {Object} The JSON formated object
+ */
+function formatLine(line) {
+	line = line.replace(/"/g, '').split(SEP);
+	let doc = {
+		fileName : line[0],
+		kind : line[1],
+		type : line[2] ? line[2].replace('typename:', '') : line[2],
+		name : line[3],
+		scope : line[4],
+		language : line[5],
+	}
+	return (doc);
+}
+
+
+/**
+ * Keeps only the element's type and name
+ *
+ * @param {Object} e The element (a function parameter or enum value)
+ * @returns {Object} The JSON formated object
+ */
+function formatElement(e) { return ({ type: e.type, name: e.name,}) }
+
+/**
+ * Uses universal ctags to parse the content of the code.
+ *
+ * @param {string} localRepoPath, the relative path to the local folder of repository
+ * @returns {Object} The program object with its functions, enums, typedefs
+ */
+function parse(localRepoPath, callback) {
+	let parameters, enumerators, stdout = "", tags = [], program = {};
+	// Starts a new child process, using spawn instead of exec to recieve stdout as a stream
+	let parser = spawn('ctags', CTAGS_ARG.split(' '), {cwd: localRepoPath});
+	// Formats the stdout buffer
+	parser.stdout.setEncoding('utf8');
+	// Appends to the stdout variable
+	parser.stdout.on('data', (data) => { stdout = stdout.concat(data); });
+	parser.stderr.on('data', (data) => { console.log(`stderr: ${data}`); });
+	// Once ctags exited
+	parser.on('close', (code) => {
+		if (code !== 0) return (callback(`ctags exited with error code ${code}`));
+		stdout = stdout.split('\n');
+		// Creates a tag object
+		for (let line of stdout) tags.push(formatLine(line))
+		// Filters the tag types
+		program.functions = tags.filter((el) => (el.kind == 'function'));
+		program.enums = tags.filter((el) => (el.kind == 'enum'));
+		program.macros = tags.filter((el) => (el.kind == 'macro'));
+		parameters = tags.filter((el) => (el.kind == 'parameter'));
+		enumerators = tags.filter((el) => (el.kind == 'enumerator'));
+		// Assign the members to their respective scope (parameters to functions, values of enums)
+		for (let f of program.functions) f.parameters = parameters.filter((p) => (p.scope == f.name && p.fileName == f.fileName)).map((p) => (formatElement(p)));
+		for (let e of program.enums) e.members = enumerators.filter((el) => (el.scope == e.name && el.fileName == e.fileName)).map((el) => (formatElement(el)));
+		return (callback(null, program));
+	});
+}
+
+exports.parse = parse;

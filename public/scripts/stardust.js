@@ -36,41 +36,46 @@ ________       ___  ___      ________      ________       ________
                                     `......`````
 
 
-Filename : qr_programs_ctrl.js
+Filename : stardust.js
 By: fsabatie <fsabatie@student.42.fr>
-Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/02/24 00:12:10 by fsabatie
+Created: 2019/01/21 11:36:31 by fsabatie
+Updated: 2019/02/07 15:42:30 by fsabatie
 */
 
-const Rfr		= require('rfr');
-const Files		= Rfr('controllers/programs/qr_files_ctrl.js');
-const Parsers	= Rfr('controllers/programs/qr_parsers_ctrl.js');
-const Rpc		= Rfr('controllers/programs/qr_rpc_builder_ctrl.js');
+let socket = io('http://localhost:8080');
 
-/**
- * Downloads the git repo required, parses the content, and builds the RPC service
- * for the parsed code.
- *
- * @param {Object} gitInfo An object containing the service name (github, gitlab, bitbucket),
- * an author, and a repo.
- * @param {Function} callback Callback with (err, service)
- * @returns {callback}
- */
-function getProgram(gitInfo, callback) {
-	return (new Promise((resolve, reject) => {
-		Files.saveGitRepoFiles(gitInfo, __GIT_DOWNLOAD_FOLDER_PATH, (err, localRepoPath) => {
-			if (err) return (callback(err));
-			Parsers.parse(localRepoPath, (err, program) => {
-				if (err) return (callback(err));
-				console.log('Parsed \x1b[32m✓\x1b[0m');
-				program.name = gitInfo.repo;
-				Rpc.buildRpcService(__THRIFT, program, (err, service) => {
-					if (err) return (callback(err));
-					return (callback(null, service));
-				})
-			});
-		})
-	}));
-}
+socket.on('message', (data) => {
+	starDust.log = data.text;
+	console.log('Message:', data.text);
+	if (data.finish) starDust.parseButton = "Parse repository";
+	if (data.program) starDust.program = data.program.availableFunctions;
+});
 
-exports.getProgram = getProgram;
+let starDust = new Vue({
+	el: '#stardustDiv',
+	data: {
+		repo_service: 'github',
+		repo_author : 'fabiensabatie',
+		repo_name: 'libft',
+		repo_author_isEmpty: false,
+		repo_name_isEmpty: false,
+		log : '',
+		parseButton : 'Parse repository',
+		program : ''
+	},
+	methods: {
+		parseRepo: function() {
+			let data = this._data;
+			data.log = '';
+			data.program = '';
+			data.repo_author_isEmpty = (!data.repo_author.length) ? true : false;
+			data.repo_name_isEmpty = (!data.repo_name.length) ? true : false;
+			if (data.repo_service.length && data.repo_author.length && data.repo_name.length) {
+				data.repo_author_isEmpty = false;
+				data.repo_name_isEmpty = false;
+				socket.emit('stardustParse', {service: data.repo_service, name:  data.repo_name, author:  data.repo_author });
+				data.parseButton = '<img src="/assets/images/stardust/loader.gif"/>';
+			}
+		}
+	}
+})

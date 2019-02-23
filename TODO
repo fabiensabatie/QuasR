@@ -1,0 +1,4 @@
+//TODO:
+
+- enums values are not gathered by the parser.
+- multiline defines are not correctly processed by the parser.

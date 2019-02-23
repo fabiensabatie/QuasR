@@ -1,4 +1,4 @@
-/**
+/*
 ________       ___  ___      ________      ________       ________
 |\   __  \     |\  \|\  \    |\   __  \    |\   ____\     |\   __  \
 \ \  \|\  \    \ \  \\\  \   \ \  \|\  \   \ \  \___|_    \ \  \|\  \
@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : app.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 21:32:18 by fsabatie
-Updated: 2018/12/19 21:32:19 by fsabatie
+Updated: 2019/02/23 14:14:33 by fsabatie
 */
 
 "use strict";
@@ -49,10 +49,13 @@ const Cookies				= require('cookie-parser');
 const BodyParser			= require('body-parser');
 const Server				= require('http').createServer(App);
 const Rfr					= require('rfr');
+const SocketIO				= require('socket.io')(Server);
 const Globals				= Rfr('app_commons/qr_globals_cm');
 
 App.use(Cookies("37iDxGKbZd+12Mt3YrMfPkPohwYh9idxiq44A"));
 App.use('/', Express.static(__dirname + '/public'));
 App.set('view engine', 'pug');
+
+global.__SOCKETIO = SocketIO;
 exports.App		= App;
 exports.Server	= Server;
