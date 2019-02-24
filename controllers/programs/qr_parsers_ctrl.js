@@ -39,14 +39,14 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_parsers_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/02/24 00:12:01 by fsabatie
+Updated: 2019/02/24 15:19:35 by fsabatie
 */
 
 const { exec }	= require('child_process');
 const { spawn }	= require('child_process');
 
 const SEP		= '|SEP|';
-const CTAGS_ARG	= `-R -x --kinds-C=+z --kinds-Python=+z --c-types=+p --_xformat="%F${SEP}%K${SEP}%t${SEP}%N${SEP}%s${SEP}%l"`;
+const CTAGS_ARG	= `-R -x --kinds-C=+z --kinds-Python=+z --c-types=+p --_xformat="%F${SEP}%K${SEP}%t${SEP}%N${SEP}%s${SEP}%l${SEP}%{C.properties}"`;
 
 /**
  * Formats the ctag output line according to the chosen format described by the
@@ -57,6 +57,7 @@ const CTAGS_ARG	= `-R -x --kinds-C=+z --kinds-Python=+z --c-types=+p --_xformat=
  */
 function formatLine(line) {
 	line = line.replace(/"/g, '').split(SEP);
+	if (line[6] == 'static') return (null); // Ignoring static functions
 	let doc = {
 		fileName : line[0],
 		kind : line[1],
@@ -70,12 +71,12 @@ function formatLine(line) {
 
 
 /**
- * Keeps only the element's type and name
+ * Keeps only the element's type, name and language
  *
  * @param {Object} e The element (a function parameter or enum value)
  * @returns {Object} The JSON formated object
  */
-function formatElement(e) { return ({ type: e.type, name: e.name,}) }
+function formatElement(e) { return ({ type: e.type, name: e.name, language: e.language}) }
 
 /**
  * Uses universal ctags to parse the content of the code.
@@ -86,22 +87,26 @@ function formatElement(e) { return ({ type: e.type, name: e.name,}) }
 function parse(localRepoPath, callback) {
 	let parameters, enumerators, stdout = "", tags = [], program = {};
 	// Starts a new child process, using spawn instead of exec to recieve stdout as a stream
+	__CONSOLE_DEBUG('Starting the ctags parser...');
 	let parser = spawn('ctags', CTAGS_ARG.split(' '), {cwd: localRepoPath});
 	// Formats the stdout buffer
 	parser.stdout.setEncoding('utf8');
 	// Appends to the stdout variable
 	parser.stdout.on('data', (data) => { stdout = stdout.concat(data); });
-	parser.stderr.on('data', (data) => { console.log(`stderr: ${data}`); });
+	parser.stderr.on('data', (data) => { __CONSOLE_DEBUG(`stderr: ${data}`); });
 	// Once ctags exited
 	parser.on('close', (code) => {
 		if (code !== 0) return (callback(`ctags exited with error code ${code}`));
+		__CONSOLE_DEBUG('CTAGS exited correctly \x1b[32m✓\x1b[0m\nFormatting the output...');
 		stdout = stdout.split('\n');
 		// Creates a tag object
-		for (let line of stdout) tags.push(formatLine(line))
+		for (let line of stdout) { let fLine = formatLine(line); if (fLine) tags.push(fLine); }
 		// Filters the tag types
 		program.functions = tags.filter((el) => (el.kind == 'function'));
 		program.enums = tags.filter((el) => (el.kind == 'enum'));
 		program.macros = tags.filter((el) => (el.kind == 'macro'));
+		program.typedefs = tags.filter((el) => (el.kind == 'typedef'));
+		program.structs = tags.filter((el) => (el.kind == 'struct'));
 		parameters = tags.filter((el) => (el.kind == 'parameter'));
 		enumerators = tags.filter((el) => (el.kind == 'enumerator'));
 		// Assign the members to their respective scope (parameters to functions, values of enums)

@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_files_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 20:48:34 by fsabatie
-Updated: 2019/02/24 00:11:51 by fsabatie
+Updated: 2019/02/24 15:19:35 by fsabatie
 */
 
 const Rfr				= require('rfr');
@@ -64,6 +64,7 @@ function fileExists(dirPath, callback) {
 	})
 }
 
+
 /**
  * Saves a git repo locally
  *
@@ -76,14 +77,14 @@ function fileExists(dirPath, callback) {
 function saveGitRepoFiles(gitInfo, savePath, callback) {
 	fileExists(`${savePath}/${gitInfo.author}/${gitInfo.repo}`, (fileExists) => {
 		if (fileExists) {
-			console.log('The repository already exists \x1b[32m✓\x1b[0m');
+			__CONSOLE_DEBUG('The repository already exists \x1b[32m✓\x1b[0m');
 			return (callback(null, `${savePath}/${gitInfo.author}/${gitInfo.repo}`));
 		}
 		if (gitInfo.service == __GITHUB) {
-			console.log('The repository does not exist, downloading...');
+			__CONSOLE_DEBUG('The repository does not exist, downloading...');
 			GitDownload(`${gitInfo.service}:${gitInfo.author}/${gitInfo.repo}`, `${savePath}/${gitInfo.author}/${gitInfo.repo}`, (err) => {
 				if (err) return (callback(`An error occured while fetching ${gitInfo.author}/${gitInfo.repo} - ${err}`))
-				console.log('The repository has been downloaded \x1b[32m✓\x1b[0m');
+				__CONSOLE_DEBUG('The repository has been downloaded \x1b[32m✓\x1b[0m');
 				return (callback(null, `${savePath}/${gitInfo.author}/${gitInfo.repo}`));
 			})
 		}

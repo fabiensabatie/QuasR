@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_index.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 21:20:41 by fsabatie
-Updated: 2019/02/22 19:00:14 by fsabatie
+Updated: 2019/02/24 15:14:09 by fsabatie
 */
 
 "use strict";
@@ -62,28 +62,17 @@ let gitInfo = {
 	repo : process.argv[3] ? process.argv[3] : 'ft_malloc'
 }
 
-Ctrl.PROGRAM.getProgram(gitInfo, (err, program) => {
+console.log(`Building the RPC for ${gitInfo.repo} by ${gitInfo.author}.`);
+Ctrl.PROGRAM.getProgram(gitInfo, (err, service) => {
 	if (err) return (console.log(`ERR : ${err}`));
-	console.log('************************************************');
-	console.log('******************* FUNCTIONS ******************');
-	console.log('************************************************\n\n');
-	for (let func of program.functions) console.log(func);
-	console.log('************************************************');
-	console.log('********************* ENUMS ********************');
-	console.log('************************************************\n\n');
-	for (let en of program.enums) console.log(en);
-	console.log('************************************************');
-	console.log('********************* MACROS *******************');
-	console.log('************************************************\n\n');
-	for (let macro of program.macros) console.log(macro);
-	console.log(`Found ${program.macros.length} macros, and ${program.functions.length} functions.`);
+	console.log(`Service file created at ${service} \x1b[32m✓\x1b[0m`);
 })
 
-/*******************************************************************************
-******************************** Error Routes **********************************
-*******************************************************************************/
-QuasR.App.get('/404', function(req, res) { res.render('/') });
-QuasR.App.use(function(req, res, next) { res.redirect('/404') });
+// /*******************************************************************************
+// ******************************** Error Routes **********************************
+// *******************************************************************************/
+// QuasR.App.get('/404', function(req, res) { res.render('/') });
+// QuasR.App.use(function(req, res, next) { res.redirect('/404') });
 
-QuasR.Server.listen(8080);
-console.log("🚀  QuasR is up on 8080 🚀 ");
+// QuasR.Server.listen(8080);
+// console.log("🚀  QuasR is running 🚀 ");

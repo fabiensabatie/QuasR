@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_globals_cm.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 20:33:06 by fsabatie
-Updated: 2019/02/23 23:12:57 by fsabatie
+Updated: 2019/02/24 15:20:59 by fsabatie
 */
 
 const Rfr			= require ('rfr');
@@ -52,7 +52,7 @@ const Views			= Rfr('app_commons/qr_views_globals_cm.js');
 global.__PREFIX				= 'qr_';
 global.__BASEDIR			= __dirname;
 global.__ROOT_URL			= 'http://localhost:8080';
-global.__INPROD				= true;
+global.__INPROD				= false;
 
 (__INPROD) ? Rfr('app_commons/qr_prod_credentials_cm.js') : Rfr('app_commons/qr_dev_credentials_cm.js');
 
@@ -74,6 +74,7 @@ global.__LANGUAGE_C = 'C';
 // RPC services
 global.__THRIFT = 'thrift';
 global.__GRPC = 'grpc';
+global.__SERVICE_PATH = 'services';
 
 // Controllers constants (avoiding double inclusion)
 global.__CONTROLLERS_JS = false;
@@ -90,6 +91,11 @@ global.__FATAL = 'fatal';
 *******************************************************************************/
 
 // Error function
+global.__CONSOLE_DEBUG = function(arguments) {
+	if (!__INPROD) console.log(arguments);
+}
+
+// Error function
 global.__ERR = function(string, level = __WARNING) {
 	if (level == __WARNING) console.warn(string);
 	else if (level == __NONBLOCKING) console.error(string);
@@ -99,3 +105,12 @@ global.__ERR = function(string, level = __WARNING) {
 
 // Result object
 global.__RESULT = function(success, result = {}) { return ({success: success, result: result}); }
+
+
+/*******************************************************************************
+************************ Program start & useless fun ***************************
+*******************************************************************************/
+
+const QUASR = "\033[2J\033[1;1H________       ___  ___      ________      ________       ________\r\n|\\   __  \\     |\\  \\|\\  \\    |\\   __  \\    |\\   ____\\     |\\   __  \\\r\n\\ \\  \\|\\  \\    \\ \\  \\\\\\  \\   \\ \\  \\|\\  \\   \\ \\  \\___|_    \\ \\  \\|\\  \\\r\n \\ \\  \\\\\\  \\    \\ \\  \\\\\\  \\   \\ \\   __  \\   \\ \\_____  \\    \\ \\   _  _\\\r\n  \\ \\  \\\\\\  \\    \\ \\  \\\\\\  \\   \\ \\  \\ \\  \\   \\|____|\\  \\    \\ \\  \\\\  \\|\r\n   \\ \\_____  \\    \\ \\_______\\   \\ \\__\\ \\__\\    ____\\_\\  \\    \\ \\__\\\\ _\\\r\n    \\|___| \\__\\    \\|_______|    \\|__|\\|__|   |\\_________\\    \\|__|\\|__|\r\n          \\|__|                               \\|_________|\r\n\r\n\r\n\r\n                               ````````````\r\n                           ```````````...::\/::..`\r\n                            ``             ``...:\/:..`\r\n                       `       `.`.`.-..-.````    ```.-.`\r\n                        `.---......`..``..``..--..`   `.::.`\r\n                    ``..```````````......````````.--.....`..`\r\n                `-:-..`    `.:\/++\/++oooossso+:.`````--:-.``..`     `\r\n              `.-:```  ``-\/\/\/::--::\/ossshyyhhhs+\/..```.-..` `.`    .`\r\n          ```..-.`  ``:+o:-..-\/ooo\/\/\/\/\/\/\/\/:\/+yysyo-.`  `..-.` `    `\r\n         `.``..`   `-+o:-.`:o+++::::::++oo\/-\/ssos+-:-.  `\/\/. `..   -.\r\n        `` `+.`   `-+y:-``:++-::--:+\/:\/\/\/omd+:\/--.-oo-` `:+.  -.   --`\r\n          `.-    .::+o...:+s\/-+..+:.`-\/sydy:-+.`\/.+oh\/```os. `\/.  `\/.\r\n         `-:`   `\/\/\/o+.`.\/++\/\/\/`:o. \/mNNmo` -o.-\/.-so:``:o:````  `:-`\r\n         .\/:    .---::. `:ys\/::-.\/ssmh+:..:\/o::\/::o+-..\/s--..`  .-`\r\n         `-.`  `...`.\/o-`.-\/+yso\/--+ysssooo+::+\/+oo-.-ss\/.-` `.-:`\r\n          .-`   ..` `.\/+.``.-+shso+::::::\/\/\/+ossss+:\/\/+-````:+\/.\r\n           `.    `.`  .\/+\/....-\/ooyyyysossssysss+:--.```.\/\/\/\/-`\r\n            ``    `-\/  `-o:....`..-::\/\/\/\/\/:\/:-..`````.:oso:.\r\n                    ..`  .\/o\/-.``...---..----:-::++\/+::.`\r\n                    `-:.```.:\/\/+:--.----::\/+oo\/:--.````\r\n             `.`      `.---.`````.-::::--..`` `````        ..`\r\n               `         `..--.``     ```````     ``````.```\r\n                            ``--.....``..```...--.``\r\n                                    `......`````\r\n\r\n";
+
+console.log(QUASR);
