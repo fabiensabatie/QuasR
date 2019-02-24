@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_rpc_builder_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/02/24 15:19:35 by fsabatie
+Updated: 2019/02/24 22:44:50 by fsabatie
 */
 
 const Fs = require('fs');
@@ -100,8 +100,8 @@ function __get_corresponding_thrift_type(type, language) {
  * @returns {Object} The JSON formated object or null
  */
 function __get_type(program, type, language) {
-	return (__get_corresponding_thrift_type(type.replace(/( \*+)| const/g, ''), language) // regex filters pointers and const out
-	|| __get_corresponding_custom_type(program, type.replace(/( \*+)| const/g, '')) || 'binary');
+	return (__get_corresponding_thrift_type(type.replace(/ const/g, ''), language) // regex filters pointers and const out
+	|| __get_corresponding_custom_type(program, type.replace(/ const/g, '')) || 'binary');
 }
 
 /**

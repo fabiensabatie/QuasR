@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_programs_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/02/24 15:19:35 by fsabatie
+Updated: 2019/02/24 18:22:04 by fsabatie
 */
 
 const Rfr		= require('rfr');
@@ -64,6 +64,7 @@ function getProgram(gitInfo, callback) {
 				if (err) return (callback(err));
 				__CONSOLE_DEBUG('Parsed \x1b[32m✓\x1b[0m');
 				program.name = gitInfo.repo;
+				console.log(program);
 				Rpc.buildRpcService(__THRIFT, program, (err, service) => {
 					if (err) return (callback(err));
 					return (callback(null, service));
