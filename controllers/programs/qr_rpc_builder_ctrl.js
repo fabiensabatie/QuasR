@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_rpc_builder_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/02/24 22:44:50 by fsabatie
+Updated: 2019/02/25 22:16:04 by fsabatie
 */
 
 const Fs = require('fs');
@@ -140,7 +140,7 @@ function __build_thrift_service_functions(program) {
  * Builds the service that will be inserted in the thrift file
  *
  * @param {Object} program the program variable
- * @returns {string} The content of the thrift file
+ * @returns {string} The service content for the thrift file
  */
 function __build_thrift_service(program) {
 	let service = `service ${program.name} {\n`;
@@ -150,13 +150,48 @@ function __build_thrift_service(program) {
 }
 
 /**
+ * Builds the enums that will be inserted in the thrift file
+ *
+ * @param {String} enums an empty string
+ * @param {Object} program the program variable
+ * @returns {string} The content of the thrift file
+ */
+function __build_thrift_enums(enums, program) {
+	for (let e of program.enums) {
+		enums += `enum ${e.name} {\n`;
+		for (let i in e.members) {
+			let coma = i < e.members.length - 1 ? ',\n' : '\n';
+			let value = e.members[i].value != undefined ? e.members[i].value : i;
+			enums += `	${e.members[i].name} = ${value}${coma}`;
+		}
+		enums += '}\n';
+	}
+	return (enums);
+}
+
+
+/**
+ * Builds the typedefs that will be inserted in the thrift file
+ *
+ * @param {Sring} td an empty string
+ * @param {Object} program the program variable
+ * @returns {string} The content of the thrift file
+ */
+function __build_thrift_typedefs(td, program) {
+	for (let t of program.typedefs) td += `typedef ${t.type.replace(/struct:|enum:/g, '')} ${t.name}\n`;
+	return (td);
+}
+
+/**
  * Builds the thrift file for the given program
  *
  * @param {Object} program the program variable
  * @returns {string} The content of the thrift file
  */
 function buildTriftServiceFile(program, callback) {
-	let file = `${__build_thrift_service(program)}`;
+	let file = `// Typedefs\n${__build_thrift_typedefs("", program)}`;
+	file += `\n// Enums\n${__build_thrift_enums("", program)}`;
+	file += `\n// Services\n${__build_thrift_service(program)}`;
 	let fname = `${__SERVICE_PATH}/${program.name}.thrift`
 	Fs.writeFile(fname, file, function(err) {
 		if (err) return callback(err);

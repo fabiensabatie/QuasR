@@ -17,6 +17,11 @@
  * under the License.
  */
 
+
+ function ping() {
+	 console.log('pong()');
+ }
+
 var thrift = require("thrift");
 var Calculator = require("../../gen-nodejs/Calculator");
 var ttypes = require("../../gen-nodejs/tutorial_types");
@@ -26,7 +31,7 @@ var data = {};
 
 var server = thrift.createServer(Calculator, {
   ping: function(result) {
-    console.log("ping()");
+    ping();
     result(null);
   },
 

@@ -39,14 +39,14 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_parsers_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/02/24 15:19:35 by fsabatie
+Updated: 2019/02/25 22:19:35 by fsabatie
 */
 
 const { exec }	= require('child_process');
 const { spawn }	= require('child_process');
 
 const SEP		= '|SEP|';
-const CTAGS_ARG	= `-R -x --kinds-C=+z --kinds-Python=+z --c-types=+p --_xformat="%F${SEP}%K${SEP}%t${SEP}%N${SEP}%s${SEP}%l${SEP}%{C.properties}"`;
+const CTAGS_ARG	= `-R -x --kinds-C=+z --kinds-Python=+z --c-types=+p --_xformat="%F${SEP}%K${SEP}%t${SEP}%N${SEP}%s${SEP}%l${SEP}%{C.properties}${SEP}%C"`;
 
 /**
  * Formats the ctag output line according to the chosen format described by the
@@ -58,7 +58,7 @@ const CTAGS_ARG	= `-R -x --kinds-C=+z --kinds-Python=+z --c-types=+p --_xformat=
 function formatLine(line) {
 	line = line.replace(/"/g, '').split(SEP);
 	if (line[6] == 'static') return (null); // Ignoring static functions
-	let doc = {
+	let tag = {
 		fileName : line[0],
 		kind : line[1],
 		type : line[2] ? line[2].replace('typename:', '') : line[2],
@@ -66,7 +66,11 @@ function formatLine(line) {
 		scope : line[4],
 		language : line[5],
 	}
-	return (doc);
+	if (tag.kind == "enumerator") {
+		let compact = line[7].split("=");
+		if (compact.length == 2) tag.value = compact[1].replace(/,|}|;/g, '').trim();
+	}
+	return (tag);
 }
 
 
@@ -76,7 +80,11 @@ function formatLine(line) {
  * @param {Object} e The element (a function parameter or enum value)
  * @returns {Object} The JSON formated object
  */
-function formatElement(e) { return ({ type: e.type, name: e.name, language: e.language}) }
+function formatElement(e) {
+	let el = {type : e.type, name: e.name, language: e.language}
+	if (e.value) el.value = e.value;
+	return (el);
+}
 
 /**
  * Uses universal ctags to parse the content of the code.

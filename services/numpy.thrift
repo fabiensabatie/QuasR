@@ -1,3 +1,575 @@
+// Typedefs
+typedef _floatint PyFloatIntObject
+typedef void cblas_sgemm_t (const enum CBLAS_ORDER order,const enum CBLAS_TRANSPOSE TransA,const enum CBLAS_TRANSPOSE TransB,const int M,const int N,const int K,const float alpha,const float * A,const int lda,const float * B,const int ldb,const float beta,float * C,const int) incC
+typedef void cblas_sgemv_t (const enum CBLAS_ORDER order,const enum CBLAS_TRANSPOSE TransA,const int M,const int N,const float alpha,const float * A,const int lda,const float * X,const int incX,const float beta,float * Y,const int) incY
+typedef void fortran_sgemv_t (const char * trans,const int * m,const int * n,const float * alpha,const float * A,const int * ldA,const float * X,const int * incX,const float * beta,float * Y,const int *) incY
+typedef __anon2b4b541e0108 PyBoolScalarObject
+typedef __anon2b4b541e0208 PyByteScalarObject
+typedef __anon2b4b541e0308 PyShortScalarObject
+typedef __anon2b4b541e0408 PyIntScalarObject
+typedef __anon2b4b541e0508 PyLongScalarObject
+typedef __anon2b4b541e0608 PyLongLongScalarObject
+typedef __anon2b4b541e0708 PyUByteScalarObject
+typedef __anon2b4b541e0808 PyUShortScalarObject
+typedef __anon2b4b541e0908 PyUIntScalarObject
+typedef __anon2b4b541e0a08 PyULongScalarObject
+typedef __anon2b4b541e0b08 PyULongLongScalarObject
+typedef __anon2b4b541e0c08 PyHalfScalarObject
+typedef __anon2b4b541e0d08 PyFloatScalarObject
+typedef __anon2b4b541e0e08 PyDoubleScalarObject
+typedef __anon2b4b541e0f08 PyLongDoubleScalarObject
+typedef __anon2b4b541e1008 PyCFloatScalarObject
+typedef __anon2b4b541e1108 PyCDoubleScalarObject
+typedef __anon2b4b541e1208 PyCLongDoubleScalarObject
+typedef __anon2b4b541e1308 PyObjectScalarObject
+typedef __anon2b4b541e1408 PyDatetimeScalarObject
+typedef __anon2b4b541e1508 PyTimedeltaScalarObject
+typedef __anon2b4b541e1608 PyScalarObject
+typedef __anon2b4b541e1708 PyVoidScalarObject
+typedef __anon47e6d49c0103 NPY_SORTKIND
+typedef __anon47e6d49c0203 NPY_SELECTKIND
+typedef __anon47e6d49c0303 NPY_SEARCHSIDE
+typedef __anon47e6d49c0403 NPY_SCALARKIND
+typedef __anon47e6d49c0503 NPY_ORDER
+typedef __anon47e6d49c0603 NPY_CASTING
+typedef __anon47e6d49c0703 NPY_CLIPMODE
+typedef __anon47e6d49c0803 NPY_DATETIMEUNIT
+typedef __anon47e6d49c0903 NPY_BUSDAY_ROLL
+typedef NpyAuxData_tag NpyAuxData
+typedef NpyIter_InternalOnly NpyIter
+typedef PyArrayFlagsObject PyArrayFlagsObject
+typedef PyArrayIterObject_tag PyArrayIterObject
+typedef _PyArray_Descr PyArray_Descr
+typedef __anon47e6d49c0a08 PyArray_Dims
+typedef __anon47e6d49c0b08 PyArray_ArrFuncs
+typedef __anon47e6d49c0c08 PyArray_Chunk
+typedef __anon47e6d49c0d08 PyArray_DatetimeMetaData
+typedef __anon47e6d49c0e08 PyArray_DatetimeDTypeMetaData
+typedef __anon47e6d49c0f08 npy_datetimestruct
+typedef __anon47e6d49c1008 npy_timedeltastruct
+typedef __anon47e6d49c1108 PyArrayMultiIterObject
+typedef __anon47e6d49c1208 PyArrayMapIterObject
+typedef __anon47e6d49c1408 PyArrayNeighborhoodIterObject
+typedef __anon47e6d49c1508 npy_stride_sort_item
+typedef __anon47e6d49c1608 PyArrayInterface
+typedef _arr_descr PyArray_ArrayDescr
+typedef tagPyArrayObject_fields PyArrayObject_fields
+typedef tagPyArrayObject PyArrayObject
+typedef NpyAuxData * ()(NpyAuxData *) NpyAuxData_CloneFunc
+typedef PyArrayObject_fields PyArrayObject
+typedef PyObject * ()(void *,void *) PyArray_GetItemFunc
+typedef char * (*)(PyArrayIterObject * iter,npy_intp *) npy_iter_get_dataptr_t
+typedef int ()(FILE * fp,void * dptr,char * ignore,struct _PyArray_Descr *) PyArray_ScanFunc
+typedef int ()(NpyIter * iter) NpyIter_IterNextFunc
+typedef int ()(PyArrayObject *,PyObject *) PyArray_FinalizeFunc
+typedef int ()(PyObject *,void *,void *) PyArray_SetItemFunc
+typedef int ()(char * s,void * dptr,char ** endptr,struct _PyArray_Descr *) PyArray_FromStrFunc
+typedef int ()(const void *,const void *,void *) PyArray_CompareFunc
+typedef int ()(void * dest,void * src,npy_intp * indarray,npy_intp nindarray,npy_intp n_outer,npy_intp m_middle,npy_intp nelem,NPY_CLIPMODE clipmode) PyArray_FastTakeFunc
+typedef int ()(void *) PyArray_ScalarKindFunc
+typedef int ()(void *,npy_intp *,npy_intp,npy_intp,npy_intp *,npy_intp *,void *) PyArray_ArgPartitionFunc
+typedef int ()(void *,npy_intp *,npy_intp,void *) PyArray_ArgSortFunc
+typedef int ()(void *,npy_intp,npy_intp *,void *) PyArray_ArgFunc
+typedef int ()(void *,npy_intp,npy_intp,npy_intp *,npy_intp *,void *) PyArray_PartitionFunc
+typedef int ()(void *,npy_intp,void *) PyArray_FillFunc
+typedef int ()(void *,npy_intp,void *) PyArray_SortFunc
+typedef int ()(void *,npy_intp,void *,void *) PyArray_FillWithScalarFunc
+typedef npy_bool ()(void *,void *) PyArray_NonzeroFunc
+typedef void ()(NpyAuxData *) NpyAuxData_FreeFunc
+typedef void ()(NpyIter * iter,npy_intp * outcoords) NpyIter_GetMultiIndexFunc
+typedef void ()(void * in,npy_intp n_in,void * min,void * max,void * out) PyArray_FastClipFunc
+typedef void ()(void * in,void * mask,npy_intp n_in,void * values,npy_intp nv) PyArray_FastPutmaskFunc
+typedef void ()(void * inp,void * outp,size_t size,void * user_data) PyDataMem_EventHookFunc
+typedef void ()(void *,npy_intp,void *,npy_intp,npy_intp,int,void *) PyArray_CopySwapNFunc
+typedef void ()(void *,npy_intp,void *,npy_intp,void *,npy_intp,void *) PyArray_DotFunc
+typedef void ()(void *,void *,int,void *) PyArray_CopySwapFunc
+typedef void ()(void *,void *,npy_intp,void *,void *) PyArray_VectorUnaryFunc
+typedef __anon6e9df6b50208 npy_cdouble
+typedef __anon6e9df6b50308 npy_cfloat
+typedef __anon6e9df6b50408 npy_clongdouble
+typedef PY_LONG_LONG npy_longlong
+typedef Py_hash_t npy_hash_t
+typedef Py_intptr_t npy_intp
+typedef Py_uintptr_t npy_uintp
+typedef char npy_char
+typedef double npy_double
+typedef double npy_float128
+typedef double npy_float32
+typedef double npy_float64
+typedef double npy_float80
+typedef double npy_float96
+typedef double npy_longdouble
+typedef float npy_float128
+typedef float npy_float32
+typedef float npy_float64
+typedef float npy_float80
+typedef float npy_float96
+typedef float npy_float
+typedef int npy_int128
+typedef int npy_int16
+typedef int npy_int32
+typedef int npy_int64
+typedef int npy_int8
+typedef int npy_int
+typedef long double npy_longdouble
+typedef long npy_hash_t
+typedef long npy_int128
+typedef long npy_int16
+typedef long npy_int32
+typedef long npy_int64
+typedef long npy_int8
+typedef long npy_longlong
+typedef long npy_long
+typedef npy_cdouble npy_complex128
+typedef npy_cdouble npy_complex160
+typedef npy_cdouble npy_complex192
+typedef npy_cdouble npy_complex256
+typedef npy_cdouble npy_complex64
+typedef npy_cfloat npy_complex128
+typedef npy_cfloat npy_complex160
+typedef npy_cfloat npy_complex192
+typedef npy_cfloat npy_complex256
+typedef npy_cfloat npy_complex64
+typedef npy_clongdouble npy_complex128
+typedef npy_clongdouble npy_complex160
+typedef npy_clongdouble npy_complex192
+typedef npy_clongdouble npy_complex256
+typedef npy_clongdouble npy_complex512
+typedef npy_clongdouble npy_complex64
+typedef npy_half npy_float16
+typedef npy_int64 npy_datetime
+typedef npy_int64 npy_timedelta
+typedef npy_longdouble npy_float128
+typedef npy_longdouble npy_float256
+typedef npy_longdouble npy_float32
+typedef npy_longdouble npy_float64
+typedef npy_longdouble npy_float80
+typedef npy_longdouble npy_float96
+typedef npy_longlong npy_int128
+typedef npy_longlong npy_int16
+typedef npy_longlong npy_int256
+typedef npy_longlong npy_int32
+typedef npy_longlong npy_int64
+typedef npy_longlong npy_int8
+typedef npy_uint16 npy_half
+typedef npy_ulonglong npy_ucs4
+typedef npy_ulonglong npy_uint128
+typedef npy_ulonglong npy_uint16
+typedef npy_ulonglong npy_uint256
+typedef npy_ulonglong npy_uint32
+typedef npy_ulonglong npy_uint64
+typedef npy_ulonglong npy_uint8
+typedef short npy_int128
+typedef short npy_int16
+typedef short npy_int32
+typedef short npy_int64
+typedef short npy_int8
+typedef short npy_short
+typedef signed char npy_byte
+typedef signed char npy_int128
+typedef signed char npy_int16
+typedef signed char npy_int32
+typedef signed char npy_int64
+typedef signed char npy_int8
+typedef unsigned PY_LONG_LONG npy_ulonglong
+typedef unsigned char npy_bool
+typedef unsigned char npy_ubyte
+typedef unsigned char npy_ucs4
+typedef unsigned char npy_uint128
+typedef unsigned char npy_uint16
+typedef unsigned char npy_uint32
+typedef unsigned char npy_uint64
+typedef unsigned char npy_uint8
+typedef unsigned int npy_ucs4
+typedef unsigned int npy_uint128
+typedef unsigned int npy_uint16
+typedef unsigned int npy_uint32
+typedef unsigned int npy_uint64
+typedef unsigned int npy_uint8
+typedef unsigned int npy_uint
+typedef unsigned long npy_ucs4
+typedef unsigned long npy_uint128
+typedef unsigned long npy_uint16
+typedef unsigned long npy_uint32
+typedef unsigned long npy_uint64
+typedef unsigned long npy_uint8
+typedef unsigned long npy_ulonglong
+typedef unsigned long npy_ulong
+typedef unsigned short npy_ucs4
+typedef unsigned short npy_uint128
+typedef unsigned short npy_uint16
+typedef unsigned short npy_uint32
+typedef unsigned short npy_uint64
+typedef unsigned short npy_uint8
+typedef unsigned short npy_ushort
+typedef __anon5526254e0108 PyUFunc_PyFuncData
+typedef _loop1d_info PyUFunc_Loop1d
+typedef _tagPyUFuncObject PyUFuncObject
+typedef int ()(struct _tagPyUFuncObject * ufunc,NPY_CASTING casting,PyArrayObject ** operands,PyObject * type_tup,PyArray_Descr ** out_dtypes) PyUFunc_TypeResolutionFunc
+typedef int ()(struct _tagPyUFuncObject * ufunc,PyArray_Descr ** dtypes,PyArray_Descr * mask_dtype,npy_intp * fixed_strides,npy_intp fixed_mask_stride,PyUFunc_MaskedStridedInnerLoopFunc ** out_innerloop,NpyAuxData ** out_innerloopdata,int * out_needs_api) PyUFunc_MaskedInnerLoopSelectionFunc
+typedef int ()(struct _tagPyUFuncObject * ufunc,PyArray_Descr ** dtypes,PyUFuncGenericFunction * out_innerloop,void ** out_innerloopdata,int * out_needs_api) PyUFunc_LegacyInnerLoopSelectionFunc
+typedef void ()(char ** dataptrs,npy_intp * strides,char * maskptr,npy_intp mask_stride,npy_intp count,NpyAuxData * innerloopdata) PyUFunc_MaskedStridedInnerLoopFunc
+typedef void (*)(char ** args,npy_intp * dimensions,npy_intp * strides,void * innerloopdata) PyUFuncGenericFunction
+typedef __anon197a41090103 MatrixShape
+typedef void ()(char * dst,npy_intp dst_stride,char * src,npy_intp src_stride,npy_bool * mask,npy_intp mask_stride,npy_intp N,npy_intp src_itemsize,NpyAuxData * transferdata) PyArray_MaskedStridedUnaryOp
+typedef void ()(char * dst,npy_intp dst_stride,char * src,npy_intp src_stride,npy_intp N,npy_intp src_itemsize,NpyAuxData * transferdata) PyArray_StridedUnaryOp
+typedef void ()(char * dst,npy_intp dst_stride,char * src0,npy_intp src0_stride,char * src1,npy_intp src1_stride,npy_intp N,NpyAuxData * transferdata) PyArray_StridedBinaryOp
+typedef __anon9f10dce10103 mem_overlap_t
+typedef __anon9f10dce10208 diophantine_term_t
+typedef __anona77e05170108 npy_extint128_t
+typedef int integer
+typedef __anonb3f466d10108 cache_bucket
+typedef __anonc4ef9be00108 _tmp_string_t
+typedef __anonc4ef9be00208 _buffer_info_t
+typedef int (*)(void **,const char *,void *) skip_separator
+typedef int (*)(void **,void *,PyArray_Descr *,void *) next_element
+typedef __anon02a0644f0108 npy_holidayslist
+typedef __anon02a0644f0208 NpyBusDayCalendar
+typedef __time64_t NPY_TIME_T
+typedef time_t NPY_TIME_T
+typedef BigInt BigInt
+typedef Dragon4_Options Dragon4_Options
+typedef FloatVal128 FloatVal128
+typedef __anon093b4ab50108 Dragon4_Scratch
+typedef union:FloatUnion128 FloatUnion128
+typedef CutoffMode CutoffMode
+typedef DigitMode DigitMode
+typedef TrimMode TrimMode
+typedef __anon324fef900108 _strided_zero_pad_data
+typedef __anon324fef900208 _align_wrap_data
+typedef __anon324fef900308 _wrap_copy_swap_data
+typedef __anon324fef900408 _strided_cast_data
+typedef __anon324fef900508 _strided_datetime_cast_data
+typedef __anon324fef900608 _one_to_n_data
+typedef __anon324fef900708 _n_to_n_data
+typedef __anon324fef900808 _subarray_broadcast_offsetrun
+typedef __anon324fef900908 _subarray_broadcast_data
+typedef __anon324fef900a08 _single_field_transfer
+typedef __anon324fef900b08 _field_transfer_data
+typedef __anon324fef900c08 _masked_wrapper_transfer_data
+typedef __anon324fef900d08 _dst_memset_zero_data
+typedef __anon087863b70108 npy_index_info
+typedef NpyIter_AD NpyIter_AxisData
+typedef NpyIter_BD NpyIter_BufferData
+typedef npy_int16 npyiter_opitflags
+typedef NewNpyArrayIterObject_tag NewNpyArrayIterObject
+typedef __anone81150d40108 NumericOps
+typedef npy_uint32 IEEEl2bitsrep_part
+typedef npy_uint32 ldouble_exp_t
+typedef npy_uint32 ldouble_man_t
+typedef npy_uint32 ldouble_sign_t
+typedef npy_uint64 IEEEl2bitsrep_part
+typedef npy_uint64 ldouble_exp_t
+typedef npy_uint64 ldouble_man_t
+typedef union:__anon402bbbfc010a ieee_double_shape_type
+typedef union:__anon402bbbfc030a ieee_double_shape_type
+typedef union:__anon402bbbfc050a ieee_float_shape_type
+typedef union:__anon402bbbfc060a __npy_cdouble_to_c99_cast
+typedef union:__anon402bbbfc070a __npy_cfloat_to_c99_cast
+typedef union:__anon402bbbfc080a __npy_clongdouble_to_c99_cast
+typedef union:__anon402bbbfc090a __npy_cdouble_to_c99_cast
+typedef union:__anon402bbbfc0a0a __npy_cfloat_to_c99_cast
+typedef union:__anon402bbbfc0b0a __npy_clongdouble_to_c99_cast
+typedef union:__anon402bbbfc0c0a __npy_cdouble_to_c99_cast
+typedef union:__anon402bbbfc0d0a __npy_cfloat_to_c99_cast
+typedef union:__anon402bbbfc0e0a __npy_clongdouble_to_c99_cast
+typedef int ()(NpyIter * iter,char ** dataptr,npy_intp * strideptr,npy_intp * countptr,NpyIter_IterNextFunc * iternext,int needs_api,npy_intp skip_first_count,void * data) PyArray_ReduceLoopFunc
+typedef int ()(PyArrayObject * result,void * data) PyArray_AssignReduceIdentityFunc
+typedef __anone40acc120108 ufunc_full_args
+typedef __anone40acc120208 _ufunc_context
+typedef __anone40acc120308 _simple_cobj
+typedef int converter (*,void *) PyObject
+typedef __anon48edc7100108 _ufunc_masker_data
+typedef PyObject * (*)(PyObject *,PyObject *,PyObject *,void *) fortranfunc
+typedef __anon279bf2dd0108 FortranDataDef
+typedef __anon279bf2dd0308 PyFortranObject
+typedef void (*)(char *,npy_intp *) f2py_set_data_func
+typedef void (*)(int *,npy_intp *,f2py_set_data_func,int *) f2py_init_func
+typedef void (*)(void) f2py_void_func
+typedef void * (*)(void) f2pycfunc
+typedef cfft_plan_i * cfft_plan
+typedef cfft_plan_i cfft_plan_i
+typedef cfftp_fctdata cfftp_fctdata
+typedef cfftp_plan_i * cfftp_plan
+typedef cfftp_plan_i cfftp_plan_i
+typedef cmplx cmplx
+typedef fftblue_plan_i * fftblue_plan
+typedef fftblue_plan_i fftblue_plan_i
+typedef rfft_plan_i * rfft_plan
+typedef rfft_plan_i rfft_plan_i
+typedef rfftp_fctdata rfftp_fctdata
+typedef rfftp_plan_i * rfftp_plan
+typedef rfftp_plan_i rfftp_plan_i
+typedef Namelist Namelist
+typedef Vardesc Vardesc
+typedef __anondc3cc42c0108 complex
+typedef __anondc3cc42c0208 doublecomplex
+typedef __anondc3cc42c0308 cilist
+typedef __anondc3cc42c0408 icilist
+typedef __anondc3cc42c0508 olist
+typedef __anondc3cc42c0608 cllist
+typedef __anondc3cc42c0708 alist
+typedef __anondc3cc42c0808 inlist
+typedef VOID (*)(...) C_fp
+typedef VOID (*)(...) H_fp
+typedef VOID (*)(...) Z_fp
+typedef VOID (*)(void) C_fp
+typedef VOID (*)(void) H_fp
+typedef VOID (*)(void) Z_fp
+typedef VOID C_f
+typedef VOID H_f
+typedef VOID Z_f
+typedef char * address
+typedef char integer1
+typedef char logical1
+typedef doublereal (*)(...) D_fp
+typedef doublereal (*)(...) E_fp
+typedef doublereal (*)(void) D_fp
+typedef doublereal (*)(void) E_fp
+typedef doublereal E_f
+typedef double doublereal
+typedef float real
+typedef int (*)(...) S_fp
+typedef int (*)(...) U_fp
+typedef int (*)(void) S_fp
+typedef int (*)(void) U_fp
+typedef integer (*)(...) I_fp
+typedef integer (*)(void) I_fp
+typedef int flag
+typedef int ftnint
+typedef int ftnlen
+typedef int integer
+typedef int logical
+typedef logical (*)(...) L_fp
+typedef logical (*)(void) L_fp
+typedef long Long
+typedef real (*)(...) R_fp
+typedef real (*)(void) R_fp
+typedef short int shortint
+typedef short int shortlogical
+typedef shortint (*)(...) J_fp
+typedef shortint (*)(void) J_fp
+typedef shortlogical (*)(...) K_fp
+typedef shortlogical (*)(void) K_fp
+typedef short flag
+typedef short ftnint
+typedef short ftnlen
+typedef union:Multitype Multitype
+typedef __anon4145d2030108 f2c_complex
+typedef __anon4145d2030208 f2c_doublecomplex
+typedef __anond400bd710103 rk_error
+typedef rk_state_ rk_state
+
+// Enums
+enum CBLAS_ORDER {
+	CblasColMajor = 0,
+	CblasRowMajor = 1
+}
+enum CBLAS_TRANSPOSE {
+	CblasConjTrans = 0,
+	CblasNoTrans = 1,
+	CblasTrans = 2
+}
+enum NPY_TYPECHAR {
+	NPY_BOOLLTR = '?',
+	NPY_BYTELTR = 'b',
+	NPY_CDOUBLELTR = 'D',
+	NPY_CFLOATLTR = 'F',
+	NPY_CHARLTR = 'c',
+	NPY_CLONGDOUBLELTR = 'G',
+	NPY_COMPLEXLTR = 'c',
+	NPY_DATETIMELTR = 'M',
+	NPY_DOUBLELTR = 'd',
+	NPY_FLOATINGLTR = 'f',
+	NPY_FLOATLTR = 'f',
+	NPY_GENBOOLLTR = 'b',
+	NPY_HALFLTR = 'e',
+	NPY_INTLTR = 'i',
+	NPY_INTPLTR = 'p',
+	NPY_LONGDOUBLELTR = 'g',
+	NPY_LONGLONGLTR = 'q',
+	NPY_LONGLTR = 'l',
+	NPY_OBJECTLTR = 'O',
+	NPY_SHORTLTR = 'h',
+	NPY_SIGNEDLTR = 'i',
+	NPY_STRINGLTR2 = 'a',
+	NPY_STRINGLTR = 'S',
+	NPY_TIMEDELTALTR = 'm',
+	NPY_UBYTELTR = 'B',
+	NPY_UINTLTR = 'I',
+	NPY_UINTPLTR = 'P',
+	NPY_ULONGLONGLTR = 'Q',
+	NPY_ULONGLTR = 'L',
+	NPY_UNICODELTR = 'U',
+	NPY_UNSIGNEDLTR = 'u',
+	NPY_USHORTLTR = 'H',
+	NPY_VOIDLTR = 'V'
+}
+enum NPY_TYPES {
+	NPY_BOOL = 0,
+	NPY_BYTE = 1,
+	NPY_CDOUBLE = 2,
+	NPY_CFLOAT = 3,
+	NPY_CHAR = 4,
+	NPY_CLONGDOUBLE = 5,
+	NPY_DATETIME = 6,
+	NPY_DOUBLE = 7,
+	NPY_FLOAT = 8,
+	NPY_HALF = 9,
+	NPY_INT = 10,
+	NPY_LONGDOUBLE = 11,
+	NPY_LONGLONG = 12,
+	NPY_LONG = 13,
+	NPY_NOTYPE = 14,
+	NPY_NTYPES_ABI_COMPATIBLE = 21,
+	NPY_NTYPES = 16,
+	NPY_OBJECT = 17,
+	NPY_SHORT = 18,
+	NPY_STRING = 19,
+	NPY_TIMEDELTA = 20,
+	NPY_UBYTE = 21,
+	NPY_UINT = 22,
+	NPY_ULONGLONG = 23,
+	NPY_ULONG = 24,
+	NPY_UNICODE = 25,
+	NPY_USERDEF = 256 /* leave room for characters */,
+	NPY_USHORT = 27,
+	NPY_VOID = 28
+}
+enum __anon47e6d49c0103 {
+	NPY_HEAPSORT = 1,
+	NPY_MERGESORT = 2,
+	NPY_QUICKSORT = 0,
+	NPY_STABLESORT = 2
+}
+enum __anon47e6d49c0203 {
+	NPY_INTROSELECT = 0
+}
+enum __anon47e6d49c0303 {
+	NPY_SEARCHLEFT = 0,
+	NPY_SEARCHRIGHT = 1
+}
+enum __anon47e6d49c0403 {
+	NPY_BOOL_SCALAR = 0,
+	NPY_COMPLEX_SCALAR = 1,
+	NPY_FLOAT_SCALAR = 2,
+	NPY_INTNEG_SCALAR = 3,
+	NPY_INTPOS_SCALAR = 4,
+	NPY_NOSCALAR = -1,
+	NPY_OBJECT_SCALAR = 6
+}
+enum __anon47e6d49c0503 {
+	NPY_ANYORDER = -1,
+	NPY_CORDER = 0,
+	NPY_FORTRANORDER = 1,
+	NPY_KEEPORDER = 2
+}
+enum __anon47e6d49c0603 {
+	NPY_EQUIV_CASTING = 1,
+	NPY_NO_CASTING = 0,
+	NPY_SAFE_CASTING = 2,
+	NPY_SAME_KIND_CASTING = 3,
+	NPY_UNSAFE_CASTING = 4
+}
+enum __anon47e6d49c0703 {
+	NPY_CLIP = 0,
+	NPY_RAISE = 2,
+	NPY_WRAP = 1
+}
+enum __anon47e6d49c0803 {
+	NPY_FR_D = 4 /* Days */,
+	NPY_FR_ERROR = -1 /* error or undetermined */,
+	NPY_FR_GENERIC = 14 /* unbound units can convert to anything */,
+	NPY_FR_M = 1 /* Months */,
+	NPY_FR_W = 2 /* Weeks */,
+	NPY_FR_Y = 0 /* Years */,
+	NPY_FR_as = 13 /* attoseconds */,
+	NPY_FR_fs = 12 /* femtoseconds */,
+	NPY_FR_h = 5 /* hours */,
+	NPY_FR_ms = 8 /* milliseconds */,
+	NPY_FR_m = 6 /* minutes */,
+	NPY_FR_ns = 10 /* nanoseconds */,
+	NPY_FR_ps = 11 /* picoseconds */,
+	NPY_FR_s = 7 /* seconds */,
+	NPY_FR_us = 9 /* microseconds */
+}
+enum __anon47e6d49c0903 {
+	NPY_BUSDAY_BACKWARD = 0,
+	NPY_BUSDAY_FOLLOWING = NPY_BUSDAY_FORWARD,
+	NPY_BUSDAY_FORWARD = 2,
+	NPY_BUSDAY_MODIFIEDFOLLOWING = 3,
+	NPY_BUSDAY_MODIFIEDPRECEDING = 4,
+	NPY_BUSDAY_NAT = 5,
+	NPY_BUSDAY_PRECEDING = NPY_BUSDAY_BACKWARD,
+	NPY_BUSDAY_RAISE = 7
+}
+enum __anon47e6d49c1303 {
+	NPY_NEIGHBORHOOD_ITER_CIRCULAR_PADDING = 0,
+	NPY_NEIGHBORHOOD_ITER_CONSTANT_PADDING = 1,
+	NPY_NEIGHBORHOOD_ITER_MIRROR_PADDING = 2,
+	NPY_NEIGHBORHOOD_ITER_ONE_PADDING = 3,
+	NPY_NEIGHBORHOOD_ITER_ZERO_PADDING = 4
+}
+enum __anon6e9df6b50103 {
+	NPY_CPU_BIG = 0,
+	NPY_CPU_LITTLE = 1,
+	NPY_CPU_UNKNOWN_ENDIAN = 2
+}
+enum __anon197a41090103 {
+	_column = 0,
+	_matrix = 1,
+	_row = 2,
+	_scalar = 3
+}
+enum __anon9f10dce10103 {
+	MEM_OVERLAP_ERROR = -3 /* invalid input */,
+	MEM_OVERLAP_NO = 0 /* no solution exists */,
+	MEM_OVERLAP_OVERFLOW = -2 /* algorithm failed due to integer overflow */,
+	MEM_OVERLAP_TOO_HARD = -1 /* max_work exceeded */,
+	MEM_OVERLAP_YES = 1 /* solution found */
+}
+enum CBLAS_DIAG {
+	CblasNonUnit = 0,
+	CblasUnit = 1
+}
+enum CBLAS_ORDER {
+	CblasColMajor = 0,
+	CblasRowMajor = 1
+}
+enum CBLAS_SIDE {
+	CblasLeft = 0,
+	CblasRight = 1
+}
+enum CBLAS_TRANSPOSE {
+	CblasConjTrans = 0,
+	CblasNoTrans = 1,
+	CblasTrans = 2
+}
+enum CBLAS_UPLO {
+	CblasLower = 0,
+	CblasUpper = 1
+}
+enum CutoffMode {
+	CutoffMode_FractionLength = 0,
+	CutoffMode_TotalLength = 1
+}
+enum DigitMode {
+	DigitMode_Exact = 0,
+	DigitMode_Unique = 1
+}
+enum TrimMode {
+	TrimMode_DptZeros = 0,
+	TrimMode_LeaveOneZero = 1,
+	TrimMode_None = 2,
+	TrimMode_Zeros = 3
+}
+enum __anond400bd710103 {
+	RK_ENODEV = 1 /* no RK_DEV_RANDOM device */,
+	RK_ERR_MAX = 2,
+	RK_NOERR = 0 /* no error */
+}
+
+// Services
 service numpy {
 	binary laplace (),
 	binary num_inplace (),
@@ -428,8 +1000,10 @@ service numpy {
 	binary PyArray_CLEARFLAGS (0: binary arr, 1: i32 flags),
 	binary PyArray_ENABLEFLAGS (0: binary arr, 1: i32 flags),
 	binary npy_PyFile_Dup2 (0: binary file, 1: string mode, 2: binary orig_pos),
-	binary NpyCapsule_FromVoidPtrAndDesc (0: binary dtor, 1: binary dtor, 2: binary context, 3: binary ptr),
-	binary NpyCapsule_FromVoidPtr (0: binary dtor, 1: binary dtor, 2: binary ptr),
+	binary NpyCapsule_FromVoidPtrAndDesc (0: binary dtor, 1: binary dtor, 2: binary context, 3: binary context, 4: binary ptr, 5: binary ptr),
+	binary NpyCapsule_FromVoidPtrAndDesc (0: binary dtor, 1: binary dtor, 2: binary context, 3: binary context, 4: binary ptr, 5: binary ptr),
+	binary NpyCapsule_FromVoidPtr (0: binary dtor, 1: binary dtor, 2: binary ptr, 3: binary ptr),
+	binary NpyCapsule_FromVoidPtr (0: binary dtor, 1: binary dtor, 2: binary ptr, 3: binary ptr),
 	binary npy_PyFile_OpenFile (0: binary filename, 1: binary mode),
 	binary NpyCapsule_Check (0: binary ptr),
 	binary PyInt_Check (0: binary op),
@@ -437,6 +1011,7 @@ service numpy {
 	binary npy_PyFile_Check (0: binary file),
 	binary npy_PyFile_CloseFile (0: binary file),
 	binary npy_PyFile_DupClose2 (0: binary handle, 1: binary file, 2: npy_off_t orig_pos),
+	binary NpyCapsule_AsVoidPtr (0: binary obj, 1: binary ptr),
 	binary NpyCapsule_AsVoidPtr (0: binary obj, 1: binary ptr),
 	binary NpyCapsule_GetDesc (0: binary obj),
 	binary PyUnicode_Concat2 (0: binary left, 1: binary right),
@@ -1622,6 +2197,7 @@ service numpy {
 	binary assert_hypot_isinf (0: binary x, 1: binary y),
 	binary assert_hypot_isnan (0: binary x, 1: binary y),
 	binary check (),
+	binary check (),
 	binary do_test (),
 	binary emsg (),
 	binary floor_divide_and_remainder (0: binary x, 1: binary y),
@@ -1816,7 +2392,8 @@ service numpy {
 	binary as_list (0: binary seq),
 	binary blue_text (0: binary s),
 	binary clean_up_temporary_directory (),
-	binary colour_text (0: binary bg, 1: binary bold, 2: binary fg, 3: binary s),
+	binary colour_text (0: binary bg, 1: binary bg, 2: binary bold, 3: binary fg, 4: binary fg, 5: binary s, 6: binary s),
+	binary colour_text (0: binary bg, 1: binary bg, 2: binary bold, 3: binary fg, 4: binary fg, 5: binary s, 6: binary s),
 	binary cyan_text (0: binary s),
 	binary cyg2win32 (0: binary path),
 	binary default_config_dict (0: binary local_path, 1: binary name, 2: binary parent_name),
@@ -2131,12 +2708,14 @@ service numpy {
 	binary buildmodule (0: binary m, 1: binary um),
 	binary configuration (0: binary parent_package, 1: binary top_path),
 	binary array_from_pyobj (0: binary obj, 1: binary intent, 2: binary rank, 3: binary type_num, 4: binary dims),
-	binary F2PyCapsule_FromVoidPtr (0: binary dtor, 1: binary dtor, 2: binary ptr),
+	binary F2PyCapsule_FromVoidPtr (0: binary dtor, 1: binary dtor, 2: binary ptr, 3: binary ptr),
+	binary F2PyCapsule_FromVoidPtr (0: binary dtor, 1: binary dtor, 2: binary ptr, 3: binary ptr),
 	binary PyFortranObject_NewAsAttr (0: binary defs),
 	binary PyFortranObject_New (0: binary defs, 1: f2py_void_func init),
 	i32 F2PyCapsule_Check (0: binary ptr),
 	i32 F2PyDict_SetItemString (0: binary dict, 1: binary obj, 2: string name),
 	i32 copy_ND_array (0: binary out, 1: binary arr),
+	binary F2PyCapsule_AsVoidPtr (0: binary obj, 1: binary ptr),
 	binary F2PyCapsule_AsVoidPtr (0: binary obj, 1: binary ptr),
 	void dump_attrs (0: binary obj),
 	void dump_dims (0: i32 rank, 1: binary dims),
@@ -4032,22 +4611,22 @@ service numpy {
 	i32 rk_zipf (0: double a, 1: binary state),
 	void init_by_array (0: npy_intp key_length, 1: binary self, 2: binary init_key),
 	binary _shape_from_size (0: binary d, 1: binary size),
-	binary cont0_array (0: binary object, 1: binary rk_cont0, 2: binary rk_state),
-	binary cont1_array_sc (0: binary double, 1: binary object, 2: binary rk_cont1, 3: binary rk_state),
-	binary cont1_array (0: binary ndarray, 1: binary object, 2: binary rk_cont1, 3: binary rk_state),
-	binary cont2_array_sc (0: binary double, 1: binary object, 2: binary rk_cont2, 3: binary rk_state),
-	binary cont2_array (0: binary ndarray, 1: binary object, 2: binary rk_cont2, 3: binary rk_state),
-	binary cont3_array_sc (0: binary double, 1: binary object, 2: binary rk_cont3, 3: binary rk_state),
-	binary cont3_array (0: binary ndarray, 1: binary object, 2: binary rk_cont3, 3: binary rk_state),
+	binary cont0_array (0: binary object, 1: binary object, 2: binary rk_cont0, 3: binary rk_state),
+	binary cont1_array_sc (0: binary double, 1: binary object, 2: binary object, 3: binary rk_cont1, 4: binary rk_state),
+	binary cont1_array (0: binary ndarray, 1: binary object, 2: binary object, 3: binary rk_cont1, 4: binary rk_state),
+	binary cont2_array_sc (0: binary double, 1: binary double, 2: binary object, 3: binary object, 4: binary rk_cont2, 5: binary rk_state),
+	binary cont2_array (0: binary ndarray, 1: binary object, 2: binary object, 3: binary rk_cont2, 4: binary rk_state),
+	binary cont3_array_sc (0: binary double, 1: binary double, 2: binary object, 3: binary object, 4: binary rk_cont3, 5: binary rk_state),
+	binary cont3_array (0: binary ndarray, 1: binary object, 2: binary object, 3: binary rk_cont3, 4: binary rk_state),
 	binary disc0_array (0: binary object, 1: binary rk_disc0, 2: binary rk_state),
-	binary discd_array_sc (0: binary double, 1: binary object, 2: binary rk_discd, 3: binary rk_state),
-	binary discd_array (0: binary ndarray, 1: binary object, 2: binary rk_discd, 3: binary rk_state),
-	binary discdd_array_sc (0: binary double, 1: binary object, 2: binary rk_discdd, 3: binary rk_state),
-	binary discdd_array (0: binary ndarray, 1: binary object, 2: binary rk_discdd, 3: binary rk_state),
-	binary discnmN_array_sc (0: binary long, 1: binary object, 2: binary rk_discnmN, 3: binary rk_state),
-	binary discnmN_array (0: binary ndarray, 1: binary object, 2: binary rk_discnmN, 3: binary rk_state),
-	binary discnp_array_sc (0: binary double, 1: binary long, 2: binary object, 3: binary rk_discnp, 4: binary rk_state),
-	binary discnp_array (0: binary ndarray, 1: binary object, 2: binary rk_discnp, 3: binary rk_state),
+	binary discd_array_sc (0: binary double, 1: binary object, 2: binary object, 3: binary rk_discd, 4: binary rk_state),
+	binary discd_array (0: binary ndarray, 1: binary object, 2: binary object, 3: binary rk_discd, 4: binary rk_state),
+	binary discdd_array_sc (0: binary double, 1: binary object, 2: binary object, 3: binary rk_discdd, 4: binary rk_state),
+	binary discdd_array (0: binary ndarray, 1: binary object, 2: binary object, 3: binary rk_discdd, 4: binary rk_state),
+	binary discnmN_array_sc (0: binary long, 1: binary object, 2: binary object, 3: binary rk_discnmN, 4: binary rk_state),
+	binary discnmN_array (0: binary ndarray, 1: binary object, 2: binary object, 3: binary rk_discnmN, 4: binary rk_state),
+	binary discnp_array_sc (0: binary double, 1: binary long, 2: binary object, 3: binary object, 4: binary rk_discnp, 5: binary rk_state),
+	binary discnp_array (0: binary ndarray, 1: binary object, 2: binary object, 3: binary rk_discnp, 4: binary rk_state),
 	binary kahan_sum (0: binary double, 1: binary npy_intp),
 	binary empty_py_bytes (0: npy_intp length, 1: binary bytes),
 	binary import_array (),
@@ -4150,8 +4729,11 @@ service numpy {
 	binary integer_repr (0: binary x),
 	binary isnumber (),
 	binary istime (),
-	binary jiffies (0: binary _load_time, 1: binary _proc_pid_stat),
+	binary jiffies (0: binary _load_time, 1: binary _load_time, 2: binary _proc_pid_stat),
+	binary jiffies (0: binary _load_time, 1: binary _load_time, 2: binary _proc_pid_stat),
 	binary measure (0: binary code_str, 1: binary label, 2: binary times),
+	binary memusage (0: binary _proc_pid_stat, 1: binary instance, 2: binary processName),
+	binary memusage (0: binary _proc_pid_stat, 1: binary instance, 2: binary processName),
 	binary memusage (0: binary _proc_pid_stat, 1: binary instance, 2: binary processName),
 	binary new_func (),
 	binary nulp_diff (0: binary dtype, 1: binary x, 2: binary y),
@@ -4331,6 +4913,7 @@ service numpy {
 	binary short_path (0: binary cwd, 1: binary path),
 	binary validate_rst_syntax (0: binary dots, 1: binary name, 2: binary text),
 	binary Array1 (),
+	binary Array1 (),
 	binary ~Array1 (),
 	binary operator = (),
 	binary operator == (),
@@ -4342,6 +4925,8 @@ service numpy {
 	void deallocateMemory (),
 	void resize (),
 	void view (),
+	binary Array2 (),
+	binary Array2 (),
 	binary Array2 (),
 	binary ~Array2 (),
 	binary operator [] (),
@@ -4357,6 +4942,7 @@ service numpy {
 	void resize (),
 	void view (),
 	binary ArrayZ (),
+	binary ArrayZ (),
 	binary ~ArrayZ (),
 	binary operator = (),
 	binary operator == (),
@@ -4368,6 +4954,7 @@ service numpy {
 	void deallocateMemory (),
 	void resize (),
 	void view (),
+	binary Farray (),
 	binary Farray (),
 	binary ~Farray (),
 	binary operator = (),

@@ -9,19 +9,18 @@ Install the QuasR framework using node and npm (see https://nodejs.org) :
 ```
 git clone https://github.com/fabiensabatie/QuasR.git
 cd QuasR
-npm install
+npm i
 ```
 
 Start the backend with :
 ```
-node qr_index.js
+node qr_index.js repoAuthor repoName
 ```
 
-If everything went right, you should see the following message appear in the console :
 
-```
-🚀  QuasR is up on 8080 🚀
-```
+## What needs to be done
+
+The parser is soon to be finished, now the server and client encapsulation software has to be dynamically generated using the parsed code.
 
 ## Project structure
 
@@ -29,11 +28,7 @@ If everything went right, you should see the following message appear in the con
 root
 	|_ app_commons - Contains the nodejs application common files (globals / mongo functions / prototypes / credentials)
 	|_ controllers - Contains the controllers
-		|_ builders - All functions that generate the encapsulating code for the server side programs
 		|_ files - File management functions (read / write / etc.)
-		|_ gateway - Services gateway (not coded yet)
-		|_ pages - Serving the front-end pages
-		|_ parsers - Contains the code parsing functions
 		|_ programs - Functions gathering / saving the information relative to the programs
 	|_ libraries - Contains all QuasR libraries for cross-platform connection to quasr.io services
 		|_ clients - Client side libraries
@@ -50,10 +45,8 @@ The following steps describe the process for QuasR usage :
 ```
 - A library is added from the QuasR website
 - The library is parsed :
-	|_ Typedefs and defines are gathered
-	|_ Functions are gathered (name / return type / parameters names and types)
-	|_ Structures are gathered (name / type / inner variables type)
-- A .thrift file is generated using the parsing data
+	|_ Typedefs, enums, structs, classes and macros are gathered
+- A .thrift file is generated using the parsed data
 - Thrift generates the appropriate code for the requested languages
 - The client side library is created using the previously generated code : includes thrift functions / QuasR communicating functions
 - The server side encapsulating program is generated using the previously built thrift file for each language : includes thrift functions / QuasR communicating functions / library functions
