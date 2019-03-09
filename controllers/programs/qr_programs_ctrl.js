@@ -56,21 +56,57 @@ const Rpc		= Rfr('controllers/programs/qr_rpc_builder_ctrl.js');
  * @param {Function} callback Callback with (err, service)
  * @returns {callback}
  */
-function getProgram(gitInfo, callback) {
-	return (new Promise((resolve, reject) => {
-		Files.saveGitRepoFiles(gitInfo, __GIT_DOWNLOAD_FOLDER_PATH, (err, localRepoPath) => {
+function insertProgramToDB(program, callback) {
+	let pData = {_id : program._id, info: program.gitInfo};
+	__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_PROGRAM, [pData], (err) => {
+		if (err) return (callback(err));
+		console.log('	- Inserted program.');
+		__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_FUNCTION, program.functions, (err) => {
 			if (err) return (callback(err));
-			Parsers.parse(localRepoPath, (err, program) => {
+			console.log('	- Inserted functions.');
+			__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_ENUM, program.enums, (err) => {
 				if (err) return (callback(err));
-				__CONSOLE_DEBUG('Parsed \x1b[32m✓\x1b[0m');
-				program.name = gitInfo.repo;
+				console.log('	- Inserted enums.');
+				__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_TYPEDEF, program.typedefs, (err) => {
+					if (err) return (callback(err));
+					console.log('	- Inserted typdefs.');
+					__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_STRUCT, program.structs, (err) => {
+						if (err) return (callback(err));
+						console.log('	- Inserted structs.');
+						return (callback(null));
+					})
+				})
+			})
+		})
+	})
+}
+
+
+/**
+ * Downloads the git repo required, parses the content, and builds the RPC service
+ * for the parsed code.
+ *
+ * @param {Object} gitInfo An object containing the service name (github, gitlab, bitbucket),
+ * an author, and a repo.
+ * @param {Function} callback Callback with (err, service)
+ * @returns {callback}
+ */
+function getProgram(gitInfo, callback) {
+	Files.saveGitRepoFiles(gitInfo, __GIT_DOWNLOAD_FOLDER_PATH, (err, localRepoPath) => {
+		if (err) return (callback(err));
+		Parsers.parse(localRepoPath, (err, program) => {
+			if (err) return (callback(err));
+			__CONSOLE_DEBUG('Parsed \x1b[32m✓\x1b[0m');
+			program.gitInfo = gitInfo;
+			insertProgramToDB(program, (err) => {
+				if (err) return (callback(err));
 				Rpc.buildRpcService(__THRIFT, program, (err, service) => {
 					if (err) return (callback(err));
 					return (callback(null, service));
 				})
-			});
-		})
-	}));
+			})
+		});
+	})
 }
 
 exports.getProgram = getProgram;

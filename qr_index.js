@@ -56,17 +56,21 @@ const Upload			= Multer({ dest: 'public/uploads/tmp/' });
 *************************** Views serving routes *******************************
 *******************************************************************************/
 
+__INIT_APP();
+
 let gitInfo = {
 	service : 'github',
 	author : process.argv[2] ? process.argv[2] : 'terry-finkel',
 	repo : process.argv[3] ? process.argv[3] : 'ft_malloc'
 }
 
-console.log(`Building the RPC for ${gitInfo.repo} by ${gitInfo.author}.`);
-Ctrl.PROGRAM.getProgram(gitInfo, (err, service) => {
-	if (err) return (console.log(`ERR : ${err}`));
-	console.log(`Service file created at ${service} \x1b[32m✓\x1b[0m`);
-})
+__EVENT_EMITTER.on(__READY_APP,() => {
+	console.log(`Building the RPC for ${gitInfo.repo} by ${gitInfo.author}.`);
+	Ctrl.PROGRAM.getProgram(gitInfo, (err, service) => {
+		if (err) return (console.log(`ERR : ${err}`));
+		console.log(`Service file created at ${service} \x1b[32m✓\x1b[0m`);
+	})
+});
 
 // /*******************************************************************************
 // ******************************** Error Routes **********************************

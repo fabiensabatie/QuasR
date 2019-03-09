@@ -143,7 +143,7 @@ function __build_thrift_service_functions(program) {
  * @returns {string} The service content for the thrift file
  */
 function __build_thrift_service(program) {
-	let service = `service ${program.name} {\n`;
+	let service = `service ${program.gitInfo.repo} {\n`;
 	service += __build_thrift_service_functions(program);
 	service += '}\n';
 	return (service);
@@ -192,7 +192,7 @@ function buildTriftServiceFile(program, callback) {
 	let file = `// Typedefs\n${__build_thrift_typedefs("", program)}`;
 	file += `\n// Enums\n${__build_thrift_enums("", program)}`;
 	file += `\n// Services\n${__build_thrift_service(program)}`;
-	let fname = `${__SERVICE_PATH}/${program.name}.thrift`
+	let fname = `${__SERVICE_PATH}/${program.gitInfo.repo}.thrift`
 	Fs.writeFile(fname, file, function(err) {
 		if (err) return callback(err);
 		callback(null, fname);
@@ -207,7 +207,7 @@ function buildTriftServiceFile(program, callback) {
  */
 function buildGRPCServiceFile(program, callback) {
 	let file = `${__build_thrift_service(program)}`; //TODO: The same with GRPC
-	let fname = `${__SERVICE_PATH}/${program.name}.thrift`
+	let fname = `${__SERVICE_PATH}/${program.gitInfo.repo}.thrift`
 	Fs.writeFile(fname, file, function(err) {
 		if (err) return callback(err);
 		callback(null, fname);
