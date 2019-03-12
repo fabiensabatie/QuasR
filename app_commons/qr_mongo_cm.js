@@ -1,4 +1,4 @@
-/**
+/*
 ________       ___  ___      ________      ________       ________
 |\   __  \     |\  \|\  \    |\   __  \    |\   ____\     |\   __  \
 \ \  \|\  \    \ \  \\\  \   \ \  \|\  \   \ \  \___|_    \ \  \|\  \
@@ -39,10 +39,11 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_mongo_cm.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 20:38:58 by fsabatie
-Updated: 2019/01/07 01:39:16 by fsabatie
+Updated: 2019/03/09 22:47:59 by fsabatie
 */
 const Rfr			= require('rfr');
 const MongoDB		= require('mongodb');
+const Util			= require('util');
 
 // TODO : Encapsulate all the methods inside the constructor d
 
@@ -51,6 +52,14 @@ class Mongo {
 	constructor(dbUrl, cb) {
 		this.client = false;
 		this.mdb = false;
+		this.Promises = {
+			addElements: Util.promisify(this.addElements),
+			setElements: Util.promisify(this.setElements),
+			pullElement: Util.promisify(this.pullElement),
+			findDocument: Util.promisify(this.findDocument),
+			deleteDocument: Util.promisify(this.deleteDocument),
+			pushDataToElement: Util.promisify(this.pushDataToElement)
+		}
 		MongoDB.MongoClient.connect(dbUrl, { useNewUrlParser: true }, (err, client) => {
 			if (err) { return (cb(`Could not fetch the mongo client : ${err}`)) }
 			this.client = client;
@@ -134,6 +143,8 @@ class Mongo {
 	}
 
 	closeClient() { this.client.close(); }
+
+
 }
 
 exports.Mongo = Mongo;

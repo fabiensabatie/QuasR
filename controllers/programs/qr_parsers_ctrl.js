@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_parsers_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/02/25 22:19:35 by fsabatie
+Updated: 2019/03/12 16:35:40 by fsabatie
 */
 
 const { exec }		= require('child_process');
@@ -122,6 +122,10 @@ function parse(localRepoPath, callback) {
 			else if (tag.kind == 'enumerator') enumerators.push(tag)
 			tag.program_id = program._id;
 		}
+		program.functions = program.functions.sort();
+		program.enums = program.enums.sort();
+		program.structs = program.structs.sort();
+		program.typedefs = program.typedefs.sort();
 		// Assign the members to their respective scope (parameters to functions, values of enums)
 		for (let f of program.functions) f.parameters = parameters.filter((p) => (p.scope == f.name && p.fileName == f.fileName)).map((p) => (formatElement(p)));
 		for (let e of program.enums) e.members = enumerators.filter((el) => (el.scope == e.name && el.fileName == e.fileName)).map((el) => (formatElement(el)));
