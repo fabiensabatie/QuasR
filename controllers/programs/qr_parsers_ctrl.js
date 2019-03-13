@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_parsers_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/03/12 16:35:40 by fsabatie
+Updated: 2019/03/13 00:28:51 by fsabatie
 */
 
 const { exec }		= require('child_process');
@@ -94,7 +94,7 @@ function formatElement(e) {
  * @returns {Object} The program object with its functions, enums, typedefs
  */
 function parse(localRepoPath, callback) {
-	let parameters = [], enumerators = [], stdout = "", tags = [],
+	let parameters = [], enumerators = [], members = [], stdout = "", tags = [],
 	program = { functions: [], macros: [], typedefs: [], structs: [], enums: [], _id: new ObjectId()};
 	// Starts a new child process, using spawn instead of exec to recieve stdout as a stream
 	__CONSOLE_DEBUG('Starting the ctags parser...');
@@ -118,17 +118,15 @@ function parse(localRepoPath, callback) {
 			else if (tag.kind == 'macro') program.macros.push(tag)
 			else if (tag.kind == 'typedef') program.typedefs.push(tag)
 			else if (tag.kind == 'struct') program.structs.push(tag)
+			else if (tag.kind == 'member') members.push(tag)
 			else if (tag.kind == 'parameter') parameters.push(tag)
 			else if (tag.kind == 'enumerator') enumerators.push(tag)
 			tag.program_id = program._id;
 		}
-		program.functions = program.functions.sort();
-		program.enums = program.enums.sort();
-		program.structs = program.structs.sort();
-		program.typedefs = program.typedefs.sort();
 		// Assign the members to their respective scope (parameters to functions, values of enums)
 		for (let f of program.functions) f.parameters = parameters.filter((p) => (p.scope == f.name && p.fileName == f.fileName)).map((p) => (formatElement(p)));
 		for (let e of program.enums) e.members = enumerators.filter((el) => (el.scope == e.name && el.fileName == e.fileName)).map((el) => (formatElement(el)));
+		for (let s of program.structs) s.members = members.filter((el) => (el.scope == s.name && el.fileName == s.fileName)).map((el) => (formatElement(el)));
 		return (callback(null, program));
 	});
 }

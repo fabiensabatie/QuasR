@@ -39,16 +39,32 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_files_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 20:48:34 by fsabatie
-Updated: 2019/03/12 17:24:12 by fsabatie
+Updated: 2019/03/12 22:39:48 by fsabatie
 */
 
 const Rfr				= require('rfr');
 const Mongo				= Rfr('app_commons/qr_mongo_cm').Mongo;
-// const QuasrMongo		= new Mongo(__MONGO_URL_CONNECT);
 const GitDownload		= require('download-git-repo');
 const Axios				= require('axios');
 const Walk				= require('walk');
 const Fs				= require('fs');
+const Rimraf			= require('rimraf');
+
+
+
+/**
+ * Deletes a directory
+ *
+ * @param {string} dirPath The path of the directory
+ * @param {Function} callback Callback with (bool)
+ * @returns {callback}
+ */
+function deleteDir(dirPath, callback) {
+	Rimraf(dirPath, (err) => {
+		if (err) return (callback(err));
+		return (callback(null, `Deleted ${dirPath}`));
+	})
+}
 
 /**
  * Checks if the file exists
@@ -92,3 +108,5 @@ function saveGitRepoFiles(gitInfo, savePath, callback) {
 }
 
 exports.saveGitRepoFiles	= saveGitRepoFiles;
+exports.deleteDir	= deleteDir;
+exports.fileExists = fileExists;

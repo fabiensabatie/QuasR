@@ -1,0 +1,62 @@
+/*
+________       ___  ___      ________      ________       ________
+|\   __  \     |\  \|\  \    |\   __  \    |\   ____\     |\   __  \
+\ \  \|\  \    \ \  \\\  \   \ \  \|\  \   \ \  \___|_    \ \  \|\  \
+ \ \  \\\  \    \ \  \\\  \   \ \   __  \   \ \_____  \    \ \   _  _\
+  \ \  \\\  \    \ \  \\\  \   \ \  \ \  \   \|____|\  \    \ \  \\  \|
+   \ \_____  \    \ \_______\   \ \__\ \__\    ____\_\  \    \ \__\\ _\
+    \|___| \__\    \|_______|    \|__|\|__|   |\_________\    \|__|\|__|
+          \|__|                               \|_________|
+
+
+
+                               ````````````
+                           ```````````...::/::..`
+                            ``             ``...:/:..`
+                       `       `.`.`.-..-.````    ```.-.`
+                        `.---......`..``..``..--..`   `.::.`
+                    ``..```````````......````````.--.....`..`
+                `-:-..`    `.:/++/++oooossso+:.`````--:-.``..`     `
+              `.-:```  ``-///::--::/ossshyyhhhs+/..```.-..` `.`    .`
+          ```..-.`  ``:+o:-..-/ooo////////:/+yysyo-.`  `..-.` `    `
+         `.``..`   `-+o:-.`:o+++::::::++oo/-/ssos+-:-.  `//. `..   -.
+        `` `+.`   `-+y:-``:++-::--:+/:///omd+:/--.-oo-` `:+.  -.   --`
+          `.-    .::+o...:+s/-+..+:.`-/sydy:-+.`/.+oh/```os. `/.  `/.
+         `-:`   `///o+.`./++///`:o. /mNNmo` -o.-/.-so:``:o:````  `:-`
+         ./:    .---::. `:ys/::-./ssmh+:..:/o::/::o+-../s--..`  .-`
+         `-.`  `...`./o-`.-/+yso/--+ysssooo+::+/+oo-.-ss/.-` `.-:`
+          .-`   ..` `./+.``.-+shso+::::::///+ossss+://+-````:+/.
+           `.    `.`  ./+/....-/ooyyyysossssysss+:--.```.////-`
+            ``    `-/  `-o:....`..-:://///:/:-..`````.:oso:.
+                    ..`  ./o/-.``...---..----:-::++/+::.`
+                    `-:.```.://+:--.----::/+oo/:--.````
+             `.`      `.---.`````.-::::--..`` `````        ..`
+               `         `..--.``     ```````     ``````.```
+                            ``--.....``..```...--.``
+                                    `......`````
+
+
+Filename : node.js
+By: fsabatie <fsabatie@student.42.fr>
+Created: 2019/03/13 03:10:42 by fsabatie
+Updated: 2019/03/13 03:10:45 by fsabatie
+*/
+
+const thrift = require('thrift');
+const {{ libraryName }} = require({{ genCodePath }});
+const quasrTypes = require({{ genCodeTypesPath }});
+
+var transport = thrift.TBufferedTransport;
+var protocol = thrift.TBinaryProtocol;
+
+var connection = thrift.createConnection("localhost", 9090, {
+	transport : transport,
+	protocol : protocol
+});
+
+connection.on('error', function(err) { assert(false, err); });
+
+// Create a Calculator client with the connection
+var client = thrift.createClient(Calculator, connection);
+client.ping(function(err, response) { console.log('ping()'); });
+client.add(1,1, function(err, response) { console.log("1+1=" + response); });

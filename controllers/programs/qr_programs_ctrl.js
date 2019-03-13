@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_programs_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/03/12 16:51:55 by fsabatie
+Updated: 2019/03/13 00:03:33 by fsabatie
 */
 
 const Rfr		= require('rfr');
@@ -75,23 +75,24 @@ function programExistsInDB(gitInfo, callback) {
  * @returns {callback}
  */
 function insertProgramToDB(program, callback) {
-	let pData = {_id : program._id, gitInfo: program.gitInfo};
-	__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_PROGRAM, [pData], (err) => {
-		if (err) return (callback(err));
-		__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_FUNCTION, program.functions, (err) => {
-			if (err) return (callback(err));
-			__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_ENUM, program.enums, (err) => {
-				if (err) return (callback(err));
-				__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_TYPEDEF, program.typedefs, (err) => {
-					if (err) return (callback(err));
-					__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_STRUCT, program.structs, (err) => {
-						if (err) return (callback(err));
-						return (callback(null, 'All elements inserted'));
-					})
-				})
-			})
-		})
-	})
+	callback(null, 'All elements inserted');
+	// let pData = {_id : program._id, gitInfo: program.gitInfo};
+	// __MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_PROGRAM, [pData], (err) => {
+	// 	if (err) return (callback(err));
+	// 	__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_FUNCTION, program.functions, (err) => {
+	// 		if (err) return (callback(err));
+	// 		__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_ENUM, program.enums, (err) => {
+	// 			if (err) return (callback(err));
+	// 			__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_TYPEDEF, program.typedefs, (err) => {
+	// 				if (err) return (callback(err));
+	// 				__MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_STRUCT, program.structs, (err) => {
+	// 					if (err) return (callback(err));
+	// 					return (callback(null, 'All elements inserted'));
+	// 				})
+	// 			})
+	// 		})
+	// 	})
+	// })
 }
 
 /**
@@ -104,21 +105,21 @@ function insertProgramToDB(program, callback) {
  * @returns {callback}
  */
 function getProgram(gitInfo, callback) {
-	Files.saveGitRepoFiles(gitInfo, __GIT_DOWNLOAD_FOLDER_PATH, (err, localRepoPath) => {
+	Files.saveGitRepoFiles(gitInfo, __GIT_DOWNLOAD_FOLDER_PATH, async (err, localRepoPath) => {
 		if (err) return (callback(err));
-		console.log('Creating a hash over the current folder:');
-		hashElement(localRepoPath, {folders: { exclude: ['.*', 'node_modules'] }})
-		.then((hash) => {
-			gitInfo.hash = hash.hash;
-			programExistsInDB(gitInfo, (err, exists) => {
+		let hash = await hashElement(localRepoPath, {folders: { exclude: ['.*', 'node_modules'] }})
+		.catch(error => { return callback(error); });
+		if (!hash.hash) return;
+		gitInfo.hash = hash.hash;
+		console.log('Got the hash', hash.hash);
+		programExistsInDB(gitInfo, (err, exists) => {
+			if (err) return (callback(err));
+			if (exists) return callback(null, `${__SERVICE_PATH}/${gitInfo.repo}.thrift`);
+			Parsers.parse(localRepoPath, (err, program) => {
 				if (err) return (callback(err));
-				if (exists) {
-					console.log('The repo already exists in the database');
-					return callback(null, `${__SERVICE_PATH}/${gitInfo.repo}.thrift`);
-				}
-				Parsers.parse(localRepoPath, (err, program) => {
-					if (err) return (callback(err));
-					__CONSOLE_DEBUG('Parsed \x1b[32m✓\x1b[0m');
+				// Files.deleteDir(localRepoPath, (err) => {
+					// if (err) return (callback(err));
+					// __CONSOLE_DEBUG('Parsed the content, deleted the repo directory \x1b[32m✓\x1b[0m');
 					program.gitInfo = gitInfo;
 					insertProgramToDB(program, (err, result) => {
 						if (err) return (callback(err));
@@ -128,10 +129,9 @@ function getProgram(gitInfo, callback) {
 							return (callback(null, service));
 						})
 					})
-				});
-			})
+				// })
+			});
 		})
-		.catch(error => { return callback(error); });
 	})
 }
 

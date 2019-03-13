@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_mongo_cm.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 20:38:58 by fsabatie
-Updated: 2019/03/09 22:47:59 by fsabatie
+Updated: 2019/03/12 23:24:44 by fsabatie
 */
 const Rfr			= require('rfr');
 const MongoDB		= require('mongodb');
@@ -136,6 +136,7 @@ class Mongo {
 	**/
 	addElements(collection, data, cb) {
 		if (!Array.isArray(data)) return (cb('Data must be prived ad an array'));
+		if (data.length == 0) return cb(null, []);
 		this.mdb.collection(collection).insertMany(data, (err, insertedDoc) => {
 			if (err) return (cb(err));
 			return (cb(null, insertedDoc));
