@@ -36,47 +36,24 @@ ________       ___  ___      ________      ________       ________
                                     `......`````
 
 
-Filename : qr_index.js
+Filename : qr_rpc_builder_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
-Created: 2018/12/19 21:20:41 by fsabatie
-Updated: 2019/02/24 15:14:09 by fsabatie
+Created: 2018/12/27 00:12:03 by fsabatie
+Updated: 2019/03/13 00:37:36 by fsabatie
 */
 
-"use strict";
-const QuasR				= require('./app.js');
-const BodyParser		= require('body-parser');
-const JsonParser		= BodyParser.json();
-const Rfr				= require('rfr');
-const UrlParser			= BodyParser.urlencoded({extended: true});
-const Ctrl				= Rfr('controllers/qr_ctrl.js');
-const Multer			= require('multer');
-const Upload			= Multer({ dest: 'public/uploads/tmp/' });
+const Mustache = require('mustache');
+const Fs = require('fs');
 
-/*******************************************************************************
-*************************** Views serving routes *******************************
-*******************************************************************************/
-
-__INIT_APP();
-
-let gitInfo = {
-	service : 'github',
-	author : process.argv[2] ? process.argv[2] : 'terry-finkel',
-	repo : process.argv[3] ? process.argv[3] : 'ft_malloc'
+function template() {
+	Fs.readFile('app_commons/templates/clients/node.js', 'utf8', (err, template) => {
+		if (err) return (console.log(err));
+		let data = {
+			libraryName: 'libft',
+			genCodePath: '../gemcode'
+		}
+		console.log(Mustache.render(template, data));
+	})
 }
 
-__EVENT_EMITTER.on(__READY_APP,() => {
-	console.log(`Building the RPC for ${gitInfo.repo} by ${gitInfo.author}.`);
-	Ctrl.PROGRAM.getProgram(gitInfo, (err, service) => {
-		if (err) return (console.log(`\x1b[31mERR : ${err}\x1b[0m`));
-		console.log(`Service file created at ${service} \x1b[32m✓\x1b[0m`);
-	})
-});
-
-// /*******************************************************************************
-// ******************************** Error Routes **********************************
-// *******************************************************************************/
-// QuasR.App.get('/404', function(req, res) { res.render('/') });
-// QuasR.App.use(function(req, res, next) { res.redirect('/404') });
-
-// QuasR.Server.listen(8080);
-// console.log("🚀  QuasR is running 🚀 ");
+template();

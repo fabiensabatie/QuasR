@@ -111,7 +111,6 @@ function getProgram(gitInfo, callback) {
 		.catch(error => { return callback(error); });
 		if (!hash.hash) return;
 		gitInfo.hash = hash.hash;
-		console.log('Got the hash', hash.hash);
 		programExistsInDB(gitInfo, (err, exists) => {
 			if (err) return (callback(err));
 			if (exists) return callback(null, `${__SERVICE_PATH}/${gitInfo.repo}.thrift`);
@@ -123,7 +122,6 @@ function getProgram(gitInfo, callback) {
 					program.gitInfo = gitInfo;
 					insertProgramToDB(program, (err, result) => {
 						if (err) return (callback(err));
-						console.log(result);
 						Rpc.buildRpcService(__THRIFT, program, (err, service) => {
 							if (err) return (callback(err));
 							return (callback(null, service));

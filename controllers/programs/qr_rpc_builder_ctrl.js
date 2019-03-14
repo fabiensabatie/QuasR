@@ -116,7 +116,8 @@ function __get_corresponding_thrift_type(type, language) {
  * @returns {Object} The JSON formated object or null
  */
 function __get_type(program, type, language, kind = null) {
-	type = type.replace(/ +\*| +const/g, '');
+	// type = type.replace(/ +\*| +const/g, ''); // remove pointers
+	type = type.replace(/ +const/g, '');
 	if (kind && type == "void") return ('binary');
 	return (__get_corresponding_thrift_type(type, language) // regex filters pointers and const out
 	|| __get_corresponding_custom_type(program, type) || 'binary');

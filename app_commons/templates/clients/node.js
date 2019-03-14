@@ -43,8 +43,8 @@ Updated: 2019/03/13 03:10:45 by fsabatie
 */
 
 const thrift = require('thrift');
-const {{ libraryName }} = require({{ genCodePath }});
-const quasrTypes = require({{ genCodeTypesPath }});
+const {{ libraryName }} = require("{{{ genCodePath }}}");
+const quasrTypes = require("{{{ genCodeTypePath }}}");
 
 var transport = thrift.TBufferedTransport;
 var protocol = thrift.TBinaryProtocol;
@@ -54,9 +54,7 @@ var connection = thrift.createConnection("localhost", 9090, {
 	protocol : protocol
 });
 
-connection.on('error', function(err) { assert(false, err); });
+connection.on('error', (err) => {throw err;});
 
 // Create a Calculator client with the connection
-var client = thrift.createClient(Calculator, connection);
-client.ping(function(err, response) { console.log('ping()'); });
-client.add(1,1, function(err, response) { console.log("1+1=" + response); });
+var client = thrift.createClient({{ libraryName }}, connection);
