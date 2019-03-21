@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_index.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 21:20:41 by fsabatie
-Updated: 2019/02/24 15:14:09 by fsabatie
+Updated: 2019/03/19 21:13:58 by fsabatie
 */
 
 "use strict";
@@ -53,9 +53,10 @@ const Multer			= require('multer');
 const Upload			= Multer({ dest: 'public/uploads/tmp/' });
 
 /*******************************************************************************
-*************************** Views serving routes *******************************
+*********************************** Main ***************************************
 *******************************************************************************/
 
+// App initialisation
 __INIT_APP();
 
 let gitInfo = {
@@ -69,6 +70,7 @@ __EVENT_EMITTER.on(__READY_APP,() => {
 	Ctrl.PROGRAM.getProgram(gitInfo, (err, service) => {
 		if (err) return (console.log(`\x1b[31mERR : ${err}\x1b[0m`));
 		console.log(`Service file created at ${service} \x1b[32m✓\x1b[0m`);
+		process.exit();
 	})
 });
 

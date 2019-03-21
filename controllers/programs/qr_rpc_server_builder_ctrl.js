@@ -36,25 +36,51 @@ ________       ___  ___      ________      ________       ________
                                     `......`````
 
 
-Filename : node.js
+Filename : qr_rpc_server_builder_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
-Created: 2019/03/13 03:10:42 by fsabatie
-Updated: 2019/03/13 03:10:45 by fsabatie
+Created: 2018/12/27 00:12:03 by fsabatie
+Updated: 2019/03/19 21:27:44 by fsabatie
 */
 
-const thrift = require('thrift');
-const {{ libraryName }} = require("{{{ genCodePath }}}");
-const quasrTypes = require("{{{ genCodeTypePath }}}");
+const Fs = require('fs');
+const Mustache = require('mustache');
 
-var transport = thrift.TBufferedTransport;
-var protocol = thrift.TBinaryProtocol;
+/**
+ * Edits the thrift server wrapper files
+ *
+ * @param {string} framework the RPC framework (thrift or grpc)
+ * @param {Object} program the program variable
+ * @param {Function} callback The callback function with (err, thriftFile)
+ * @returns {string} The content of the thrift file
+ */
+function editTriftServerWrapperFiles(program, callback) {
+	
+}
 
-var connection = thrift.createConnection("localhost", 9090, {
-	transport : transport,
-	protocol : protocol
-});
 
-connection.on('error', (err) => {throw err;});
+/**
+ * Redirects to the correct RPC server wrapper builder function
+ *
+ * @param {string} framework the RPC framework (thrift or grpc)
+ * @param {Object} program the program variable
+ * @param {Function} callback The callback function with (err, thriftFile)
+ * @returns {string} The content of the thrift file
+ */
+function buildRpcServerWrapper(framework, program, callback) {
+	__CONSOLE_DEBUG(`Building the server wrapper for ${framework}...`);
+	if (framework == __THRIFT) {
+		editTriftServerWrapperFiles(program, (err, serviceFilePath) => {
+			if (err) return (callback(err));
+			return (callback(null, serviceFilePath));
+		})
+	}
+	// else if (framework == __GRPC) {
+	// 	editGRPCServerWrapperFiles(program, (err, serviceFilePath) => {
+	// 		if (err) return (callback(err));
+	// 		return (callback(null, serviceFilePath));
+	// 	})
+	// }
+	else return (callback('Please provide a valid RPC framework name (thrift or grpc)'));
+}
 
-// Create a Calculator client with the connection
-var client = thrift.createClient({{ libraryName }}, connection);
+exports.buildRpcServerWrapper = buildRpcServerWrapper;

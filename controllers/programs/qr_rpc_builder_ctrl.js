@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_rpc_builder_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/03/13 00:37:36 by fsabatie
+Updated: 2019/03/15 00:43:33 by fsabatie
 */
 
 const Fs = require('fs');
@@ -64,7 +64,18 @@ const THRIFT_TYPES = {
 	}
 }
 
-const RESERVED_THRIFT_KEYWORDS = ['as', 'new', 'del', 'next'];
+const RESERVED_THRIFT_KEYWORDS = ["BEGIN", "END", "__CLASS__", "__DIR__", "__FILE__", "__FUNCTION__",
+	"__LINE__", "__METHOD__", "__NAMESPACE__", "abstract", "alias", "and", "args", "as",
+	"assert", "begin", "break", "case", "catch", "class", "clone", "continue", "declare",
+	"def", "default", "del", "delete", "do", "dynamic", "elif", "else", "elseif", "elsif",
+	"end", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "ensure",
+	"except", "exec", "finally", "float", "for", "foreach", "from", "function", "global",
+	"goto", "if", "implements", "import", "in", "inline", "instanceof", "interface", "is",
+	"lambda", "module", "native", "new", "next", "nil", "not", "or", "package", "pass",
+	"public", "print", "private", "protected", "raise", "redo", "rescue", "retry", "register",
+	"return", "self", "sizeof", "static", "super", "switch", "synchronized", "then", "this",
+	"throw", "transient", "try", "undef", "unless", "unsigned", "until", "use", "var",
+	"virtual", "volatile", "when", "while", "with", "xor", "yield"];
 
 /**
  * Gets the type from the custom typedefs, enums, macros or structs from the user's code
