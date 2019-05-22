@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_index.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 21:20:41 by fsabatie
-Updated: 2019/03/19 21:13:58 by fsabatie
+Updated: 2019/05/22 01:03:33 by fsabatie
 */
 
 "use strict";
@@ -67,11 +67,10 @@ let gitInfo = {
 
 __EVENT_EMITTER.on(__READY_APP,() => {
 	console.log(`Building the RPC for ${gitInfo.repo} by ${gitInfo.author}.`);
-	Ctrl.PROGRAM.getProgram(gitInfo, (err, service) => {
-		if (err) return (console.log(`\x1b[31mERR : ${err}\x1b[0m`));
-		console.log(`Service file created at ${service} \x1b[32m✓\x1b[0m`);
-		process.exit();
-	})
+	Ctrl.PROGRAM.getProgram(gitInfo)
+	.then((service) => { console.log(`Service file created at ${service} \x1b[32m✓\x1b[0m`); })
+	.catch((err) => { console.log(`\x1b[31mERR : ${err}\x1b[0m`); })
+	.finally(() => { process.exit(); })
 });
 
 // /*******************************************************************************

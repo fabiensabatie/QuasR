@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_programs_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/03/13 00:03:33 by fsabatie
+Updated: 2019/05/22 01:11:12 by fsabatie
 */
 
 const Rfr		= require('rfr');
@@ -57,12 +57,13 @@ const { hashElement } = require('folder-hash');
  * @param {Function} callback Callback with (err, result)
  * @returns {callback}
  */
-function programExistsInDB(gitInfo, callback) {
-	__MONGO_ACTIVE_DBS.quasr.findDocument(__MONGO_COLLECTION_PROGRAM, {gitInfo : gitInfo}, (err, foundDoc) => {
-		if (err) return (callback(null, false));
-		console.log(foundDoc);
-		callback(null, true);
-	})
+function programExistsInDB(gitInfo) {
+	return (new Promise((resolve, reject) => {
+		__MONGO_ACTIVE_DBS.quasr.findDocument(__MONGO_COLLECTION_PROGRAM, {gitInfo : gitInfo}, (err, foundDoc) => {
+			if (err) return resolve(false);
+			return resolve(true);
+		})
+	}))
 }
 
 /**
@@ -75,7 +76,7 @@ function programExistsInDB(gitInfo, callback) {
  * @returns {callback}
  */
 function insertProgramToDB(program, callback) {
-	callback(null, 'All elements inserted');
+	return (Promise.resolve())
 	// let pData = {_id : program._id, gitInfo: program.gitInfo};
 	// __MONGO_ACTIVE_DBS.quasr.addElements(__MONGO_COLLECTION_PROGRAM, [pData], (err) => {
 	// 	if (err) return (callback(err));
@@ -104,33 +105,16 @@ function insertProgramToDB(program, callback) {
  * @param {Function} callback Callback with (err, service)
  * @returns {callback}
  */
-function getProgram(gitInfo, callback) {
-	Files.saveGitRepoFiles(gitInfo, __GIT_DOWNLOAD_FOLDER_PATH, async (err, localRepoPath) => {
-		if (err) return (callback(err));
-		let hash = await hashElement(localRepoPath, {folders: { exclude: ['.*', 'node_modules'] }})
-		.catch(error => { return callback(error); });
-		if (!hash.hash) return;
-		gitInfo.hash = hash.hash;
-		programExistsInDB(gitInfo, (err, exists) => {
-			if (err) return (callback(err));
-			if (exists) return callback(null, `${__SERVICE_PATH}/${gitInfo.repo}.thrift`);
-			Parsers.parse(localRepoPath, (err, program) => {
-				if (err) return (callback(err));
-				// Files.deleteDir(localRepoPath, (err) => {
-					// if (err) return (callback(err));
-					// __CONSOLE_DEBUG('Parsed the content, deleted the repo directory \x1b[32m✓\x1b[0m');
-					program.gitInfo = gitInfo;
-					insertProgramToDB(program, (err, result) => {
-						if (err) return (callback(err));
-						Rpc.buildRpcService(__THRIFT, program, (err, service) => {
-							if (err) return (callback(err));
-							return (callback(null, service));
-						})
-					})
-				// })
-			});
-		})
-	})
+function getProgram(gitInfo, cache = {}) {
+	return Files.saveGitRepoFiles(gitInfo, __GIT_DOWNLOAD_FOLDER_PATH)
+	.then((localRepoPath) => { cache.localRepoPath = localRepoPath;
+		return hashElement(localRepoPath, {folders: { exclude: ['.*', 'node_modules'] }}) })
+	.then((hash) => { gitInfo.hash = hash.hash; return programExistsInDB(gitInfo) })
+	.then((exists) => {
+		if (exists) return (Promise.resolve(`${__SERVICE_PATH}/${gitInfo.repo}.thrift`));
+		return Parsers.parse(cache.localRepoPath)})
+	.then((program) => { program.gitInfo = gitInfo; cache.program = program; return insertProgramToDB(program)})
+	.then(() => Rpc.buildRpcService(__THRIFT, cache.program))
 }
 
 exports.getProgram = getProgram;

@@ -39,11 +39,12 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_rpc_builder_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/27 00:12:03 by fsabatie
-Updated: 2019/03/15 00:43:33 by fsabatie
+Updated: 2019/05/22 01:09:02 by fsabatie
 */
 
 const Fs = require('fs');
 const THRIFT_TYPES = {
+	TRHIFT : ['byte', 'i16', 'i32', 'i64', 'double', 'string', 'void'],
 	C : {
 		byte : ['int8_t', 'uint8_t', 'int_least8_t', 'uint_least8_t', 'int_fast8_t', 'char'],
 		i16 : ['int16_t', 'uint16_t', 'int_least16_t', 'uint_least16_t', 'int_fast16_t'],
@@ -237,16 +238,18 @@ function __build_thrift_typedefs(td, program) {
  * @param {Object} program the program variable
  * @returns {string} The content of the thrift file
  */
-function buildTriftServiceFile(program, callback) {
-	let file = `// Typedefs\n${__build_thrift_typedefs("", program)}`;
-	file += `\n// Enums\n${__build_thrift_enums("", program)}`;
-	file += `\n// Structs\n${__build_thrift_structs("", program)}`;
-	file += `\n// Services\n${__build_thrift_service(program)}`;
-	let fname = `${__SERVICE_PATH}/${program.gitInfo.repo}.thrift`
-	Fs.writeFile(fname, file, function(err) {
-		if (err) return callback(err);
-		callback(null, fname);
-	});
+function buildTriftServiceFile(program) {
+	return (new Promise((resolve, reject) => {
+		let file = `// Typedefs\n${__build_thrift_typedefs("", program)}`;
+		file += `\n// Enums\n${__build_thrift_enums("", program)}`;
+		file += `\n// Structs\n${__build_thrift_structs("", program)}`;
+		file += `\n// Services\n${__build_thrift_service(program)}`;
+		let fname = `${__SERVICE_PATH}/${program.gitInfo.repo}.thrift`
+		Fs.writeFile(fname, file, function(err) {
+			if (err) return reject(err);
+			resolve(fname);
+		});
+	}))
 }
 
 /**
@@ -255,13 +258,15 @@ function buildTriftServiceFile(program, callback) {
  * @param {Object} program the program variable
  * @returns {string} The content of the thrift file
  */
-function buildGRPCServiceFile(program, callback) {
-	let file = `${__build_thrift_service(program)}`; //TODO: The same with GRPC
-	let fname = `${__SERVICE_PATH}/${program.gitInfo.repo}.thrift`
-	Fs.writeFile(fname, file, function(err) {
-		if (err) return callback(err);
-		callback(null, fname);
-	});
+function buildGRPCServiceFile(program) {
+	return (new Promise((resolve, reject) => {
+		let file = `${__build_thrift_service(program)}`; //TODO: The same with GRPC
+		let fname = `${__SERVICE_PATH}/${program.gitInfo.repo}.thrift`
+		Fs.writeFile(fname, file, function(err) {
+			if (err) return reject(err);
+			resolve(fname);
+		});
+	}))
 }
 
 /**
@@ -274,19 +279,9 @@ function buildGRPCServiceFile(program, callback) {
  */
 function buildRpcService(framework, program, callback) {
 	__CONSOLE_DEBUG(`Building the RPC file for ${framework}...`);
-	if (framework == __THRIFT) {
-		buildTriftServiceFile(program, (err, serviceFilePath) => {
-			if (err) return (callback(err));
-			return (callback(null, serviceFilePath));
-		})
-	}
-	else if (framework == __GRPC) {
-		buildGRPCServiceFile(program, (err, serviceFilePath) => {
-			if (err) return (callback(err));
-			return (callback(null, serviceFilePath));
-		})
-	}
-	else return (callback('Please provide a valid RPC framework name (thrift or grpc)'));
+	if (framework == __THRIFT) return buildTriftServiceFile(program)
+	else if (framework == __GRPC) return buildGRPCServiceFile(program);
+	else return (Promise.reject('Please provide a valid RPC framework name (thrift or grpc)'));
 }
 
 exports.buildRpcService = buildRpcService;

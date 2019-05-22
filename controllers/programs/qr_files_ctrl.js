@@ -39,7 +39,7 @@ ________       ___  ___      ________      ________       ________
 Filename : qr_files_ctrl.js
 By: fsabatie <fsabatie@student.42.fr>
 Created: 2018/12/19 20:48:34 by fsabatie
-Updated: 2019/03/12 22:39:48 by fsabatie
+Updated: 2019/05/22 00:51:51 by fsabatie
 */
 
 const Rfr				= require('rfr');
@@ -73,11 +73,13 @@ function deleteDir(dirPath, callback) {
  * @param {Function} callback Callback with (bool)
  * @returns {callback}
  */
-function fileExists(dirPath, callback) {
-	Fs.access(dirPath, Fs.constants.F_OK, (err) => {
-		if (err) return (callback(false));
-		return (callback(true));
-	})
+function fileExists(dirPath) {
+	return (new Promise((resolve, reject) => {
+		Fs.access(dirPath, Fs.constants.F_OK, (err) => {
+			if (err) return (resolve(false));
+			return (resolve(true));
+		})
+	}))
 }
 
 
@@ -90,19 +92,23 @@ function fileExists(dirPath, callback) {
  * @param {Function} callback Callback with (err, service)
  * @returns {callback}
  */
-function saveGitRepoFiles(gitInfo, savePath, callback) {
-	fileExists(`${savePath}/${gitInfo.author}/${gitInfo.repo}`, (fileExists) => {
+function saveGitRepoFiles(gitInfo, savePath) {
+	return fileExists(`${savePath}/${gitInfo.author}/${gitInfo.repo}`)
+	.then((fileExists) => {
 		if (fileExists) {
 			__CONSOLE_DEBUG('The repository already exists \x1b[32m✓\x1b[0m');
-			return (callback(null, `${savePath}/${gitInfo.author}/${gitInfo.repo}`));
+			return (Promise.resolve(`${savePath}/${gitInfo.author}/${gitInfo.repo}`));
 		}
 		if (gitInfo.service == __GITHUB) {
 			__CONSOLE_DEBUG('The repository does not exist, downloading...');
-			GitDownload(`${gitInfo.service}:${gitInfo.author}/${gitInfo.repo}`, `${savePath}/${gitInfo.author}/${gitInfo.repo}`, (err) => {
-				if (err) return (callback(`An error occured while fetching ${gitInfo.author}/${gitInfo.repo} - ${err}`))
-				__CONSOLE_DEBUG('The repository has been downloaded \x1b[32m✓\x1b[0m');
-				return (callback(null, `${savePath}/${gitInfo.author}/${gitInfo.repo}`));
-			})
+			return (new Promise((resolve, reject) => {
+				GitDownload(`${gitInfo.service}:${gitInfo.author}/${gitInfo.repo}`, `${savePath}/${gitInfo.author}/${gitInfo.repo}`, (err) => {
+					if (err) return (reject(`An error occured while fetching ${gitInfo.author}/${gitInfo.repo} - ${err}`))
+					__CONSOLE_DEBUG('The repository has been downloaded \x1b[32m✓\x1b[0m');
+					return (resolve(`${savePath}/${gitInfo.author}/${gitInfo.repo}`));
+				})
+			}))
+
 		}
 	})
 }
