@@ -49,6 +49,7 @@ const Jack = {
 	loaders : {},
 	init: function(http) {
 		io = io(http);
+		console.log('Jack initiated')
 		io.on('connection', function(socket){
 			Jack.users[socket.id] = socket;
 			console.log('Connection');

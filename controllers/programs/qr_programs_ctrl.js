@@ -113,13 +113,31 @@ function getProgram(gitInfo, cache = {}) {
 	.then((exists) => {
 		if (exists) return (Promise.resolve(`${__SERVICE_PATH}/${gitInfo.repo}.thrift`));
 		return Parsers.parse(cache.localRepoPath)})
-	.then((program) => { program.gitInfo = gitInfo; cache.program = program; return insertProgramToDB(program)})
-	.then(() => Rpc.buildRpcService(__THRIFT, cache.program))
+	.then((program) => {
+		program.gitInfo = gitInfo;
+		program.missingInfo = {
+			types : [
+				{type: 'parameter', name: 'str', function: 'ft_strlen'},
+				{type: 'parameter', name: 'str', function: 'ft_strcpy'},
+				{type: 'function' , name: 'ft_strcpy'},
+			]
+		}
+		if (!program.missingInfo) return insertProgramToDB(program);
+		return Promise.resolve(program)})
+	.then((program) => {
+		if (!program.missingInfo) return Rpc.buildRpcService(__THRIFT, program)
+		return Promise.resolve(program)
+	})
 }
 
 function api_getProgram(req, res) {
 	getProgram(req.body)
 	.then((program) => {
+		console.log('Got a program with', program);
+		console.log(program.missingInfo);
+		if (program.missingInfo) {
+			return res.status(200).send(JSON.stringify(program))
+		}
 		console.log('Returning service file to user: ' + program);
 		return res.status(200).send(program);
 	})

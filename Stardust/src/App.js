@@ -1,44 +1,10 @@
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import io from 'socket.io';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import axios from 'axios';
 
-const HOST_URL = 'http://localhost:8080';
-
-var Jack = {
-	loaders : {},
-	init: function() {
-		Jack.socket = io(HOST_URL);
-		Jack.socket.on('connect', function(){
-			Jack.socket.on('jackUpdate', (data) => {
-				Jack.loaders[data.id].update(data);
-			});
-		});
-	},
-	loader : class Loader {
-		constructor(id, querySelector, mode) {
-			this.id = id;
-			this.querySelector = querySelector;
-			this.mode = mode;
-			this.div = document.createElement('div');
-			this.div.classList.add('blue');
-			document.querySelector(querySelector).appendChild(this.div);
-			Jack.loaders[id] = this;
-		}
-
-		update(data) {
-			console.log(data);
-			this.div.style.width = data.ratio + '%';
-		}
-	}
-
-}
-
-Jack.init();
-let loader = new Jack.loader('myDiv', '#myLoader');
-
+const HOST_URL = 'http://127.0.0.1:8080';
 
 class MenuItem extends React.Component {
 	render() {
@@ -69,7 +35,7 @@ class WorkspaceTitle extends React.Component {
 class RepoInfo extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state         = {service: '', author: '', repo:''};
+		this.state         = {service: '', author: '', repo:'', message: '', missingInfo: []};
 		this.sendRepoInfo  = this.sendRepoInfo.bind(this);
 		this.onValueChange = this.onValueChange.bind(this);
 	}
@@ -87,8 +53,15 @@ class RepoInfo extends React.Component {
 		else {
 			axios.post(`${HOST_URL}/programs/get_program`, this.state)
 			.then((res) => {
-				toast.success('Your service file was generated!');
-				this.setState({message: res.data});
+				if (res.data.missingInfo) {
+					toast.warning('Your service file was no yet generated!');
+					this.setState({message: 'We could not parse all your code :( We need more information:'});
+					this.setState({missingInfo: res.data.missingInfo.types});
+				}
+				else {
+					toast.success('Your service file was generated!');
+					this.setState({message: res.data});
+				}
 			})
 			.catch((err) => {
 				toast.error('An error occured! Check the logs.');
@@ -104,6 +77,11 @@ class RepoInfo extends React.Component {
 			<label style={{display: "block"}}>Repository : <input type="text" name="repo"    value={this.state.repo}    onChange={this.onValueChange}/></label>
 			<button onClick={this.sendRepoInfo}>Notify !</button>
 			<div>{this.state.message}</div>
+			<div>
+				{this.state.missingInfo.map((info, i) => {
+					return <p key={i}>Missing {info.type} {info.name}</p>
+				})}
+			</div>
 		</div>
 	}
 }
