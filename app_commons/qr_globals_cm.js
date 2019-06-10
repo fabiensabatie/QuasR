@@ -45,6 +45,7 @@ Updated: 2019/03/09 22:43:44 by fsabatie
 const Rfr			= require ('rfr');
 const Views			= Rfr('app_commons/qr_views_globals_cm.js');
 const Mongo			= Rfr('app_commons/qr_mongo_cm.js').Mongo;
+const Jack			= Rfr('app_commons/qr_jack_cm.js');
 const Events		= require('events');
 
 /*******************************************************************************
@@ -54,7 +55,7 @@ const Events		= require('events');
 global.__PREFIX				= 'qr_';
 global.__BASEDIR			= __dirname;
 global.__ROOT_URL			= 'http://localhost:8080';
-global.__INPROD				= true;
+global.__INPROD				= false;
 global.__DEBUG				= true;
 
 (__INPROD) ? Rfr('app_commons/qr_prod_credentials_cm.js') : Rfr('app_commons/qr_dev_credentials_cm.js');

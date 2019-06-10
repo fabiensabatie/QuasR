@@ -47,14 +47,20 @@ const Express				= require('express');
 const App					= Express();
 const Cookies				= require('cookie-parser');
 const BodyParser			= require('body-parser');
+const JsonParser			= BodyParser.json();
 const Server				= require('http').createServer(App);
 const Rfr					= require('rfr');
 const SocketIO				= require('socket.io')(Server);
 const Globals				= Rfr('app_commons/qr_globals_cm');
+const Cors					= require('cors');
 
 App.use(Cookies("37iDxGKbZd+12Mt3YrMfPkPohwYh9idxiq44A"));
 App.use('/', Express.static(__dirname + '/public'));
+App.use(BodyParser.urlencoded({ extended: false }));
+App.use(JsonParser);
 App.set('view engine', 'pug');
+App.use(Cors())
+Jack.init(Server);
 
 global.__SOCKETIO = SocketIO;
 exports.App		= App;

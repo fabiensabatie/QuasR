@@ -18,9 +18,10 @@ node qr_index.js repoAuthor repoName
 ```
 
 
-## What needs to be done
+## Roadmap
 
-The parser is soon to be finished, now the server and client encapsulation software has to be dynamically generated using the parsed code.
+- Parser optimisation.
+- Build front for parameter types
 
 ## Project structure
 

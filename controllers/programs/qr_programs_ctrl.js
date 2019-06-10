@@ -117,4 +117,14 @@ function getProgram(gitInfo, cache = {}) {
 	.then(() => Rpc.buildRpcService(__THRIFT, cache.program))
 }
 
-exports.getProgram = getProgram;
+function api_getProgram(req, res) {
+	getProgram(req.body)
+	.then((program) => {
+		console.log('Returning service file to user: ' + program);
+		return res.status(200).send(program);
+	})
+	.catch((err) => { return res.status(501).send(err); })
+}
+
+exports.getProgram     = getProgram;
+exports.api_getProgram = api_getProgram;
