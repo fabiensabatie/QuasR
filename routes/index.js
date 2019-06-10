@@ -43,76 +43,22 @@ Updated: 2019/05/22 00:51:51 by fsabatie
 */
 
 const Rfr				= require('rfr');
-const Mongo				= Rfr('app_commons/qr_mongo_cm').Mongo;
-const GitDownload		= require('download-git-repo');
-const Axios				= require('axios');
-const Walk				= require('walk');
-const Fs				= require('fs');
-const Rimraf			= require('rimraf');
+const Controllers		= Rfr('controllers/qr_ctrl');
+const App				= Rfr('app.js').App;
 
+const Routes			= [
+	{uri: '/programs/get_program', method: 'POST', cb: Controllers.PROGRAM.api_getProgram}
+];
 
-
-/**
- * Deletes a directory
- *
- * @param {string} dirPath The path of the directory
- * @param {Function} callback Callback with (bool)
- * @returns {callback}
- */
-function deleteDir(dirPath, callback) {
-	Rimraf(dirPath, (err) => {
-		if (err) return (callback(err));
-		return (callback(null, `Deleted ${dirPath}`));
-	})
-}
-
-/**
- * Checks if the file exists
- *
- * @param {string} dirPath The path of the file
- * @param {Function} callback Callback with (bool)
- * @returns {callback}
- */
-function fileExists(dirPath) {
-	return (new Promise((resolve, reject) => {
-		Fs.access(dirPath, Fs.constants.F_OK, (err) => {
-			if (err) return (resolve(false));
-			return (resolve(true));
-		})
-	}))
-}
-
-
-/**
- * Saves a git repo locally
- *
- * @param {Object} gitInfo An object containing the service name (github, gitlab, bitbucket),
- * an author, and a repo.
- * @param {string} savePath The path where the repo needs to be saved
- * @param {Function} callback Callback with (err, service)
- * @returns {callback}
- */
-function saveGitRepoFiles(gitInfo, savePath) {
-	return fileExists(`${savePath}/${gitInfo.author}/${gitInfo.repo}`)
-	.then((fileExists) => {
-		if (fileExists) {
-			__CONSOLE_DEBUG('The repository already exists \x1b[32m✓\x1b[0m');
-			return (Promise.resolve(`${savePath}/${gitInfo.author}/${gitInfo.repo}`));
+const Router			= {
+	init: function() {
+		for (let route of Routes) {
+			if      (route.method == 'POST') App.post(route.uri, route.cb);
+			else if (route.method == 'GET') App.get(route.uri, route.cb);
+			else if (route.method == 'DELETE') App.delete(route.uri, route.cb);
+			else if (route.method == 'UPDATE') App.update(route.uri, route.cb);
 		}
-		if (gitInfo.service == __GITHUB) {
-			__CONSOLE_DEBUG('The repository does not exist, downloading...');
-			return (new Promise((resolve, reject) => {
-				GitDownload(`${gitInfo.service}:${gitInfo.author}/${gitInfo.repo}`, `${savePath}/${gitInfo.author}/${gitInfo.repo}`, (err) => {
-					if (err) return (reject(`An error occured while fetching ${gitInfo.author}/${gitInfo.repo} - ${err}`))
-					__CONSOLE_DEBUG('The repository has been downloaded \x1b[32m✓\x1b[0m');
-					return (resolve(`${savePath}/${gitInfo.author}/${gitInfo.repo}`));
-				})
-			}))
+	}
+};
 
-		}
-	})
-}
-
-exports.saveGitRepoFiles	= saveGitRepoFiles;
-exports.deleteDir	= deleteDir;
-exports.fileExists = fileExists;
+exports.Router = Router;

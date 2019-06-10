@@ -11,7 +11,7 @@ Install the QuasR framework using node and npm (see https://nodejs.org) :
 ```
 git clone https://github.com/fabiensabatie/QuasR.git
 cd QuasR
-npm i
+npm i && cd Stardust && npm i && cd ..
 ```
 
 Start the backend with :
@@ -19,10 +19,16 @@ Start the backend with :
 node qr_index.js repoAuthor repoName
 ```
 
+Start the front with :
+```
+cd Stardust && npm start
+```
 
-## What needs to be done
+## Roadmap
 
-The parser is soon to be finished, now the server and client encapsulation software has to be dynamically generated using the parsed code.
+- Build front for parameter types
+- Parser optimisation.
+- Encapsulating server and client
 
 ## Project structure
 
@@ -39,6 +45,8 @@ root
 	|_ views - Contains front-end views
 		|_ layouts - Views layouts
 	|_ qr_index.js - Entry point for the QuasR app.
+	|_ Stardust - ReactJS Front
+		|_ src - Contains all app the sources 
 ```
 
 ## Logic

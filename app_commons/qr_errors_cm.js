@@ -36,31 +36,19 @@ ________       ___  ___      ________      ________       ________
                                     `......`````
 
 
-Filename : app.js
+Filename : qr_mongo_cm.js
 By: fsabatie <fsabatie@student.42.fr>
-Created: 2018/12/19 21:32:18 by fsabatie
-Updated: 2019/02/23 14:14:33 by fsabatie
+Created: 2018/12/19 20:38:58 by fsabatie
+Updated: 2019/03/12 23:24:44 by fsabatie
 */
 
-"use strict";
-const Express				= require('express');
-const App					= Express();
-const Cookies				= require('cookie-parser');
-const BodyParser			= require('body-parser');
-const JsonParser			= BodyParser.json();
-const Server				= require('http').createServer(App);
-const Rfr					= require('rfr');
-const SocketIO				= require('socket.io')(Server);
-const Globals				= Rfr('app_commons/qr_globals_cm');
-const Cors					= require('cors');
+const Logger = require('js-logger');
 
-App.use(Cookies("37iDxGKbZd+12Mt3YrMfPkPohwYh9idxiq44A"));
-App.use('/', Express.static(__dirname + '/public'));
-App.use(BodyParser.urlencoded({ extended: false }));
-App.use(JsonParser);
-App.set('view engine', 'pug');
-App.use(Cors())
+function handle_error(type, error, response = false) {
+	if (type == __ERROR) logger.error(error);
+	else if (type == __WARNING) logger.warn(error);
+	if (response === __BLOCKING) process.exit();
+	return Promise.resolve();
+}
 
-global.__SOCKETIO = SocketIO;
-exports.App		= App;
-exports.Server	= Server;
+exports.default = handle_error;

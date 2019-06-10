@@ -36,31 +36,39 @@ ________       ___  ___      ________      ________       ________
                                     `......`````
 
 
-Filename : app.js
+Filename : qr_jack_cm.js
 By: fsabatie <fsabatie@student.42.fr>
-Created: 2018/12/19 21:32:18 by fsabatie
-Updated: 2019/02/23 14:14:33 by fsabatie
+Created: 2018/12/19 20:38:58 by fsabatie
+Updated: 2019/06/01 00:13:51 by fsabatie
 */
 
-"use strict";
-const Express				= require('express');
-const App					= Express();
-const Cookies				= require('cookie-parser');
-const BodyParser			= require('body-parser');
-const JsonParser			= BodyParser.json();
-const Server				= require('http').createServer(App);
-const Rfr					= require('rfr');
-const SocketIO				= require('socket.io')(Server);
-const Globals				= Rfr('app_commons/qr_globals_cm');
-const Cors					= require('cors');
+let io = require('socket.io');
 
-App.use(Cookies("37iDxGKbZd+12Mt3YrMfPkPohwYh9idxiq44A"));
-App.use('/', Express.static(__dirname + '/public'));
-App.use(BodyParser.urlencoded({ extended: false }));
-App.use(JsonParser);
-App.set('view engine', 'pug');
-App.use(Cors())
+const Jack = {
+	users : {},
+	loaders : {},
+	init: function(http) {
+		io = io(http);
+		console.log('Jack initiated')
+		io.on('connection', function(socket){
+			Jack.users[socket.id] = socket;
+			console.log('Connection');
+		});
+	},
 
-global.__SOCKETIO = SocketIO;
-exports.App		= App;
-exports.Server	= Server;
+	loader: class Loader {
+		constructor(req, data) {
+			this.socketId = req.cookies.io;
+			this.id = data.id;
+			Jack.loader[this.socketId] = this;
+			if (data) this.update(data);
+		}
+
+		update(data) {
+			data.ratio *= 100;
+			Jack.users[this.socketId].emit('jackUpdate', data);
+		}
+	},
+};
+
+module.exports = Jack;

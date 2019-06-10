@@ -1,7 +1,8 @@
-data
-data/db
-node_modules
+GitCode/
 app_commons/qr_prod_credentials_cm.js
-GitCode
+assets/
+libraries/thrift/C/
+node_modules/
 package-lock.json
-services
+services/
+data/
