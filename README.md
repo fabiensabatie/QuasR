@@ -1,4 +1,4 @@
-C'EST NUL FABIEN
+C'EST NUL FABIEN <3
 
 ![oh you're not ready](https://cdn.quasr.io/assets/images/github.jpg)
 # QuasR.io
