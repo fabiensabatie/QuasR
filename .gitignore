@@ -5,3 +5,4 @@ libraries/thrift/C/
 node_modules/
 package-lock.json
 services/
+data/
