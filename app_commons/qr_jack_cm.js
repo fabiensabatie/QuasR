@@ -51,6 +51,7 @@ const Jack = {
 		io = io(http);
 		io.on('connection', function(socket){
 			Jack.users[socket.id] = socket;
+			console.log('Connection');
 		});
 	},
 

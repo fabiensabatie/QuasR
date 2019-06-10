@@ -53,6 +53,7 @@ const Rfr					= require('rfr');
 const SocketIO				= require('socket.io')(Server);
 const Globals				= Rfr('app_commons/qr_globals_cm');
 const Cors					= require('cors');
+const Jack					= Rfr('app_commons/qr_jack_cm');
 
 App.use(Cookies("37iDxGKbZd+12Mt3YrMfPkPohwYh9idxiq44A"));
 App.use('/', Express.static(__dirname + '/public'));

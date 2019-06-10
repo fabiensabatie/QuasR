@@ -50,8 +50,6 @@ const Routes			= [
 	{uri: '/programs/get_program', method: 'POST', cb: Controllers.PROGRAM.api_getProgram}
 ];
 
-
-
 const Router			= {
 	init: function() {
 		for (let route of Routes) {

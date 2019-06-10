@@ -1,0 +1,35 @@
+.menu {
+	width: 200px;
+	background-color: #845EC2;
+	height: 100vh;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+	.menu .container {
+		min-height: 50px;
+	}
+
+	.menu .item {
+		text-transform: uppercase;
+		text-decoration: none;
+		color: white;
+		font-size: 19px;
+		padding: 30px;
+		height: 20px;
+	}
+
+	.menu .item .logo {
+		min-height: 100px;
+	}
+
+.workspace {
+	padding: 0px 50px;
+	margin-left: 200px;
+	height: 100vh;
+	width: calc(100vw - 200px);
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
